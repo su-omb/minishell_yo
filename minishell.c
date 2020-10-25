@@ -36,5 +36,6 @@ void		minishell(char **av, char **env)
 int		main(int ac, char **av, char **env)
 {
 	minishell(av, env);
+	puts("");
 	return(0);
 }
