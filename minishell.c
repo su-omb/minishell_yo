@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/08 13:32:40 by obouykou          #+#    #+#             */
-/*   Updated: 2020/06/08 13:32:40 by obouykou         ###   ########.fr       */
+/*   Created: 2020/10/26 09:35:39 by obouykou          #+#    #+#             */
+/*   Updated: 2020/10/26 09:35:39 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,5 @@ void		minishell(char **av, char **env)
 int		main(int ac, char **av, char **env)
 {
 	minishell(av, env);
-	puts("");
-
-	
 	return(0);
 }

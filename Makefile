@@ -17,7 +17,7 @@ LIB = libminishell.a
 
 MS_MAIN = minishell.c
 
-FILES = $(wildcard ./srcs/*.c)
+FILES = $(wildcard ./srcs/*.c ./libft/*.c)
 
 HEADER = ./includes/minishell.h
 

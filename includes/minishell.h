@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+#include "../libft/libft.h"
 
 # define SIZE 4194304
 # define HELLO "\n======> SAFE <======"
