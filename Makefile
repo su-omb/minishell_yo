@@ -25,24 +25,25 @@ HEADER = ./includes/minishell.h
 
 OBJECT = $(FILES:.c=.o)
 
+OBJECT_AR = $(wildcard ./*.o)
+
 FLAGS = -Wextra -Werror -Wall
 
 all: $(NAME)
 
 $(NAME): $(OBJECT) $(HEADER)
 	@cd ./libft && make && make clean
-	@ar -rcs $(LIB) $(OBJECT)
-	@echo "hello"
+	@ar -rcs $(LIB) $(OBJECT_AR)
 	@gcc  $(FLAGS) $(MS_MAIN) $(LIBFT) $(LIB) -o $(NAME)
 	@echo "\n\033[32m------- Minishell has been created successfully -------\033[0m\n"
 
 bonus: all
 
 %.o:%.c $(HEADER)								
-	@gcc -c $< $(FLAGS) 
+	@gcc -c $< $(FLAGS)
 
 clean:
-	@rm -rf srcs/*.o $(LIB) $(LIBFT)
+	@rm -rf ./*.o $(LIB) $(LIBFT)
 	@echo "\n\033[36mCleaning objects Done!\033[0m\n"
 
 fclean: clean

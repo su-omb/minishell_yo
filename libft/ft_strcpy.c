@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-
-char *ft_strcpy(char *dest, char *src)
-{
-	int i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-=======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -20,8 +5,8 @@ char *ft_strcpy(char *dest, char *src)
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/26 11:40:04 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/26 11:40:28 by obouykou         ###   ########.fr       */
+/*   Created: 2020/10/27 11:00:57 by obouykou          #+#    #+#             */
+/*   Updated: 2020/10/27 11:01:05 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +26,4 @@ char	*ft_strcpy(char *dst, const char *src)
 	}
 	dst[i] = src[i];
 	return (dst);
->>>>>>> 21de00cbf6165cd033e6e84d63e1500f331d6573
 }

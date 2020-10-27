@@ -12,6 +12,8 @@
 
 #include "../../includes/minishell.h"
 
+
+
 void		ft_cmd(t_ms *ms)
 {
 	if (ms->tab[0] == NULL)

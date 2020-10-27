@@ -23,7 +23,9 @@ void		minishell(char **av, char **env)
 {
 	t_ms ms;
 
-	parse(av);
+	//parse(av);
+	av[0] = NULL;
+	env[0] = NULL;
 	while (1)
 	{
 		init(&ms);
@@ -35,6 +37,7 @@ void		minishell(char **av, char **env)
 
 int		main(int ac, char **av, char **env)
 {
+	if(ac)
 	minishell(av, env);
 	return(0);
 }
