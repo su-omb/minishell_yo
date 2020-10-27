@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 
 
-int			main()
+/* int			main()
 {
 	char	*pwd;
 	if ((pwd = getcwd(NULL, 0)) == NULL)
@@ -17,4 +18,18 @@ int			main()
 	}
 
 	return (1);
+} */
+
+int main(int ac, char **av)
+{
+	char *path;
+
+	if (strcmp(av[0], "cd"))
+	{
+		strcpy(path, av[1]);
+		
+
+	}
+
 }
+
