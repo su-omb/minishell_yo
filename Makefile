@@ -43,7 +43,7 @@ bonus: all
 	@gcc -c $< $(FLAGS)
 
 clean:
-	@rm -rf ./*.o $(LIB) $(LIBFT)
+	@rm -rf $(OBJECT_AR) $(LIB) $(LIBFT)
 	@echo "\n\033[36mCleaning objects Done!\033[0m\n"
 
 fclean: clean
