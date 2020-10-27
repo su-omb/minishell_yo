@@ -28,9 +28,9 @@ OBJECT = $(FILES:.c=.o)
 FLAGS = -Wextra -Werror -Wall
 
 all: $(NAME)
-	@make -C ./libft
 
 $(NAME): $(OBJECT) $(HEADER)
+	@cd ./libft && make && make clean
 	@ar -rcs $(LIB) $(OBJECT)
 	@echo "hello"
 	@gcc  $(FLAGS) $(MS_MAIN) $(LIBFT) $(LIB) -o $(NAME)
