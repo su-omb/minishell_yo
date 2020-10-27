@@ -31,31 +31,35 @@ typedef		struct	s_cmd
 {
 	char			*cmds;
 	char			**args;
+	char			start;
+	char			end;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct	s_ms
+typedef		struct	s_ms
 {
-	char	input[SIZE];
-	char	output[SIZE];
-	short	is_op;
-	t_cmd	cmd;
-	int		pp_count;
-	char	*path;
-	char	*old_path;
-	char	*ptr;
-	char	**tab;
-	int		ret;
-}				t_ms;
+	char			input[SIZE];
+	char			output[SIZE];
+	short			is_op;
+	t_cmd			cmd;
+	int				pp_count;
+	char			*path;
+	char			*old_path;
+	char			*ptr;
+	char			**tab;
+	int				ret;
+}					t_ms;
 
-void		get_input(t_ms *ms);
-size_t		ft_strlen(const char *s);
-int			tb_len(char **table);
-char		**free_str_table(char **tab, int size);
-void		ft_exit(t_ms *ms);
-void		ft_echo(t_ms *ms);
-void		ft_cmd(t_ms *ms);
+void				get_input(t_ms *ms);
+size_t				ft_strlen(const char *s);
+int					tb_len(char **table);
+char				**free_str_table(char **tab, int size);
+void				ft_exit(t_ms *ms);
+void				ft_echo(t_ms *ms);
+void				ft_cmd(t_ms *ms);
+void				init(t_ms *ms);
+void				print_tab(char **tab);
 
 
 #endif

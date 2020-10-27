@@ -27,8 +27,13 @@ void		minishell(char **env)
 	}
 }
 
-int		main(char **env)
+int		main(int ac,char **av, char **env)
 {
+	if (ac && av[0])
+	{
+		print_tab(env);
+	}
+	exit(0);
 	minishell(env);
 	return(0);
 }
