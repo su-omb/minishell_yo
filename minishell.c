@@ -12,19 +12,11 @@
 
 #include "./includes/minishell.h"
 
-void		init(t_ms *ms)
-{
-	ms->ret = 0;
-	ms->is_op = 0;
-	ms->tab = NULL;
-}
-
-void		minishell(char **av, char **env)
+void		minishell(char **env)
 {
 	t_ms ms;
 
 	//parse(av);
-	av[0] = NULL;
 	env[0] = NULL;
 	while (1)
 	{
@@ -35,9 +27,8 @@ void		minishell(char **av, char **env)
 	}
 }
 
-int		main(int ac, char **av, char **env)
+int		main(char **env)
 {
-	if(ac)
-	minishell(av, env);
+	minishell(env);
 	return(0);
 }
