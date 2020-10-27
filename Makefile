@@ -15,9 +15,11 @@ NAME = minishell
 
 LIB = libminishell.a
 
+LIBFT = ./libft/libft.a
+
 MS_MAIN = minishell.c
 
-FILES = $(wildcard ./srcs/*.c ./libft/*.c)
+FILES = $(wildcard ./srcs/*.c ./srcs/*/*.c)
 
 HEADER = ./includes/minishell.h
 
@@ -26,20 +28,21 @@ OBJECT = $(FILES:.c=.o)
 FLAGS = -Wextra -Werror -Wall
 
 all: $(NAME)
+	@make -C ./libft
 
 $(NAME): $(OBJECT) $(HEADER)
-	@mv *.o ./srcs
 	@ar -rcs $(LIB) $(OBJECT)
-	@gcc  $(FLAGS) $(MS_MAIN) $(LIB) -o $(NAME)
+	@echo "hello"
+	@gcc  $(FLAGS) $(MS_MAIN) $(LIBFT) $(LIB) -o $(NAME)
 	@echo "\n\033[32m------- Minishell has been created successfully -------\033[0m\n"
 
 bonus: all
 
-%.o:%.c $(HEADER)									
+%.o:%.c $(HEADER)								
 	@gcc -c $< $(FLAGS) 
 
 clean:
-	@rm -rf srcs/*.o $(LIB)
+	@rm -rf srcs/*.o $(LIB) $(LIBFT)
 	@echo "\n\033[36mCleaning objects Done!\033[0m\n"
 
 fclean: clean
