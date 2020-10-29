@@ -28,7 +28,7 @@ void		test_input(t_ms *ms, char **tab)
 	i = -1;
 	while (++i)
 	{
-		ft_lstadd_back(ms->cmd,)
+		ft_lstadd_back(ms->cmd,ms-);// STOPPED HERE
 	}
 }
 
