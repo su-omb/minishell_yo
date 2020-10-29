@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:38:41 by yslati            #+#    #+#             */
-/*   Updated: 2020/10/28 14:06:28 by yslati           ###   ########.fr       */
+/*   Updated: 2020/10/29 10:53:31 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ YP  YP  YP    d88888P       YP      YP   YP    VP   V8P
 
 */
 
-int				arrlen(char **arr)
+/* int				arrlen(char **arr)
 {
 	int 	i;
 	
@@ -63,15 +63,43 @@ char			**arrdup(char **arr)
 		ret[i] = ft_strdup(arr[i]);
 	ret[i] = NULL;
 	return (ret);
-}
+} */
 
-void			ft_err_msg(char *cmd, int err, char *arg)
+/* void			ft_err_msg(char *cmd, int err, char *arg)
 {
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(err), 2);
+} */
+
+int		ft_isprint(int c)
+{
+	return (c <= 126 && c >= 32);
+}
+
+/* int			my_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && )
+
+} */
+
+int			get_env(char **env, char *var)
+{
+	int i;
+	
+	i = 0;
+	if (env)
+	{
+		while (env[i])
+		{
+			if (!(strncmp(env[i], var, strlen(var))))
+				return (i);
+			i++;
+		}
+	}
+	return (-1);
 }
 
 int main(int ac, char **av, char **env)
@@ -83,30 +111,64 @@ int main(int ac, char **av, char **env)
 	
 /*===================== ENV =======================*/
 
-
+	char	*path;
+	char	*pwd;
 	int		i = 0;
+	/* int		i = 0;
 	int		err = 2;
-	/* if (env)
+	char **arr;
+
+	if (env)
 	{
+		arr = arrdup(env);
 		if (av[1] == NULL)
 		{
-			while (env[i] != NULL)
+			while (arr[i] != NULL)
 			{
-				ft_putendl_fd(env[i], 1);
+				ft_putendl_fd(arr[i], 1);
 				i++;
 			}
 		}
 		else if (av[1])
 			ft_err_msg(av[0], err, av[1]);
 	} */
-	
-	char **arr;
-	arr = arrdup(env);
-	while (arr[i] != NULL)
+	path = av[1];
+	pwd = getcwd(NULL, 0);
+	if (path == NULL || !strcmp(av[1], "/Users/yslati"))
 	{
-		ft_putendl_fd(arr[i], 1);
-		i++;
+		printf("%s\n",getcwd(NULL, 0));
+		i = get_env(env, "HOME");
+		chdir(env[i] + 5);
+		printf("%s\n",getcwd(NULL, 0));
 	}
 	
+	else if (!strcmp(path, "-"))
+	{
+		if ((i = get_env(env, "OLDPWD")) != -1)
+		{
+			chdir(env[i] + 7);
+			// set_env("OLDPWD", pwd, env);
+			pwd = getcwd(NULL, 0);
+			// set_env("PWD", pwd, env)
+			printf("%s\n", getcwd(NULL, 0));
+		}
+		else
+		{
+			printf("cd: OLDPWD not set\n");
+		}
+		// if OLDPWD not set
+		// return error;
+		
+	}
+	else if (path != NULL)
+	{
+		printf("%s\n",getcwd(NULL, 0));
+		if (chdir(path) != 0)
+			puts("Error");
+		printf("%s\n",getcwd(NULL, 0));
+	}
+	// set_env("OLDPWD", pwd, env);
+	// pwd = getcwd(NULL, 0);
+	// set_env("PWD", pwd, env);
 	return (0);
 }
