@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 09:32:04 by yslati            #+#    #+#             */
-/*   Updated: 2020/10/30 11:30:55 by yslati           ###   ########.fr       */
+/*   Updated: 2020/10/30 12:33:41 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <errno.h>
 # include <fcntl.h>
 #include  <dirent.h>
-#include "libft/libft.h"
 
 /*
  _______            _______   _______   _______  _________
@@ -29,6 +28,21 @@
 (_______/ |/     \| |/        (_______) |/   \__/    )_(   
 
  */
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void			ft_putstr_fd(char *s, int fd)
+{
+	if (s)
+		while (*s)
+		{
+			ft_putchar_fd(*s, fd);
+			s++;
+		}
+}
 
 int				arrlen(char **arr)
 {
@@ -153,10 +167,59 @@ void	ft_print_env(char **env)
 	{
 		while (env[i])
 		{
-			printf("%s\n", env[i]);
+			if (strchr(env[i], '='))
+				printf("%s\n", env[i]);
 			i++;
 		}
 	}
+}
+
+/* ================== */
+
+int        ft_strcmp(char *s1, char *s2)
+{
+    int i;
+
+    i = 0;
+    while (s1[i] == s2[i])
+    {
+        if (!s1[i] && !s2[i])
+            return (0);
+        i++;
+    }
+    return (s1[i] - s2[i]);
+}
+
+void    ft_sort_wordtab(char **tab)
+{
+    int        i;
+    int        chng;
+    char    *tmp;
+
+    chng = 1;
+    while (chng)
+    {
+        chng = 0;
+        i = 0;
+        while (tab[i + 1])
+        {
+            if (ft_strcmp(tab[i], tab[i + 1]) > 0)
+            {
+                tmp = tab[i];
+                tab[i] = tab[i + 1];
+                tab[i + 1] = tmp;
+                chng = 1;
+            }
+            i++;
+        }
+    }
+}
+
+/* ===================== */
+
+void			sort_env(char **env)
+{
+	ft_putstr_fd("declare -x ", 1);
 }
 
 int				main(int ac, char **av, char **env)
@@ -164,23 +227,23 @@ int				main(int ac, char **av, char **env)
     char		*arg;
     char		**arr;
 	int			i;
-	char		*str;
 
-	str = strdup("");
 	arg = av[1];
 	if (env)
 		arr = arrdup(env, arrlen(env));
 
+
 	if (!arg)
 	{
 		puts("sort env");
+		sort_env(env);
 	}
 	else if (strchr(arg, '='))
 	{
-		puts("add to ENV");
+		// puts("add to ENV");
 		if ((i = check_exist(arr, arg)) != -1)
 		{
-			puts("kayn in ENV");
+			// puts("kayn in ENV");
 			printf("%s\n",arr[i]);
 			(arr[i]) ? free(arr[i]) : 0;
 			arr[i] = arg;
@@ -188,7 +251,7 @@ int				main(int ac, char **av, char **env)
 		}
 		else
 		{
-			puts("makinch in ENV");
+			// puts("makinch in ENV");
 			arr = add_to_arr(arg, arr);
 			ft_print_env(arr);
 		}
@@ -199,8 +262,9 @@ int				main(int ac, char **av, char **env)
 	}
 	else
 	{
-		puts("without = ");
+		// puts("without = ");
+		arr = add_to_arr(arg, arr);
+		ft_print_env(arr);
 	}
-	
 	return (0);
 }
