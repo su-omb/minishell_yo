@@ -6,16 +6,17 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 09:32:04 by yslati            #+#    #+#             */
-/*   Updated: 2020/10/30 12:33:41 by yslati           ###   ########.fr       */
+/*   Updated: 2020/10/30 14:45:00 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <stdio.h>
-#include <string.h>
+# include <string.h>
 # include <stdlib.h>
-#include <errno.h>
+# include <errno.h>
 # include <fcntl.h>
-#include  <dirent.h>
+# include <dirent.h>
+# include <unistd.h>
 
 /*
  _______            _______   _______   _______  _________
@@ -42,6 +43,12 @@ void			ft_putstr_fd(char *s, int fd)
 			ft_putchar_fd(*s, fd);
 			s++;
 		}
+}
+
+void			ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
 
 int				arrlen(char **arr)
@@ -192,9 +199,9 @@ int        ft_strcmp(char *s1, char *s2)
 
 void    ft_sort_wordtab(char **tab)
 {
-    int        i;
-    int        chng;
-    char    *tmp;
+    int			i;
+    int			chng;
+    char		*tmp;
 
     chng = 1;
     while (chng)
@@ -219,7 +226,29 @@ void    ft_sort_wordtab(char **tab)
 
 void			sort_env(char **env)
 {
-	ft_putstr_fd("declare -x ", 1);
+	int			i;
+	char		**tab;
+	char		*tmp;
+
+	i = 0;
+	if (env)
+		ft_sort_wordtab(env);
+	tab = arrdup(env, arrlen(env));
+	while (tab[i])
+	{
+		tab[i] = strcpy(tab[i], "declare -x ");
+		tmp = ft_strcpy_pro(tmp, env[i], '=');
+		tab[i] = strcat(tab[i], tmp);
+		if ((tmp = strchr(env[i], '=')))
+		{
+			tab[i] = strcat(tab[i], "=\"");
+			tab[i] = strcat(tab[i], ++tmp);
+			tab[i] = strcat(tab[i], "\"");
+		}
+		
+		ft_putendl_fd(tab[i], 1);
+		i++;
+	}
 }
 
 int				main(int ac, char **av, char **env)
@@ -236,7 +265,7 @@ int				main(int ac, char **av, char **env)
 	if (!arg)
 	{
 		puts("sort env");
-		sort_env(env);
+		sort_env(arr);
 	}
 	else if (strchr(arg, '='))
 	{
