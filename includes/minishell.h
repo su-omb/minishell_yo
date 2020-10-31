@@ -21,13 +21,22 @@
 #include  <errno.h>
 #include "../libft/libft.h"
 
-# define SIZE	16384
-# define APPEND	1
-# define TRUNC	2
-# define READ	3
+# define SIZE		16384
+# define APPEND		1
+# define TRUNC		2
+# define READ		3
+# define TRUE		1
+# define FLASE		0
 
 # define HELLO "\n======> SAFE <======"
 
+typedef		struct	s_len
+{
+	short			ac;
+	char			redir;
+	char			start;
+	char			end;
+}					t_len;
 typedef		struct	s_cmd
 {
 	char			*cmds;
@@ -35,6 +44,7 @@ typedef		struct	s_cmd
 	char			start;
 	char			end;
 	char			redir;
+	char			*file;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -43,6 +53,7 @@ typedef		struct	s_ms
 {
 	char			*input;
 	char			*output;
+	short			stx_err;
 	short			is_op;
 	t_cmd			*cmd;
 	int				pp_count;
@@ -63,7 +74,7 @@ void				ft_cmd(t_ms *ms);
 void				init(t_ms *ms, char step);
 void				parse_in(t_ms *ms);
 int					char_counter(char *s, char c);
-char				**ft_split_ig(char const *s, char c);
+char				**ft_split_ig(char const *s, char c, short *stx_err);
 void				print_tab(char **tab);
 
 #endif

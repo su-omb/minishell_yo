@@ -6,13 +6,13 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/29 12:58:31 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/10/30 12:26:44 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		quote_handler(char const *s)
+int		quote_handler(char const *s, short *stx_err)
 {
 	char	quote;
 	int		i;
@@ -22,11 +22,14 @@ int		quote_handler(char const *s)
 	while (s[i] && s[i] != quote)
 		i++;
 	if (!s[i])
+	{
+		*stx_err = 1;
 		return (i - 1);
+	}
 	return (i);
 }
 
-int		ft_words(char const *s, char c)
+int		ft_words(char const *s, char c, short *stx_err)
 {
 	int		len;
 
@@ -36,11 +39,16 @@ int		ft_words(char const *s, char c)
 	while (*s)
 	{
 		if (*s == '\'' | *s == '"')
-			s += quote_handler(s);
+			s += quote_handler(s, stx_err);
+		if ((*s == ';' || *s == '|') && *(s + 1) != c)
+			len++ && ++s;
+		if (*s && *s != c && (*(s + 1) == ';' || *(s + 1) == '|'))
+			len++;
 		if ((*s == c && *(s + 1) != c) || *(s + 1) == '\0')
 			len++;
 		s++;
 	}
+	printf("LEN=|%d|\n", len);
 	return (len);
 }
 
@@ -83,14 +91,35 @@ int		ft_len_elem(char const *s, char c)
 	{
 		if (s[i] == '\'' | s[i] == '"')
 		{
-			ret = quote_handler(s + i);
+			ret = quote_handler(s + i, NULL);
 			size += ret;
 			i += ret;
 		}
+		if (*s == ';' || *s == '|')
+		{
+			size++;
+			break ;
+		}
 		if (s[i] != c)
 			size++;
+		if (s[i] && s[i] != c && (s[i + 1] == ';' | s[i + 1] == '|'))
+			break ;
 	}
 	return (size);
+}
+
+char	*quote_filling(char *s, char *quote, int *i, char *elem)
+{
+	if (*s == '\'' | *s == '"')
+	{
+		*quote = *s;
+		elem[(*i)++] = *s++;
+		while (*s && *s != *quote)
+			elem[(*i)++] = *s++;
+		if (*s)
+			elem[(*i)++] = *s++;
+	}
+	return (s);
 }
 
 char	*fill_elem(char *elem, char *s, char c)
@@ -102,23 +131,25 @@ char	*fill_elem(char *elem, char *s, char c)
 	while (*s && *s != c)
 	{
 		quote = 0;
-		if (*s == '\'' | *s == '"')
+		s = quote_filling(s, &quote, &i, elem);
+		if (*s == ';' || *s == '|')
 		{
-			quote = *s;
 			elem[i++] = *s++;
-			while (*s && *s != quote)
-				elem[i++] = *s++;
-			if (*s)
-				elem[i++] = *s++;
+			break ;
 		}
 		if (*s && !quote)
 			elem[i++] = *s++;
+		if (*s && *s != c && (*(s + 1) == ';' | *(s + 1) == '|'))
+		{
+			elem[i++] = *s++;
+			break ;
+		}
 	}
 	elem[i] = '\0';
 	return (s);
 }
 
-char	**ft_split_ig(char const *s, char c)
+char	**ft_split_ig(char const *s, char c, short *stx_err)
 {
 	char	**tab;
 	int		j;
@@ -126,7 +157,9 @@ char	**ft_split_ig(char const *s, char c)
 
 	if ((tab = ft_exception(s)))
 		return (tab);
-	l = ft_words(s, c);
+	l = ft_words(s, c, stx_err);
+	if (*stx_err == 1)
+		return (NULL);
 	j = 0;
 	if (!(tab = (char **)malloc(sizeof(char *) * (l + 1))))
 		return (NULL);

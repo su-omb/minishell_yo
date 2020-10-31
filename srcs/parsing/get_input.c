@@ -21,16 +21,39 @@ void		print_tab(char **tab)
 		printf("TAB[%d] = |%s|\n", i, tab[i]);
 }
 
+
+/* t_list		*ft_lstnew(void *content)
+{
+	t_list	*l;
+
+	if (!(l = (t_list*)malloc(sizeof(t_list))))
+		return (NULL);
+	l->content = content;
+	l->next = NULL;
+	return (l);
+}
+
+int			cmd_len(char **tab, int i)
+{
+	t_cmd	n_cmd;
+
+	i = -1;
+	while (tab[++i])
+	{
+		
+	}
+}
+
 void		test_input(t_ms *ms, char **tab)
 {
 	int i;
 
 	i = -1;
-	while (++i)
+	while (tab[++i])
 	{
-		ft_lstadd_back(ms->cmd,ms-);// STOPPED HERE
+		
 	}
-}
+} */
 
 void		parse_in(t_ms *ms)
 {
@@ -38,12 +61,17 @@ void		parse_in(t_ms *ms)
 	
 	n = read(0, ms->input, SIZE);
 	ms->input[n - 1] = 0;
-	test_input(ms, ms->input);
-	if ((ms->tab = ft_split_ig(ms->input, ' ')) == NULL)
+	//test_input(ms, ms->input);
+	if ((ms->tab = ft_split_ig(ms->input, ' ', &ms->stx_err)) == NULL)
 	{
 		ft_putendl_fd("Error : splitting error !", 1);
 		exit(1);
 	}
+	if (ms->stx_err)
+	{
+		ft_putstr_fd("minishell: syntax error", 1);
+		return ;
+	}
 	print_tab(ms->tab);
-	test_input(ms, ms->tab);
+	//test_input(ms, ms->tab);
 }

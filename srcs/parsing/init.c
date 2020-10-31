@@ -6,11 +6,23 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/28 10:48:09 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/10/30 12:19:46 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void		init_cmd(t_cmd	*cmd)
+{
+	cmd->cmds = NULL;
+	cmd->args = NULL;
+	cmd->start = 2;
+	cmd->end = 2;
+	cmd->redir = 0;
+	cmd->file = NULL;
+	cmd->prev = NULL;
+	cmd->next = NULL;
+}
 
 void		init(t_ms *ms, char step)
 {
@@ -18,7 +30,6 @@ void		init(t_ms *ms, char step)
 	{
 		ms->input = (char *)malloc(SIZE);
 	}
-	ms->ret = 0; 
-	ms->is_op = 0;
+	ms->stx_err = 0;
 	ms->tab = NULL;
 }
