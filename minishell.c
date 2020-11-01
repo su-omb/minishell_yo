@@ -31,6 +31,7 @@ void		minishell(char **env)
 
 int		main(int ac,char **av, char **env)
 {
+	ft_putstr_fd("\e[1;1H\e[2J",1);
 	ac = 0;
 	av = NULL;
 	minishell(env);
