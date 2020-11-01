@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/30 12:19:46 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/10/31 12:29:14 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void		init(t_ms *ms, char step)
 	{
 		ms->input = (char *)malloc(SIZE);
 	}
-	ms->stx_err = 0;
+	ms->err = 0;
+	ms->pp_count = 0;
 	ms->tab = NULL;
 }

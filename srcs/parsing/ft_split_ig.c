@@ -6,13 +6,13 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/30 12:26:44 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/10/31 11:01:13 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		quote_handler(char const *s, short *stx_err)
+int		quote_handler(char const *s)
 {
 	char	quote;
 	int		i;
@@ -22,14 +22,11 @@ int		quote_handler(char const *s, short *stx_err)
 	while (s[i] && s[i] != quote)
 		i++;
 	if (!s[i])
-	{
-		*stx_err = 1;
 		return (i - 1);
-	}
 	return (i);
 }
 
-int		ft_words(char const *s, char c, short *stx_err)
+int		ft_words(char const *s, char c)
 {
 	int		len;
 
@@ -39,7 +36,7 @@ int		ft_words(char const *s, char c, short *stx_err)
 	while (*s)
 	{
 		if (*s == '\'' | *s == '"')
-			s += quote_handler(s, stx_err);
+			s += quote_handler(s);
 		if ((*s == ';' || *s == '|') && *(s + 1) != c)
 			len++ && ++s;
 		if (*s && *s != c && (*(s + 1) == ';' || *(s + 1) == '|'))
@@ -91,7 +88,7 @@ int		ft_len_elem(char const *s, char c)
 	{
 		if (s[i] == '\'' | s[i] == '"')
 		{
-			ret = quote_handler(s + i, NULL);
+			ret = quote_handler(s + i);
 			size += ret;
 			i += ret;
 		}
@@ -149,7 +146,7 @@ char	*fill_elem(char *elem, char *s, char c)
 	return (s);
 }
 
-char	**ft_split_ig(char const *s, char c, short *stx_err)
+char	**ft_split_ig(char const *s, char c)
 {
 	char	**tab;
 	int		j;
@@ -157,9 +154,7 @@ char	**ft_split_ig(char const *s, char c, short *stx_err)
 
 	if ((tab = ft_exception(s)))
 		return (tab);
-	l = ft_words(s, c, stx_err);
-	if (*stx_err == 1)
-		return (NULL);
+	l = ft_words(s, c);
 	j = 0;
 	if (!(tab = (char **)malloc(sizeof(char *) * (l + 1))))
 		return (NULL);

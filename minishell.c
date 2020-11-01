@@ -21,8 +21,10 @@ void		minishell(char **env)
 	while (1)
 	{
 		init(&ms, 1);
-		ft_putstr_fd("\n$minishell$~> ", 1);
+		ft_putstr_fd("\033[1;31m\n$minishell$~> \033[0m",1);
 		parse_in(&ms);
+		if (!ft_strcmp(ms.tab[0], "clear") || !ft_strcmp(ms.tab[0], "cl"))
+			ft_putstr_fd("\e[1;1H\e[2J",1);
 		//ft_cmd(&ms);
 	}
 }
