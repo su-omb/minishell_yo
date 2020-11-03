@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/27 11:03:18 by obouykou          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/11/03 14:53:04 by obouykou         ###   ########.fr       */
-=======
-/*   Updated: 2020/11/03 14:46:11 by yslati           ###   ########.fr       */
->>>>>>> 3dbb75a8914fda75e3dda50610f23ebd1cdf376a
+/*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
+/*   Updated: 2020/11/03 18:26:31 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +14,6 @@
 
 int				arrlen(char **arr)
 {
-<<<<<<< HEAD
-    if (ms->pwd != 0)
-        return (1);
-    return (0);
-}
-=======
 	int 	i;
 	
 	i = 0;
@@ -155,24 +145,23 @@ int			ft_env(t_ms *ms, char **env)
 	if (env)
 		ms->env = arrdup(env, arrlen(env));
 	ms->pwd = getcwd(NULL, 0);
-	if (path == NULL || !ft_strcmp(path, "/Users/yslati"))
+	if (ms->pwd == NULL || !ft_strcmp(ms->pwd, "/Users/yslati"))
 	{
 		i = get_env(env, "HOME");
 		chdir(ms->env[i] + 5);
 	}
-	else if (!ft_strcmp(path, "-"))
+	else if (!ft_strcmp(ms->pwd, "-"))
 	{
 		if ((i = get_env(ms->env, "OLDPWD")) != -1)
 			chdir(ms->env[i] + 7);
 		else
 			ft_putendl_fd("cd: OLDPWD not set", 1);
 	}
-	else if (path != NULL)
-		if (chdir(path) != 0)
+	else if (ms->pwd != NULL)
+		if (chdir(ms->pwd) != 0)
 			ft_putendl_fd("No such file or directory", 1);
 	ms->env = set_env("OLDPWD", ms->pwd, ms->env);
 	ms->pwd = getcwd(NULL, 0);
 	ms->env = set_env("PWD", ms->pwd, ms->env);
 	return (0);
 }
->>>>>>> 3dbb75a8914fda75e3dda50610f23ebd1cdf376a
