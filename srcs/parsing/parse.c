@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 12:49:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/03 14:48:54 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void		parse_scolon_pp(t_ms *ms, int b, int i, char *s)
 		parse_scolon(ms, b, i, ms->input);
 	else if (s[i] == PIPE)
 		parse_pipe(ms, b, i, ms->input);
-	new_cmd(&ms->cmds, s[i], ms->tab);
-	free(ms->tab);
+	new_cmd(ms, s[i], ms->tab);
 	ms->tab = NULL;
 	puts("\n=======> PARSE COLON/PIPE DONE !\n");
 }
@@ -82,5 +81,6 @@ void		parse(t_ms *ms)
 		}
 	if (!ms->tab && ++ms->cmds_count)
 		ms->tab = parse_split(ms->input + b, ' ');
-	print_cmds(ms->cmds);
+	new_cmd(ms, S_COLON, ms->tab);
+	ms->tab = NULL;
 }

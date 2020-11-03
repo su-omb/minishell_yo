@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 12:44:57 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/03 13:11:06 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		print_tab(char **tab)
 	int i;
 
 	i = -1;
+	printf("\nTable length = |%d|\n", tb_len(tab));
 	if (!tab)
 		puts("\nTAB is NULL\n");
 	if (tab)

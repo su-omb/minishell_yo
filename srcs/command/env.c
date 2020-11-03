@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:03:18 by obouykou          #+#    #+#             */
-/*   Updated: 2020/10/27 11:03:20 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/03 14:53:04 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int         ft_env(t_ms *ms)
 {
-    if (ms->path != 0)
+    if (ms->pwd != 0)
         return (1);
     return (0);
 }

@@ -52,13 +52,11 @@ typedef		struct	s_ms
 	char			*input;
 	char			*output;
 	int				err;
-	short			is_op;
 	t_cmd			*cmds;
 	int				cmds_count;
 	int				pp_count;
-	char			*path;
-	char			*old_path;
-	char			*ptr;
+	char			*pwd;
+	char			*old_pwd;
 	char			**tab;
 	char			**env;
 	int				ret;
@@ -76,7 +74,7 @@ void				print_tab(char **tab);
 void				print_cmds(t_cmd *cmds);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
-void				new_cmd(t_cmd **head, char del, char **tab);
+void				new_cmd(t_ms *ms, char del, char **tab);
 void				minishell(char **env, int step);
 
 #endif
