@@ -53,6 +53,7 @@ typedef		struct	s_ms
 	char			*output;
 	int				err;
 	t_cmd			*cmds;
+	int				redir;
 	int				cmds_count;
 	int				pp_count;
 	char			*pwd;

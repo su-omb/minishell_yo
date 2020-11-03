@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 14:46:29 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/03 19:38:12 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	c->next = NULL;
 	c->cmd = ft_strdup(tab[0]);
 	c->args = dup_str_tab(tab);
-	print_tab(c->args);
+	//if (ms->redir != 0)
+		c->redir = ms->redir;
 	if (ms->cmds != NULL)
 		c->start = (ms->cmds->end == 1) ? 1 : 0;
 	else
@@ -31,9 +32,6 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;
 	ms->cmds = c;
-	if (!c)
-		puts("C is NULL");
-	print_cmds(ms->cmds);
 	free_str_table(tab, tb_len(tab));
 }
 
@@ -59,4 +57,5 @@ void		init(t_ms *ms, char step)
 	ms->pp_count = 0;
 	ms->tab = NULL;
 	ms->cmds = NULL;
+	ms->redir = 0;
 }

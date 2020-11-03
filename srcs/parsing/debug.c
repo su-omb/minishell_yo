@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 13:11:06 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/03 20:03:37 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void		print_tab(char **tab)
 	int i;
 
 	i = -1;
-	printf("\nTable length = |%d|\n", tb_len(tab));
+	//printf("\nTable length = |%d|\n", tb_len(tab));
 	if (!tab)
-		puts("\nTAB is NULL\n");
+		puts("\nARGS TAB is NULL\n");
 	if (tab)
 		while (tab[++i])
-			printf("\tTAB[%d] = |%s|\n", i, tab[i]);
+			printf("\tARG[%d] = |\033[1;31m%s\033[0m|", i, tab[i]);
 }
 
 t_cmd		*get_head(t_cmd *cmds)
 {
-	if (cmds)
+	if (cmds == NULL)
 	{
 		puts("\nERROR: ==> cmds is NULL\n");
 		return(NULL);
@@ -42,8 +42,9 @@ void		print_cmds(t_cmd *cmds)
 	cmds = get_head(cmds);
 	while (cmds)
 	{
-		printf("\n==> CMD=|%s|\n\nARGS:\n", cmds->cmd);
+		printf("\n==> CMD=|\033[1;32m%s\033[0m|\n\nARGS:\n", cmds->cmd);
 		print_tab(cmds->args);
-		printf("\n S=|%d| E=|%d| Redir=|%d|\n", cmds->start, cmds->end, cmds->redir);
+		printf("\nStart=|%d| End=|%d| Redir=|%c|\n", cmds->start, cmds->end, cmds->redir);
+		cmds = cmds->next;
 	}
 }
