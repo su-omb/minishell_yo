@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 20:12:51 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/04 11:48:27 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ void		parse(t_ms *ms)
 	new_cmd(ms, S_COLON, ms->tab);
 	++ms->cmds_count;
 	ms->tab = NULL;
+	ms->cmds = get_head(ms->cmds);
 	print_cmds(ms->cmds);
 }

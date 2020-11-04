@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 19:38:12 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/04 11:53:03 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void		init(t_ms *ms, char step)
 	ms->pp_count = 0;
 	ms->tab = NULL;
 	ms->cmds = NULL;
-	ms->redir = 0;
+	ms->redir = '\0';
 }

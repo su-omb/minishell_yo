@@ -71,10 +71,11 @@ void				init(t_ms *ms, char step);
 void				parse(t_ms *ms);
 int					char_counter(char *s, char c);
 char				**parse_split(char const *s, char c);
-void				print_tab(char **tab);
+void				print_tab(char **tab, FILE *f);
 void				print_cmds(t_cmd *cmds);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
+t_cmd				*get_head(t_cmd *cmds);
 void				new_cmd(t_ms *ms, char del, char **tab);
 /*  */
 int					arrlen(char **arr);
@@ -87,6 +88,8 @@ char				**rm_arr(char **env, int pos);
 void				ft_print_env(char **env);
 void				sort_env(char **env);
 char				**add_to_arr(char *value, char **env);
+char    			set_env(char *var, char *value, char env);
+/*  */
 void				minishell(char **env, int step);
 
 #endif
