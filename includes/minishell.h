@@ -88,7 +88,7 @@ char				**rm_arr(char **env, int pos);
 void				ft_print_env(char **env);
 void				sort_env(char **env);
 char				**add_to_arr(char *value, char **env);
-char    			set_env(char *var, char *value, char env);
+char    			**set_env(char *var, char *value, char **env);
 /*  */
 void				minishell(char **env, int step);
 

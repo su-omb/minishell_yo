@@ -6,13 +6,13 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/03 14:28:36 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 13:07:08 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    ft_sort_wordtab(char **tab)
+/* void    ft_sort_wordtab(char **tab)
 {
     int			i;
     int			chng;
@@ -35,7 +35,7 @@ void    ft_sort_wordtab(char **tab)
             i++;
         }
     }
-}
+} */
 
 char	*ft_strcpy_pro(char *dst, const char *src, char c)
 {
@@ -71,7 +71,7 @@ void			sort_env(char **env)
 
 	i = 0;
 	if (env)
-		ft_sort_wordtab(env);
+		ft_sort_arr(env);
 	while (env[i])
 	{
 		str = (char *)malloc(sizeof(char) * (ft_strlen(env[i]) + 14));
@@ -90,4 +90,38 @@ void			sort_env(char **env)
 		ft_putendl_fd(str, 1);
 		i++;
 	}
+}
+
+int			ft_export(t_ms *ms, char **env)
+{
+	int i;
+
+	i = 0;
+	if (env)
+		ms->env = arrdup(env, arrlen(env));
+	if (!ms->cmds->args[1])
+		sort_env(ms->env);
+	else if (ft_strchr(ms->cmds->args[1], '='))
+	{
+		// puts("add to ENV");
+		if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
+		{
+			// puts("kayn in ENV");
+			(ms->env[i]) ? free(ms->env[i]) : 0;
+			ms->env[i] = ms->cmds->args[1];
+		}
+		else
+		{
+			// puts("makinch in ENV");
+			ms->env = add_to_arr(ms->cmds->args[1], ms->env);
+			ft_print_env(ms->env);
+		}
+	}
+	else
+	{
+		// puts("without = ");
+		ms->env = add_to_arr(ms->cmds->args[1], ms->env);
+		ft_print_env(ms->env);
+	}
+	return 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 18:26:31 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/04 13:07:26 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,24 +144,14 @@ int			ft_env(t_ms *ms, char **env)
     i = 0;
 	if (env)
 		ms->env = arrdup(env, arrlen(env));
-	ms->pwd = getcwd(NULL, 0);
-	if (ms->pwd == NULL || !ft_strcmp(ms->pwd, "/Users/yslati"))
+	if (!ms->cmds->args[1])
+		ft_print_env(ms->env);
+	else
 	{
-		i = get_env(env, "HOME");
-		chdir(ms->env[i] + 5);
+		ft_putstr_fd("env: ", 1);
+		ft_putstr_fd(ms->cmds->args[1], 1);
+		ft_putendl_fd(": No such file or directory", 1);
+		return (0);
 	}
-	else if (!ft_strcmp(ms->pwd, "-"))
-	{
-		if ((i = get_env(ms->env, "OLDPWD")) != -1)
-			chdir(ms->env[i] + 7);
-		else
-			ft_putendl_fd("cd: OLDPWD not set", 1);
-	}
-	else if (ms->pwd != NULL)
-		if (chdir(ms->pwd) != 0)
-			ft_putendl_fd("No such file or directory", 1);
-	ms->env = set_env("OLDPWD", ms->pwd, ms->env);
-	ms->pwd = getcwd(NULL, 0);
-	ms->env = set_env("PWD", ms->pwd, ms->env);
-	return (0);
+	return (1);
 }

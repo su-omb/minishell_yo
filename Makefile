@@ -19,7 +19,7 @@ LIBFT = ./libft/libft.a
 
 MS_MAIN = minishell.c
 
-FILES = $(wildcard ./srcs/parsing/*.c)
+FILES = $(wildcard ./srcs/*/*.c)
 
 HEADER = ./includes/minishell.h
 
