@@ -88,7 +88,16 @@ char				**rm_arr(char **env, int pos);
 void				ft_print_env(char **env);
 void				sort_env(char **env);
 char				**add_to_arr(char *value, char **env);
+<<<<<<< HEAD
 char    			**set_env(char *var, char *value, char **env);
+=======
+char    			set_env(char *var, char *value, char env);
+int					ft_cd(t_ms *ms);
+int					ft_env(t_ms *ms, char **env);
+int					ft_export(t_ms *ms, char **env);
+int					ft_pwd(t_ms *ms);
+int					ft_unset(t_ms *ms, char **env);
+>>>>>>> 5532ba402fc48f2a067d9a20e5c6729f14c28d06
 /*  */
 void				minishell(char **env, int step);
 
