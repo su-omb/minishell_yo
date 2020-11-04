@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:04:11 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 13:06:43 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/04 09:52:33 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,3 @@ char	**dup_str_tab(char **arr)
 		tab[l] = ft_strdup(arr[l]);
 	return (tab);
 }
-		
