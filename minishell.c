@@ -14,6 +14,8 @@
 
 void		check_command(t_ms *ms, char **env)
 {
+	if (env)
+		ms->env = arrdup(env, arrlen(env));
 	if (!ft_strcmp(ms->cmds->cmd, "cd"))
 		ft_cd(ms);
 	else if (!ft_strcmp(ms->cmds->cmd, "pwd"))

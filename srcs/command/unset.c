@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 14:43:25 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 18:21:45 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int         ft_unset(t_ms *ms, char **env)
 
 	i = 0;
 	if (env)
-		ms->env = arrdup(env, arrlen(env));
+		i = + 1 - 1;
+		// ms->env = arrdup(env, arrlen(env));
 	if (ms->cmds->args[1])
 	{
 		if (ft_strchr(ms->cmds->args[1], '='))

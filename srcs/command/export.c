@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 14:46:02 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 18:21:38 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int			ft_export(t_ms *ms, char **env)
 
 	i = 0;
 	if (env)
-		ms->env = arrdup(env, arrlen(env));
+		i = + 1 - 1;
+		// ms->env = arrdup(env, arrlen(env));
 	if (!ms->cmds->args[1])
 		sort_env(ms->env);
 	else if (ft_strchr(ms->cmds->args[1], '='))

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/04 13:07:26 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 18:21:22 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int			get_env(char **env, char *var)
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
+	//printf("search = |%s|\n", search);
 	if (env)
 	{
 		while (env[i])
@@ -143,7 +144,8 @@ int			ft_env(t_ms *ms, char **env)
 
     i = 0;
 	if (env)
-		ms->env = arrdup(env, arrlen(env));
+		i = + 1 - 1;
+		// ms->env = arrdup(env, arrlen(env));
 	if (!ms->cmds->args[1])
 		ft_print_env(ms->env);
 	else

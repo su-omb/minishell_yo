@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 13:07:17 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 18:23:31 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ int         ft_cd(t_ms *ms)
 {
 	int i;
 
-	i = 0;
-	if (ms->cmds->args[1] == NULL || !ft_strcmp(ms->cmds->args[1], "/Users/yslati"))
+	//i = 0;
+	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
+		puts("HOME");
 		i = get_env(ms->env, "HOME");
+		printf("i = %d\n", i);
 		chdir(ms->env[i] + 5);
 	}
 	else if (!ft_strcmp(ms->cmds->args[1], "-"))
@@ -32,7 +34,8 @@ int         ft_cd(t_ms *ms)
 	else if (ms->cmds->args[1] != NULL)
 		if (chdir(ms->cmds->args[1]) != 0)
 			ft_putendl_fd("No such file or directory", 1);
-	ms->env = set_env("OLDPWD", ms->pwd, ms->env);
+	//if 
+	//ms->env = set_env("OLDPWD", ms->pwd, ms->env);
 	ms->pwd = getcwd(NULL, 0);
 	ms->env = set_env("PWD", ms->pwd, ms->env);
 	return (0);
