@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 13:07:08 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:46:02 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,6 @@ char	*ft_strcpy_pro(char *dst, const char *src, char c)
 	}
 	dst[i] = '\0';
 	return (dst);
-}
-
-int				check_exist(char **env, char *arg)
-{
-	int i;
-	char	*wanted;
-
-	wanted = ft_strdup("");
-	wanted = ft_strcpy_pro(wanted, arg, '=');
-	if ((i = get_env(env, wanted)) != -1)
-		return (i);
-	return (-1);
 }
 
 void			sort_env(char **env)
@@ -114,14 +102,14 @@ int			ft_export(t_ms *ms, char **env)
 		{
 			// puts("makinch in ENV");
 			ms->env = add_to_arr(ms->cmds->args[1], ms->env);
-			ft_print_env(ms->env);
+			//ft_print_env(ms->env);
 		}
 	}
 	else
 	{
 		// puts("without = ");
 		ms->env = add_to_arr(ms->cmds->args[1], ms->env);
-		ft_print_env(ms->env);
+		//ft_print_env(ms->env);
 	}
 	return 0;
 }

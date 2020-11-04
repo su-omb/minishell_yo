@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 13:07:39 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/04 14:43:25 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int				check_exist(char **env, char *arg)
 
 	wanted = ft_strdup("");
 	wanted = ft_strcpy_pro(wanted, arg, '=');
-	// printf("wanted : |%s|\n", wanted);
 	if ((i = get_env(env, wanted)) != -1)
 		return (i);
 	return (-1);

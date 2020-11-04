@@ -14,15 +14,15 @@
 
 void		check_command(t_ms *ms, char **env)
 {
-	if (!ft_strcmp(ms->cmds->cmd, "cd")
+	if (!ft_strcmp(ms->cmds->cmd, "cd"))
 		ft_cd(ms);
-	else if (!ft_strcmp(ms->cmds->cmd, "pwd")
+	else if (!ft_strcmp(ms->cmds->cmd, "pwd"))
 		ft_pwd(ms);
-	else if (!ft_strcmp(ms->cmds->cmd, "env")
+	else if (!ft_strcmp(ms->cmds->cmd, "env"))
 		ft_env(ms, env);
-	else if (!ft_strcmp(ms->cmds->cmd, "export")
+	else if (!ft_strcmp(ms->cmds->cmd, "export"))
 		ft_export(ms, env);
-	else if (!ft_strcmp(ms->cmds->cmd, "unset")
+	else if (!ft_strcmp(ms->cmds->cmd, "unset"))
 		ft_unset(ms, env);
 	else
 		puts("soon");
