@@ -89,6 +89,11 @@ void				ft_print_env(char **env);
 void				sort_env(char **env);
 char				**add_to_arr(char *value, char **env);
 char    			set_env(char *var, char *value, char env);
+int					ft_cd(t_ms *ms);
+int					ft_env(t_ms *ms, char **env);
+int					ft_export(t_ms *ms, char **env);
+int					ft_pwd(t_ms *ms);
+int					ft_unset(t_ms *ms, char **env);
 /*  */
 void				minishell(char **env, int step);
 
