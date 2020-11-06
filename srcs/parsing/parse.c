@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/04 11:48:27 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/06 18:33:54 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ void		parse(t_ms *ms)
 		errex(ms, 0);
 	}
 	ms->input[i - 1] = 0;
+	if (ms->input[0] == '\0')
+		return ;
 	s = ms->input;
 	i = -1;
 	b = 0;
-	
 	while (ms->input[++i])
 		if (is_from(ms->input[i], "|;><"))	
 		{
