@@ -49,10 +49,11 @@ typedef		struct	s_cmd
 
 typedef		struct	s_ms
 {
-	char			*input;
+	char			input[SIZE];
 	char			*output;
 	int				err;
 	t_cmd			*cmds;
+	t_cmd			*lst_end;
 	int				redir;
 	int				cmds_count;
 	int				pp_count;
