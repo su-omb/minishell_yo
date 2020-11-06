@@ -6,11 +6,12 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/04 18:21:22 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:57:19 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <string.h>
 
 int				arrlen(char **arr)
 {
@@ -44,17 +45,20 @@ int			get_env(char **env, char *var)
 	int 	i;
 	char	*search;
 
-	search = (char *)malloc(sizeof(char) * (ft_strlen(var) + 2));
+	search = (char *)malloc(sizeof(char) * (ft_strlen(var) + 1));
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	//printf("search = |%s|\n", search);
+	printf("search = |%s|\n", search);
 	if (env)
 	{
 		while (env[i])
 		{
 			if (!(ft_strncmp(env[i], search, ft_strlen(search))))
+			{
 				return (i);
+			}
+			//printf("i ==== %d\n", i);
 			i++;
 		}
 	}

@@ -6,20 +6,20 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 18:23:31 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:47:42 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
 int         ft_cd(t_ms *ms)
 {
 	int i;
 
-	//i = 0;
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
-		puts("HOME");
+		//puts("HOME");
 		i = get_env(ms->env, "HOME");
 		printf("i = %d\n", i);
 		chdir(ms->env[i] + 5);
