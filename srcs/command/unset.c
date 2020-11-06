@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/04 18:21:45 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:05:59 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ int         ft_unset(t_ms *ms, char **env)
 	{
 		if (ft_strchr(ms->cmds->args[1], '='))
 			printf("minishell: unset: `%s': not a valid identifier\n", ms->cmds->args[1]);
-		else if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
+		else if ((i = get_env(env, ms->cmds->args[1])) != -1)
 		{
-			i = get_env(env, ms->cmds->args[1]);
+			
+			//i = get_env(env, ms->cmds->args[1]);
 			ms->env = rm_arr(ms->env, i);
 		}
 		else

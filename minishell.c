@@ -14,7 +14,7 @@
 
 void		check_command(t_ms *ms, char **env)
 {
-	if (env)
+	if (!ms->env)
 		ms->env = arrdup(env, arrlen(env));
 	if (!ft_strcmp(ms->cmds->cmd, "cd"))
 		ft_cd(ms);
@@ -39,6 +39,7 @@ void		minishell(char **env, int step)
 		ms.env = env;
 		init(&ms, 0);
 	}
+	ms.env = NULL;
 	while (1)
 	{
 		init(&ms, 1);

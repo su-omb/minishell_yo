@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/06 17:57:19 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:07:20 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,19 @@ int			get_env(char **env, char *var)
 	int 	i;
 	char	*search;
 
-	search = (char *)malloc(sizeof(char) * (ft_strlen(var) + 1));
+	search = (char *)malloc(sizeof(char) * (ft_strlen(var) + 2));
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	printf("search = |%s|\n", search);
+	printf("arg: %s\n",search);
+	//search = ft_strcat(search, "\0");
+	//printf("search = |%s|\n", search);
 	if (env)
 	{
 		while (env[i])
 		{
 			if (!(ft_strncmp(env[i], search, ft_strlen(search))))
-			{
 				return (i);
-			}
-			//printf("i ==== %d\n", i);
 			i++;
 		}
 	}
