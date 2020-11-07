@@ -6,36 +6,12 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/06 18:56:45 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 09:23:56 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* void    ft_sort_wordtab(char **tab)
-{
-    int			i;
-    int			chng;
-    char		*tmp;
-
-    chng = 1;
-    while (chng)
-    {
-        chng = 0;
-        i = 0;
-        while (tab[i + 1])
-        {
-            if (ft_strcmp(tab[i], tab[i + 1]) > 0)
-            {
-                tmp = tab[i];
-                tab[i] = tab[i + 1];
-                tab[i + 1] = tmp;
-                chng = 1;
-            }
-            i++;
-        }
-    }
-} */
 
 char	*ft_strcpy_pro(char *dst, const char *src, char c)
 {

@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
 /*   Updated: 2020/11/06 18:39:03 by yslati           ###   ########.fr       */
+=======
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
+/*   Updated: 2020/11/06 20:27:19 by obouykou         ###   ########.fr       */
+>>>>>>> 7abc21c9d9779e10f1b6fdfc520981cb5166a227
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +29,7 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	c->cmd = ft_strdup(tab[0]);
 	c->args = dup_str_tab(tab);
 	//if (ms->redir != 0)
-		c->redir = ms->redir;
+	c->redir = ms->redir;
 	if (ms->cmds != NULL)
 		c->start = (ms->cmds->end == 1) ? 1 : 0;
 	else
@@ -32,7 +39,6 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;
 	ms->cmds = c;
-	free_str_table(tab, tb_len(tab));
 }
 
 void		init_cmd(t_cmd	*cmd)
@@ -48,14 +54,17 @@ void		init_cmd(t_cmd	*cmd)
 
 void		init(t_ms *ms, char step)
 {
-	if (!step)
-	{
-		ms->input = (char *)malloc(SIZE);
-	}
 	ms->err = 0;
 	ms->cmds_count = 0;
 	ms->pp_count = 0;
-	ms->tab = NULL;
 	ms->cmds = NULL;
-	ms->redir = '\0';
+	ms->redir = 0;
+	if (step)
+	{
+		free_str_table(ms->tab, tb_len(ms->tab));
+		ms->tab = NULL;
+	}
+
+	/* REMOVE STEP IF NOT NEEDED */
+	step = 1;
 }
