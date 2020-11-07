@@ -6,7 +6,11 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/11/07 10:41:53 by obouykou         ###   ########.fr       */
+=======
+/*   Updated: 2020/11/07 10:32:19 by yslati           ###   ########.fr       */
+>>>>>>> f610e510d1d5c1d804b497e16845799c364ce08e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +57,7 @@ void		init(t_ms *ms, char step)
 	ms->pp_count = 0;
 	ms->cmds = NULL;
 	ms->redir = 0;
+	ms->status = 0;
 	if (step)
 	{
 		free_str_table(ms->tab, tb_len(ms->tab));

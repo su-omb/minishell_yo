@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/07 09:56:11 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 10:30:45 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void		check_command(t_ms *ms, char **env)
 		ft_export(ms, env);
 	else if (!ft_strcmp(ms->cmds->cmd, "unset"))
 		ft_unset(ms, env);
+	else if (!ft_strcmp(ms->cmds->cmd, "exit"))
+		ft_exit(ms);
 	else
 		puts("soon");
 }
