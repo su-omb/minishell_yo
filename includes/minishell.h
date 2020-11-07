@@ -100,6 +100,5 @@ int					ft_pwd(t_ms *ms);
 int					ft_unset(t_ms *ms, char **env);
 /*  */
 void				minishell(char **env, int step);
-void				erase_file_debug();
-void				write_to_file(char *s, char *num, int end);
+void				check_command(t_ms *ms, char **env);
 #endif
