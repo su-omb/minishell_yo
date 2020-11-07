@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 09:55:15 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 10:41:53 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ void		init(t_ms *ms, char step)
 	ms->redir = 0;
 	if (step)
 	{
-		ms.env = NULL;
 		free_str_table(ms->tab, tb_len(ms->tab));
 		ms->tab = NULL;
 	}
+	if (!step)
+		ms->env = NULL;
 
 	/* REMOVE STEP IF NOT NEEDED */
 	step = 1;

@@ -75,6 +75,7 @@ char				**parse_split(char const *s, char c);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
 t_cmd				*get_head(t_cmd *cmds);
+void				parse_dollar(t_ms *ms, char *input);
 void				new_cmd(t_ms *ms, char del, char **tab);
 // Debugging
 void				print_tab(char **tab, FILE *f);

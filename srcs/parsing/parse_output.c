@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 09:50:59 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 10:40:40 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,11 @@
 
 void	parse_dollar(t_ms *ms, char *input)
 {
-	
+	int i;
+
+	i = -1;
+	while (input[++i])
+	{
+		
+	}
 }
