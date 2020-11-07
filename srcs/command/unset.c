@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/07 09:49:26 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 10:19:49 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int         ft_unset(t_ms *ms, char **env)
 		else if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
 		{
 			//printf("i_get_env = %d\n", i);
-			i = get_env(env, ms->cmds->args[1]);
+			//i = get_env(env, ms->cmds->args[1]);
+			dprintf(0, "%d == %s\n", i, ms->cmds->args[1]);
 			ms->env = rm_arr(ms->env, i);
 		}
 		else

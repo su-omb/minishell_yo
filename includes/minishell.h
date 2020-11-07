@@ -62,6 +62,8 @@ typedef		struct	s_ms
 	char			**tab;
 	char			**env;
 	int				ret;
+
+	int				status;
 }					t_ms;
 
 /* Parsing */
@@ -98,7 +100,8 @@ int					ft_env(t_ms *ms, char **env);
 int					ft_export(t_ms *ms, char **env);
 int					ft_pwd(t_ms *ms);
 int					ft_unset(t_ms *ms, char **env);
+void				ft_exit(t_ms *ms);
+void				check_command(t_ms *ms, char **env);
 /*  */
 void				minishell(char **env, int step);
-void				check_command(t_ms *ms, char **env);
 #endif

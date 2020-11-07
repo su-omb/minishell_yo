@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 09:50:22 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 10:05:52 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void		parse(t_ms *ms)
 	int		b;
 
 	get_input(ms);
-	parse_dollar(ms, ms->input);
+	//parse_dollar(ms, ms->input);
 	i = -1;
 	b = 0;
 	while (ms->input[++i])

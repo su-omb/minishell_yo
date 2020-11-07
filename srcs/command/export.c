@@ -6,12 +6,11 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/07 09:23:56 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 10:09:27 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*ft_strcpy_pro(char *dst, const char *src, char c)
 {

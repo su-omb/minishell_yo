@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 10:04:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 10:32:19 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ void		init(t_ms *ms, char step)
 	ms->pp_count = 0;
 	ms->cmds = NULL;
 	ms->redir = 0;
+	ms->status = 0;
 	if (step)
 	{
-		ms.env = NULL;
+		//ms->env = NULL;
 		free_str_table(ms->tab, tb_len(ms->tab));
 		ms->tab = NULL;
 	}
