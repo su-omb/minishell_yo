@@ -12,6 +12,32 @@
 
 #include "./includes/minishell.h"
 
+void	erase_file_debug()
+{
+	FILE *f;
+	int fd;
+
+	f = fopen("debug.txt", "w");
+	fd = fileno(f);
+	ft_putstr_fd("", fd);
+	fclose(f);
+}
+
+void	write_to_file(char *s, char *num, int end)
+{
+	FILE *f;
+	int fd;
+
+	f = fopen("debug.txt", "a");
+	fd = fileno(f);
+	ft_putstr_fd(s, fd);
+	if (num)
+		ft_putstr_fd(num, fd);
+	if (end)
+		ft_putstr_fd("\n-------\n", fd);
+	fclose(f);
+}
+
 void		check_command(t_ms *ms, char **env)
 {
 	if (!ms->env)
@@ -56,6 +82,7 @@ void		minishell(char **env, int step)
 
 int		main(int ac,char **av, char **env)
 {
+	erase_file_debug();
 	ac = 0;
 	av = NULL;
 	minishell(env, 0);
