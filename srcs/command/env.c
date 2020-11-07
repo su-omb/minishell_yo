@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/06 19:07:20 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 09:48:56 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			get_env(char **env, char *var)
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	printf("arg: %s\n",search);
+	//printf("arg: %s\n",search);
 	//search = ft_strcat(search, "\0");
 	//printf("search = |%s|\n", search);
 	if (env)
@@ -61,6 +61,7 @@ int			get_env(char **env, char *var)
 			i++;
 		}
 	}
+	//puts("waloo");
 	return (-1);
 }
 
