@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/11/07 09:38:35 by obouykou         ###   ########.fr       */
+=======
+/*   Updated: 2020/11/07 09:27:31 by yslati           ###   ########.fr       */
+>>>>>>> 91c14592b366fa1bbf3d0d73a686019dfe3a527b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +59,7 @@ void		init(t_ms *ms, char step)
 	ms->redir = 0;
 	if (step)
 	{
+		ms.env = NULL;
 		free_str_table(ms->tab, tb_len(ms->tab));
 		ms->tab = NULL;
 	}
