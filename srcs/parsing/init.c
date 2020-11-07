@@ -6,11 +6,13 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/06 20:27:19 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 09:38:35 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
 
 void		new_cmd(t_ms *ms, char del, char **tab)
 {
@@ -21,7 +23,6 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	c->next = NULL;
 	c->cmd = ft_strdup(tab[0]);
 	c->args = dup_str_tab(tab);
-	//if (ms->redir != 0)
 	c->redir = ms->redir;
 	if (ms->cmds != NULL)
 		c->start = (ms->cmds->end == 1) ? 1 : 0;

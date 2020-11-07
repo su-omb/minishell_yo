@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/06 19:44:35 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 09:37:59 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		print_tab(char **tab, FILE *f)
 	int i;
 
 	i = -1;
-	printf("\nTable length = |%d|\n", tb_len(tab));
+//	fprintf(f, "\n**ARGS Tab length = |%d|\n", tb_len(tab));
 	if (!tab)
 		fputs("\nARGS TAB is NULL\n", f);
 	if (tab)

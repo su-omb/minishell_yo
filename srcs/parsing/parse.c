@@ -6,29 +6,18 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/06 20:14:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 09:50:22 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int			is_from(char c, char *set)
-{
-	if (set)
-		while (*set)
-		{
-			if (*set++ == c)
-				return (1);
-		}
-	return (0);
-}
 
 void		parse_scolon(t_ms *ms, int b, int i, char *s)
 {
 	char *tmp;
 
 	tmp = ft_strldup(s + b, i - b);
-	if (!(ms->tab = parse_split(tmp, ' '))) // need free
+	if (!(ms->tab = parse_split(tmp, ' ')))
 		errex(ms, SPLT_ERR);
 	free(tmp);
 	b = i;
@@ -106,10 +95,11 @@ void		parse(t_ms *ms)
 	int		b;
 
 	get_input(ms);
+	parse_dollar(ms, ms->input);
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
-		if (is_from(ms->input[i], "|;><"))	
+		if (ft_strchr("|;><", ms->input[i]))	
 		{
 			make_cmd(ms, b, &i, ms->input);
 			b = i + 1;
