@@ -64,21 +64,23 @@ typedef		struct	s_ms
 	int				ret;
 }					t_ms;
 
+/* Parsing */
 void				get_input(t_ms *ms);
-size_t				ft_strlen(const char *s);
 int					tb_len(char **table);
 char				**free_str_table(char **tab, int size);
 void				init(t_ms *ms, char step);
 void				parse(t_ms *ms);
 int					char_counter(char *s, char c);
 char				**parse_split(char const *s, char c);
-void				print_tab(char **tab, FILE *f);
-void				print_cmds(t_cmd *cmds);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
 t_cmd				*get_head(t_cmd *cmds);
 void				new_cmd(t_ms *ms, char del, char **tab);
-/*  */
+// Debugging
+void				print_tab(char **tab, FILE *f);
+void				print_cmds(t_cmd *cmds);
+
+/* Cmds */
 int					arrlen(char **arr);
 char				**arrdup(char **arr, int len);
 char				*ft_strcpy_pro(char *dst, const char *src, char c);
