@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 10:52:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 12:38:08 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void		init(t_ms *ms, char step, char **env)
 	{
 		ms->input = (char *)malloc(SIZE);
 		ms->env = dup_str_tab(env);
+		ms->pwd = getcwd(NULL, 0);
 	}
 	/* REMOVE STEP IF NOT NEEDED */
 	step = 1;

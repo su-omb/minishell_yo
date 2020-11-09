@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 12:03:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 13:32:13 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void	parse_d(t_ms *ms)
 	i = 0;
 	while (ms->input[i])
 	{
-		if (ms->input[i] == S_COLON && ++i)
-			while (ms->input[i] != S_COLON)
+		if (ms->input[i] == '\'' && ++i)
+			while (ms->input[i] != '\'')
 				i++;
-		if (ms->input[i] == '$' && i && ms->input[i - 1] != '\\')
+		if (ms->input[i] == '$' && (i && ms->input[i - 1] != '\\'))
 		{
 			//printf("input + i : |%s|\n", ms->input+i);
 			l = skip_till(ms->input + ++i, " '\\$><|;");
