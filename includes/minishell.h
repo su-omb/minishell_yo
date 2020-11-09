@@ -49,7 +49,7 @@ typedef		struct	s_cmd
 
 typedef		struct	s_ms
 {
-	char			input[SIZE];
+	char			*input;
 	char			*output;
 	int				err;
 	t_cmd			*cmds;
@@ -77,7 +77,7 @@ char				**parse_split(char const *s, char c);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
 t_cmd				*get_head(t_cmd *cmds);
-void				parse_dollar(t_ms *ms, char *input);
+void				parse_d(t_ms *ms);
 void				new_cmd(t_ms *ms, char del, char **tab);
 // Debugging
 void				print_tab(char **tab, FILE *f);
@@ -105,4 +105,5 @@ void				ft_exit(t_ms *ms);
 void				check_command(t_ms *ms, char **env);
 /*  */
 void				minishell(char **env, int step);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 10:05:52 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 13:57:09 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,16 @@ void		parse(t_ms *ms)
 	int		i;
 	int		b;
 
+	
 	get_input(ms);
-	//parse_dollar(ms, ms->input);
+	parse_d(ms);
+	puts("\n");
+	puts(ms->input);
+	puts("\n");
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
-		if (ft_strchr("|;><", ms->input[i]))	
+		if (ft_strchr("|;><", ms->input[i]))
 		{
 			make_cmd(ms, b, &i, ms->input);
 			b = i + 1;

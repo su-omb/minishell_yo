@@ -6,11 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/11/07 10:41:53 by obouykou         ###   ########.fr       */
-=======
-/*   Updated: 2020/11/07 10:32:19 by yslati           ###   ########.fr       */
->>>>>>> f610e510d1d5c1d804b497e16845799c364ce08e
+/*   Updated: 2020/11/07 12:52:21 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +60,10 @@ void		init(t_ms *ms, char step)
 		ms->tab = NULL;
 	}
 	if (!step)
+	{
+		ms->input = (char *)malloc(SIZE);
 		ms->env = NULL;
-
+	}
 	/* REMOVE STEP IF NOT NEEDED */
 	step = 1;
 }
