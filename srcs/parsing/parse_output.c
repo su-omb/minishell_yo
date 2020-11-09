@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_output.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 10:43:34 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/07 10:58:56 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	parse_dollar(t_ms *ms, char *input)
+/* void	parse_dollar(t_ms *ms, char *input)
 {
 	int i;
 
@@ -21,4 +21,4 @@ void	parse_dollar(t_ms *ms, char *input)
 	{
 		
 	}
-}
+} */

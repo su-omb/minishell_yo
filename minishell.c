@@ -19,6 +19,7 @@ void		minishell(char **env, int step)
 	if (!step)
 		init(&ms, 0);
 	ms.env = NULL;
+	ms.pwd = getcwd(NULL, 0);
 	while (1)
 	{
 		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m",1);

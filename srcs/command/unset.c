@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/07 10:19:49 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/07 11:13:37 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ char			**rm_arr(char **env, int pos)
 	return (arr);
 }
 
-int         ft_unset(t_ms *ms, char **env)
+int         ft_unset(t_ms *ms)
 {
 	int i;
 
 	i = 0;
-	if (env)
-		i = + 1 - 1;
-		// ms->env = arrdup(env, arrlen(env));
 	if (ms->cmds->args[1])
 	{
 		if (ft_strchr(ms->cmds->args[1], '='))
