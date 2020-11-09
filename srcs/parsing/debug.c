@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 10:32:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 11:56:32 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_cmd		*get_head(t_cmd *cmds)
 void		print_cmds(t_cmd *cmds)
 {
 	FILE *f;
-	f = fopen("debugging_Output", "w+");
+	f = fopen("debug", "w+");
 	if (cmds == NULL)
-		puts("\nERROR: ==> cmds is NULL\n");
+		fputs("\nERROR: ==> cmds is NULL\n", f);
 	while (cmds)
 	{
 		fprintf(f,"\n==> CMD=|%s|\n\nARGS:\n", cmds->cmd);
