@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 12:01:17 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/09 12:29:02 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ void			echo_n(t_ms *ms)
 
 } */
 
-void			redir(t_ms *ms)
+void			redir(t_ms *ms, int i)
 {
-	//FILE		*file;
+	int		file;
 
-	printf("cmd in redir |%s|\n", ms->cmds->cmd);
+	printf("cmd in redir |%s| %d\n", ms->cmds->next->cmd, i);
+	file = open("txt", O_RDONLY);
+	write(file, "ok", 2);
 }
 
 void			ft_echo(t_ms *ms)
@@ -60,7 +62,7 @@ void			ft_echo(t_ms *ms)
 
 	i = 1;
 	if (ms->cmds->redir == TRUNC)
-		redir(ms);
+		redir(ms, i);
 	else
 	{
 		if (!ms->cmds->args[i])
