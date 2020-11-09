@@ -1,2 +1,6 @@
 *.o
 libft/*.o
+*.a
+libft/*.a
+debug
+minishell
