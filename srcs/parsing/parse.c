@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 11:57:09 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 12:32:26 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void		parse(t_ms *ms)
 
 	
 	get_input(ms);
+	printf("HELLO");
 	parse_d(ms);
 	i = -1;
 	b = 0;

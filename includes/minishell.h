@@ -17,10 +17,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#include  <dirent.h>
-#include  <errno.h>
-#include  <signal.h>
-#include "../libft/libft.h"
+# include <dirent.h>
+# include <errno.h>
+# include <signal.h>
+# include <string.h>
+# include "../libft/libft.h"
 
 # define SIZE		16384
 # define APPEND		'a'
