@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 10:53:28 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 14:42:24 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,15 @@ int			ft_export(t_ms *ms)
 		sort_env(ms->env);
 	else if (ft_strchr(ms->cmds->args[1], '='))
 	{
-		// puts("add to ENV");
 		if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
 		{
-			// puts("kayn in ENV");
 			(ms->env[i]) ? free(ms->env[i]) : 0;
 			ms->env[i] = ms->cmds->args[1];
 		}
 		else
-		{
-			// puts("makinch in ENV");
 			ms->env = add_to_arr(ms->cmds->args[1], ms->env);
-			//ft_print_env(ms->env);
-		}
 	}
 	else
-	{
-		// puts("without = ");
 		ms->env = add_to_arr(ms->cmds->args[1], ms->env);
-		//ft_print_env(ms->env);
-	}
 	return 0;
 }

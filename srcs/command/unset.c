@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 10:55:50 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 14:44:02 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int				check_exist(char **env, char *arg)
 {
 	int i;
-	// char	*wanted;
+	char	*wanted;
 
-	// wanted = ft_strdup("");
-	// wanted = ft_strcpy_pro(wanted, arg, '=');
+	wanted = ft_strdup("");
+	wanted = ft_strcpy_pro(wanted, arg, '=');
 	if (((i = get_env(env, arg)) != -1))
 		return (i);
 	return (-1);
@@ -63,7 +63,7 @@ int         ft_unset(t_ms *ms)
 			ms->env = rm_arr(ms->env, i);
 		}
 		else
-			puts("makinch had l3jb"); // print just new line 
+			ft_putendl_fd("", 1);
 	}
 	else
 		ft_putendl_fd("", 1);
