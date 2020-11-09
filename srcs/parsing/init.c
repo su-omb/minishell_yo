@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/07 12:52:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/09 10:52:52 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		init_cmd(t_cmd	*cmd)
 	cmd->next = NULL;
 }
 
-void		init(t_ms *ms, char step)
+void		init(t_ms *ms, char step, char **env)
 {
 	ms->err = 0;
 	ms->cmds_count = 0;
@@ -62,7 +62,7 @@ void		init(t_ms *ms, char step)
 	if (!step)
 	{
 		ms->input = (char *)malloc(SIZE);
-		ms->env = NULL;
+		ms->env = dup_str_tab(env);
 	}
 	/* REMOVE STEP IF NOT NEEDED */
 	step = 1;

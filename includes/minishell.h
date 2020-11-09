@@ -70,7 +70,7 @@ typedef		struct	s_ms
 void				get_input(t_ms *ms);
 int					tb_len(char **table);
 char				**free_str_table(char **tab, int size);
-void				init(t_ms *ms, char step);
+void				init(t_ms *ms, char step, char **env);
 void				parse(t_ms *ms);
 int					char_counter(char *s, char c);
 char				**parse_split(char const *s, char c);
@@ -84,8 +84,6 @@ void				print_tab(char **tab, FILE *f);
 void				print_cmds(t_cmd *cmds);
 
 /* Cmds */
-int					arrlen(char **arr);
-char				**arrdup(char **arr, int len);
 char				*ft_strcpy_pro(char *dst, const char *src, char c);
 int					get_env(char **env, char *var);
 char				**get_arr(char *value, char **env);
@@ -97,12 +95,13 @@ char				**add_to_arr(char *value, char **env);
 char    			**set_env(char *var, char *value, char **env);
 char    			**set_env(char *var, char *value, char **env);
 int					ft_cd(t_ms *ms);
-int					ft_env(t_ms *ms, char **env);
-int					ft_export(t_ms *ms, char **env);
+int					ft_env(t_ms *ms);
+int					ft_export(t_ms *ms);
 int					ft_pwd(t_ms *ms);
-int					ft_unset(t_ms *ms, char **env);
+int					ft_unset(t_ms *ms);
 void				ft_exit(t_ms *ms);
-void				check_command(t_ms *ms, char **env);
+void				ft_echo(t_ms *ms);
+void				check_command(t_ms *ms);
 /*  */
 void				minishell(char **env, int step);
 

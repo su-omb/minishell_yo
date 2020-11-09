@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/07 10:19:49 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/09 10:55:50 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char			**rm_arr(char **env, int pos)
 
 	i = 0;
 	j = 0;
-	len = arrlen(env) - 1;
+	len = tb_len(env) - 1;
 	if (!(arr = (char **)malloc(sizeof(char **) * len + 1)))
 		return (NULL);
 	while (i < len)
@@ -46,14 +46,11 @@ char			**rm_arr(char **env, int pos)
 	return (arr);
 }
 
-int         ft_unset(t_ms *ms, char **env)
+int         ft_unset(t_ms *ms)
 {
 	int i;
 
 	i = 0;
-	if (env)
-		i = + 1 - 1;
-		// ms->env = arrdup(env, arrlen(env));
 	if (ms->cmds->args[1])
 	{
 		if (ft_strchr(ms->cmds->args[1], '='))
