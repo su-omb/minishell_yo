@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 14:33:28 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/10 13:57:12 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,20 @@ int			check_n(char **args, int *i)
 void			redir(t_ms *ms, int i)
 {
 	int		file;
+	char	*str;
 
-	while (ms->cmds)
+	str = ms->cmds->args[i];
+	while (ms->cmds->cmd )
 	{
-		file = open(ms->cmds->next->cmd, O_WRONLY | O_CREAT, 0666);
-		printf("cmd in redir |%s| %d | string: |%s|\n", ms->cmds->next->cmd, i, ms->cmds->args[i]);
-		write(file, ms->cmds->args[i], ft_strlen(ms->cmds->args[i]));
-		write(file, "\n", 1);
-		if (ms->cmds->next->cmd)
-		{
+		if (ms->cmds->next)
 			ms->cmds = ms->cmds->next;
-			i++;
-		}
+		file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
+		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
+		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->next->cmd, str);
+		puts("ok");
 	}
+	ft_putstr_fd(str, file);
+	ft_putchar_fd('\n', file);
 }
 
 void			ft_echo(t_ms *ms)
