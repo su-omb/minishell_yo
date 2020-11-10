@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 14:42:24 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/10 11:18:45 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ int			ft_export(t_ms *ms)
 	{
 		if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
 		{
+			puts("meao");
 			(ms->env[i]) ? free(ms->env[i]) : 0;
 			ms->env[i] = ms->cmds->args[1];
 		}
 		else
+		{
+			puts("haw haw");
 			ms->env = add_to_arr(ms->cmds->args[1], ms->env);
+		}
 	}
 	else
 		ms->env = add_to_arr(ms->cmds->args[1], ms->env);

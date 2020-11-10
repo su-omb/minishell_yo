@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 14:40:04 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/10 11:28:29 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int			get_env(char **env, char *var)
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
+	printf("\n GE ;;;; env[%i]: %s -- search: %s\n", i, env[i], search);
 	if (env)
 	{
 		while (env[i])
