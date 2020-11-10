@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/03 10:06:20 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/10 14:59:49 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,19 @@ int		quote_handler(char const *s)
 int		ft_words(char const *s, char c)
 {
 	int		len;
+	int		i;
 
 	len = 0;
-	while (*s && *s == c)
-		s++;
-	while (*s)
+	i = 0;
+	while (s[i] && s[i] == c)
+		i++;
+	while (s[i])
 	{
-		if (*s == '\'' | *s == '"')
-			s += quote_handler(s);
-		if ((*s == c && *(s + 1) != c) || *(s + 1) == '\0')
+		if (s[i] == '\'' || s[i] == '"')
+			i += quote_handler(s + i);
+		if ((s[i] == c && s[i + 1] != c) || s[i + 1] == '\0')
 			len++;
-		s++;
+		i++;
 	}
 	return (len);
 }
@@ -81,7 +83,7 @@ int		ft_len_elem(char const *s, char c)
 	size = 0;
 	while (s[++i] && s[i] != c)
 	{
-		if (s[i] == '\'' | s[i] == '"')
+		if (s[i] == '\'' || s[i] == '"')
 		{
 			ret = quote_handler(s + i);
 			size += ret;
@@ -93,7 +95,23 @@ int		ft_len_elem(char const *s, char c)
 	return (size);
 }
 
-char	*fill_elem(char *elem, char *s, char c)
+/* char	*parse_quote(char *elem)
+{
+	int		i;
+	char	quote;
+
+	i = -1;
+	while (elem[++i])
+	{
+		if ((elem[i] == '\'' || elem[i] == '"' ) && i && elem[i - 1] != '\\')
+		{
+			quote = elem[i];
+			while (elem[i])
+		}	
+	}
+} */
+
+char	*fill_elem(char **elem, char *s, char c)
 {
 	int		i;
 	char	quote;
@@ -102,19 +120,20 @@ char	*fill_elem(char *elem, char *s, char c)
 	while (*s && *s != c)
 	{
 		quote = 0;
-		if (*s == '\'' | *s == '"')
+		if (*s == '\'' || *s == '"')
 		{
 			quote = *s;
-			elem[(i)++] = *s++;
+			(*elem)[i++] = *s++;
 			while (*s && *s != quote)
-				elem[(i)++] = *s++;
+				(*elem)[i++] = *s++;
 			if (*s)
-				elem[(i)++] = *s++;
+				(*elem)[i++] = *s++;
 		}
 		if (*s && !quote)
-			elem[i++] = *s++;
+			(*elem)[i++] = *s++;
 	}
-	elem[i] = '\0';
+	(*elem)[i] = '\0';
+	//*elem = parse_quote(*elem);
 	return (s);
 }
 
@@ -137,7 +156,7 @@ char	**parse_split(char const *s, char c)
 			s++;
 		if (!(tab[j] = (char *)malloc((ft_len_elem(s, c) + 1) * sizeof(char))))
 			return (free_everything(tab, l));
-		s = fill_elem(tab[j++], (char *)s, c);
+		s = fill_elem(&tab[j++], (char *)s, c);
 	}
 	return (tab);
 }

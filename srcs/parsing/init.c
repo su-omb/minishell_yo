@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 12:38:08 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/10 11:49:17 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	if (ms->cmds)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;
+	//c->is_ret;
 	ms->cmds = c;
 }
 

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 13:32:13 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/10 14:46:55 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 	ft_bzero(tmp, l + 1);
 	ft_strlcpy(tmp, input, *i);
 	ft_strcat(tmp, varv);
-	//printf("\ntmp>>>>>|%s|\tname_len =|%d|\t i=|%d|\tpos_str=|%s|\n", tmp, name_len, *i, input + *i + name_len);
+	//printf("\ntmp>>>>>|%s|\tname_len =|%d|\t i=|%d|\tpos_str=|%s|\n",
+	// tmp, name_len, *i, input + *i + name_len);
 	ft_strcat(tmp, input + *i + name_len);
 	*i += ft_strlen(varv);
 	//printf("tmp+i = |%s|\n", tmp + *i);
@@ -67,6 +68,8 @@ void	parse_d(t_ms *ms)
 		if (ms->input[i] == '$' && (i && ms->input[i - 1] != '\\'))
 		{
 			//printf("input + i : |%s|\n", ms->input+i);
+			if (ms->input[i + 1] == '?' && i++ && (ms->status = 1))
+				continue ;
 			l = skip_till(ms->input + ++i, " '\\$><|;");
 			ms->input = remake_input(ms->input, get_vvalue(ft_strldup(ms->input + i, l), ms->env, l), l, &i);
 			if (ms->input[i - 1] == '$')
