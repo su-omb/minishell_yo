@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/10 13:57:12 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/10 14:27:43 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,13 @@ void			redir(t_ms *ms, int i)
 	char	*str;
 
 	str = ms->cmds->args[i];
-	while (ms->cmds->cmd )
+	while (ms->cmds && ms->cmds->next)
 	{
-		if (ms->cmds->next)
+		//if (ms->cmds->next)
 			ms->cmds = ms->cmds->next;
 		file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
 		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
 		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->next->cmd, str);
-		puts("ok");
 	}
 	ft_putstr_fd(str, file);
 	ft_putchar_fd('\n', file);
