@@ -81,6 +81,7 @@ char				**dup_str_tab(char **arr);
 t_cmd				*get_head(t_cmd *cmds);
 void				parse_d(t_ms *ms);
 void				new_cmd(t_ms *ms, char del, char **tab);
+int					quote_handler(char const *s);
 // Debugging
 void				print_tab(char **tab, FILE *f);
 void				print_cmds(t_cmd *cmds);

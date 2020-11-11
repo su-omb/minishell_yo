@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/10 14:59:49 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/11 19:34:35 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ int		quote_handler(char const *s)
 	char	quote;
 	int		i;
 
+	//printf("String to quote_handler() ==>|%s|\n", s);
 	i = 1;
 	quote = s[0];
 	while (s[i] && s[i] != quote)
 		i++;
 	if (!s[i])
+	{
+		printf("ERROR not finding the second quote !!\n");
 		return (i - 1);
+	}
 	return (i);
 }
 
@@ -37,7 +41,7 @@ int		ft_words(char const *s, char c)
 		i++;
 	while (s[i])
 	{
-		if (s[i] == '\'' || s[i] == '"')
+		if (((i && s[i - 1] != '\\') || !i) && (s[i] == '\'' || s[i] == '"'))
 			i += quote_handler(s + i);
 		if ((s[i] == c && s[i + 1] != c) || s[i + 1] == '\0')
 			len++;
@@ -83,7 +87,7 @@ int		ft_len_elem(char const *s, char c)
 	size = 0;
 	while (s[++i] && s[i] != c)
 	{
-		if (s[i] == '\'' || s[i] == '"')
+		if (((i && s[i - 1] != '\\') || !i) && (s[i] == '\'' || s[i] == '"'))
 		{
 			ret = quote_handler(s + i);
 			size += ret;
@@ -109,32 +113,34 @@ int		ft_len_elem(char const *s, char c)
 			while (elem[i])
 		}	
 	}
-} */
+}*/
 
 char	*fill_elem(char **elem, char *s, char c)
 {
 	int		i;
+	int		j;
 	char	quote;
 
 	i = 0;
-	while (*s && *s != c)
+	j = 0;
+	while (s[j] && s[j] != c)
 	{
 		quote = 0;
-		if (*s == '\'' || *s == '"')
+		if (((j && s[j - 1] != '\\') || !j) && (s[j] == '\'' || s[j] == '"'))
 		{
-			quote = *s;
-			(*elem)[i++] = *s++;
-			while (*s && *s != quote)
-				(*elem)[i++] = *s++;
-			if (*s)
-				(*elem)[i++] = *s++;
+			quote = s[j];
+			(*elem)[i++] = s[j++];
+			while (s[j] && s[j] != quote)
+				(*elem)[i++] = s[j++];
+			if (s[j])
+				(*elem)[i++] = s[j++];
 		}
-		if (*s && !quote)
-			(*elem)[i++] = *s++;
+		if (s[j] && !quote)
+			(*elem)[i++] = s[j++];
 	}
 	(*elem)[i] = '\0';
 	//*elem = parse_quote(*elem);
-	return (s);
+	return (s + j);
 }
 
 char	**parse_split(char const *s, char c)

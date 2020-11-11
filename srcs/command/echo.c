@@ -6,24 +6,24 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 13:13:40 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/11 18:44:17 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-void			echo_n(t_ms *ms)
+int			check_n(char **args, int *i)
 {
-	int		i;
+	int nflag;
 
-	i = 2;
-	while (!ft_strncmp(ms->cmds->args[i], "-n", 2))
-		i++;
-	if (!ms->cmds->args[i])
-		ft_putstr_fd("", 1);
-	else
-		ft_putstr_fd(ms->cmds->args[i], 1);
+	nflag = 0;
+	while (!ft_strncmp(args[*i], "-n", 2))
+	{
+		*i = *i + 1;
+		nflag = 1;
+	}
+	return (nflag);
 }
 
 /* void			echo_dollar(t_ms *ms, int i)
@@ -50,17 +50,28 @@ void			echo_n(t_ms *ms)
 void			redir(t_ms *ms, int i)
 {
 	int		file;
+	char	*str;
 
-	printf("cmd in redir |%s| %d\n", ms->cmds->next->cmd, i);
-	file = open("txt", O_RDONLY);
-	write(file, "ok", 2);
+	str = ms->cmds->args[i];
+	while (ms->cmds && ms->cmds->next)
+	{
+		//if (ms->cmds->next)
+			ms->cmds = ms->cmds->next;
+		file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
+		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
+		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->next->cmd, str);
+	}
+	ft_putstr_fd(str, file);
+	ft_putchar_fd('\n', file);
 }
 
 void			ft_echo(t_ms *ms)
 {
 	int i;
+	int nflag;
 
 	i = 1;
+	nflag = 0;
 	if (ms->cmds->redir == TRUNC)
 		redir(ms, i);
 	else
@@ -70,13 +81,17 @@ void			ft_echo(t_ms *ms)
 		
 		else if (ms->cmds->args[i])
 		{
-			if (!ft_strncmp(ms->cmds->args[i], "-n", 2))
-				echo_n(ms);
-			/* else if (!ft_strchr(ms->cmds->args[i], '$'))
-				echo_dollar(ms, i); */
-			else
-				ft_putendl_fd(ms->cmds->args[i], 1);
-			//i++;
+			nflag = check_n(ms->cmds->args, &i);
+			while (ms->cmds->args[i])
+			{
+				ft_putstr_fd(ms->cmds->args[i], 1);
+				if (ms->cmds->args[i + 1])
+					ft_putchar_fd(' ', 1);
+				i++;
+			}
+			if (!nflag)
+				ft_putchar_fd('\n', 1);
 		}
+		
 	}
 }

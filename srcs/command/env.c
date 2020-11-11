@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 10:55:29 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/11 18:44:07 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@ int			get_env(char **env, char *var)
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	//printf("arg: %s\n",search);
-	//search = ft_strcat(search, "\0");
-	//printf("search = |%s|\n", search);
+	//printf("\n GE ;;;; env[%i]: %s -- search: %s\n", i, env[i], search);
 	if (env)
 	{
 		while (env[i])
 		{
 			if (!(ft_strncmp(env[i], search, ft_strlen(search))))
+			{
+				free(search);
 				return (i);
+			}
 			i++;
 		}
 	}
+	free(search);
 	return (-1);
 }
 

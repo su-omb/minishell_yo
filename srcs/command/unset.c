@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 10:55:50 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/10 11:27:47 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 int				check_exist(char **env, char *arg)
 {
 	int i;
-	// char	*wanted;
+	char	*wanted;
 
-	// wanted = ft_strdup("");
-	// wanted = ft_strcpy_pro(wanted, arg, '=');
-	if (((i = get_env(env, arg)) != -1))
+	wanted = ft_strdup("");
+	wanted = ft_strcpy_pro(wanted, arg, '=');
+	if (((i = get_env(env, wanted)) != -1))
+	{
+		printf("\n CH ;;;; env[%i]: %s -- wanted: %s\n", i, env[i], wanted);
+		//printf("\ni = %d\n", i);
 		return (i);
+	}
 	return (-1);
 }
 
@@ -54,16 +58,15 @@ int         ft_unset(t_ms *ms)
 	if (ms->cmds->args[1])
 	{
 		if (ft_strchr(ms->cmds->args[1], '='))
-			printf("minishell: unset: `%s': not a valid identifier\n", ms->cmds->args[1]);
-		else if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
 		{
-			//printf("i_get_env = %d\n", i);
-			//i = get_env(env, ms->cmds->args[1]);
-			dprintf(0, "%d == %s\n", i, ms->cmds->args[1]);
-			ms->env = rm_arr(ms->env, i);
+			ft_putstr_fd("minishell: unset: `", 1);
+			ft_putstr_fd(ms->cmds->args[1], 1);
+			ft_putendl_fd("': not a valid identifier", 1);
 		}
+		else if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
+			ms->env = rm_arr(ms->env, i);
 		else
-			puts("makinch had l3jb"); // print just new line 
+			ft_putendl_fd("", 1);
 	}
 	else
 		ft_putendl_fd("", 1);

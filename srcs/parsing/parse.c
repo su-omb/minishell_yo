@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/09 13:26:25 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/11 17:27:29 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		parse(t_ms *ms)
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
-		if (ft_strchr("|;><", ms->input[i]))
+		if (ft_strchr("|;><", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
 		{
 			make_cmd(ms, b, &i, ms->input);
 			b = i + 1;
