@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/11 17:27:29 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/12 14:11:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,17 @@ void		parse_scolon(t_ms *ms, int b, int i, char *s)
 	char *tmp;
 
 	tmp = ft_strldup(s + b, i - b);
-	if (!(ms->tab = parse_split(tmp, ' ')))
+	if (!(ms->tab = parse_split(tmp, ' ', ms)))
 		errex(ms, SPLT_ERR);
 	free(tmp);
-	b = i;
 }
 
 void		parse_pipe(t_ms *ms, int b, int i, char *s)
 {
 	char *tmp;
 
-	ms->pp_count++;
 	tmp = ft_strldup(s + b, i - b);
-	if (!(ms->tab = parse_split(tmp, ' ')))
+	if (!(ms->tab = parse_split(tmp, ' ', ms)))
 		errex(ms, SPLT_ERR);
 	free(tmp);
 }
@@ -42,7 +40,7 @@ void		parse_trunc_rdr(t_ms *ms, int b, int *i, char *s)
 	if (s[*i + 1] == '>')
 		ms->redir = APPEND;
 	tmp = ft_strldup(s + b, *i - b);
-	if (!(ms->tab = parse_split(tmp, ' ')))
+	if (!(ms->tab = parse_split(tmp, ' ', ms)))
 		errex(ms, SPLT_ERR);
 	free(tmp);
 	*i += (s[*i + 1] == '>');
@@ -54,14 +52,13 @@ void		parse_read_rdr(t_ms *ms, int b, int i, char *s)
 
 	ms->redir = READ;
 	tmp = ft_strldup(s + b, i - b);
-	if (!(ms->tab = parse_split(tmp, ' ')))
+	if (!(ms->tab = parse_split(tmp, ' ', ms)))
 		errex(ms, SPLT_ERR);
 	free(tmp);
 }
 
 int		make_cmd(t_ms *ms, int b, int *i, char *s)
 {
-	ms->cmds_count++;
 	if (s[*i] == S_COLON)
 		parse_scolon(ms, b, *i, ms->input);
 	else if (s[*i] == PIPE)
@@ -95,7 +92,9 @@ void		parse(t_ms *ms)
 	int		b;
 
 	get_input(ms);
+	//printf("INPUT after get_input()==>|%s|\n", ms->input);
 	parse_d(ms);
+	//printf("INPUT after parse_d()==>|%s|\n", ms->input);
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
@@ -106,9 +105,8 @@ void		parse(t_ms *ms)
 		}
 	if (ms->input[0])
 	{
-		ms->tab = parse_split(ms->input + b, ' ');
+		ms->tab = parse_split(ms->input + b, ' ', ms);
 		new_cmd(ms, S_COLON, ms->tab);
-		++ms->cmds_count;
 	}
 	ms->cmds = get_head(ms->cmds);
 	print_cmds(ms->cmds);

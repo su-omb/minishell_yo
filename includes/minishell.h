@@ -54,11 +54,11 @@ typedef		struct	s_ms
 {
 	char			*input;
 	char			*output;
-	int				err;
+	char			err;
+	char			cmd_err;
 	t_cmd			*cmds;
 	t_cmd			*lst_end;
 	int				redir;
-	int				cmds_count;
 	int				pp_count;
 	char			*pwd;
 	char			*old_pwd;
@@ -75,7 +75,7 @@ char				**free_str_table(char **tab, int size);
 void				init(t_ms *ms, char step, char **env);
 void				parse(t_ms *ms);
 int					char_counter(char *s, char c);
-char				**parse_split(char const *s, char c);
+char				**parse_split(char const *s, char c, t_ms *ms);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
 t_cmd				*get_head(t_cmd *cmds);

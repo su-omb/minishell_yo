@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/10 11:49:17 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/12 11:00:59 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	if (ms->cmds)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;
-	//c->is_ret;
+	c->is_err = ms->cmd_err;
 	ms->cmds = c;
 }
 
@@ -50,8 +50,6 @@ void		init_cmd(t_cmd	*cmd)
 void		init(t_ms *ms, char step, char **env)
 {
 	ms->err = 0;
-	ms->cmds_count = 0;
-	ms->pp_count = 0;
 	ms->cmds = NULL;
 	ms->redir = 0;
 	ms->status = 0;
