@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <string.h>
+# include <sys/stat.h>
 # include "../libft/libft.h"
 
 # define SIZE		16384
@@ -106,7 +107,11 @@ int					ft_unset(t_ms *ms);
 void				ft_exit(t_ms *ms);
 void				ft_echo(t_ms *ms);
 void				check_command(t_ms *ms);
+char				*get_exec_path(t_ms *ms);
+void				exec_command(t_ms *ms);
+int					is_builtin_sys(char *cmds);
 /*  */
-void				minishell(char **env, int step);
+int					minishell(char **env, int step);
+
 
 #endif

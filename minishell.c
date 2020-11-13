@@ -12,9 +12,10 @@
 
 #include "./includes/minishell.h"
 
-void		minishell(char **env, int step)
+int		minishell(char **env, int step)
 {
 	t_ms	ms;
+	
 
 	if (!step)
 		init(&ms, 0, env);
@@ -27,17 +28,18 @@ void		minishell(char **env, int step)
  		else if (!ft_strcmp(ms.cmds->cmd, "clear") || !ft_strcmp(ms.cmds->cmd, "cl"))
 			ft_putstr_fd("\e[1;1H\e[2J",1);
 		else
-			check_command(&ms);
+			exec_command(&ms);
 		init(&ms, 1, NULL);
 		//ms.cmds ? free_ms(ms) : 0 ;
 	}
-
+	return (1);
 }
 
 int		main(int ac,char **av, char **env)
 {
 	ac = 0;
 	av = NULL;
-	minishell(env, 0);
+	while (minishell(env, 0))
+		;
 	return(0);
 }

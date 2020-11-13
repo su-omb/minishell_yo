@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/13 11:33:11 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 11:56:25 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,11 @@ int				cmp_get_pos(char **env, char *var)
 {
 	int i;
 
-	i = 0;
+	i = -1;
 	if (env)
-	{
-		while (env[i])
-		{
+		while (env[++i])
 			if ((!ft_strcmp(env[i], var)))
 				return (i);
-			i++;
-		}
-	}
 	return (get_env(env, var));
 }
 
@@ -37,11 +32,7 @@ int				check_exist(char **env, char *arg)
 	wanted = ft_strdup("");
 	wanted = ft_strcpy_pro(wanted, arg, '=');
 	if (((i = get_env(env, wanted)) != -1))
-	{
-		// printf("\n CH ;;;; env[%i]: %s -- wanted: %s\n", i, env[i], wanted);
-		// printf("\ni = %d\n", i);
 		return (i);
-	}
 	return (-1);
 }
 
