@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 10:57:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/13 10:33:24 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/* char 		*get_exec_path(t_ms *ms)
+{
+	int i;
+	char **tab;
+
+	i = get_env(ms->env, "PATH");
+	tab  = ft_split()	
+	return (NULL);
+} */
 
 void		check_command(t_ms *ms)
 {

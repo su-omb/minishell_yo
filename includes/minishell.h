@@ -91,6 +91,7 @@ char				*ft_strcpy_pro(char *dst, const char *src, char c);
 int					get_env(char **env, char *var);
 char				**get_arr(char *value, char **env);
 int					check_exist(char **env, char *arg);
+int					cmp_get_pos(char **env, char *var);
 char				**rm_arr(char **env, int pos);
 void				ft_print_env(char **env);
 void				sort_env(char **env);

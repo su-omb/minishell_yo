@@ -6,11 +6,28 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/10 11:27:47 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 11:33:11 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int				cmp_get_pos(char **env, char *var)
+{
+	int i;
+
+	i = 0;
+	if (env)
+	{
+		while (env[i])
+		{
+			if ((!ft_strcmp(env[i], var)))
+				return (i);
+			i++;
+		}
+	}
+	return (get_env(env, var));
+}
 
 int				check_exist(char **env, char *arg)
 {
@@ -21,8 +38,8 @@ int				check_exist(char **env, char *arg)
 	wanted = ft_strcpy_pro(wanted, arg, '=');
 	if (((i = get_env(env, wanted)) != -1))
 	{
-		printf("\n CH ;;;; env[%i]: %s -- wanted: %s\n", i, env[i], wanted);
-		//printf("\ni = %d\n", i);
+		// printf("\n CH ;;;; env[%i]: %s -- wanted: %s\n", i, env[i], wanted);
+		// printf("\ni = %d\n", i);
 		return (i);
 	}
 	return (-1);
@@ -53,22 +70,23 @@ char			**rm_arr(char **env, int pos)
 int         ft_unset(t_ms *ms)
 {
 	int i;
+	int len;
 
-	i = 0;
-	if (ms->cmds->args[1])
+	len = 0;
+	i = 1;
+	while (ms->cmds->args[i])
 	{
-		if (ft_strchr(ms->cmds->args[1], '='))
+		if (ft_strchr(ms->cmds->args[i], '='))
 		{
 			ft_putstr_fd("minishell: unset: `", 1);
-			ft_putstr_fd(ms->cmds->args[1], 1);
+			ft_putstr_fd(ms->cmds->args[i], 1);
 			ft_putendl_fd("': not a valid identifier", 1);
 		}
-		else if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
-			ms->env = rm_arr(ms->env, i);
-		else
-			ft_putendl_fd("", 1);
+		else if ((len = cmp_get_pos(ms->env, ms->cmds->args[i])) != -1)
+			ms->env = rm_arr(ms->env, len);
+		i++;
 	}
-	else
+	if (!ms->cmds->args[i] && !len)
 		ft_putendl_fd("", 1);
 	return 0;
 }

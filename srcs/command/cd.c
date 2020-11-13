@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/09 13:39:17 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 09:58:24 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int         ft_cd(t_ms *ms)
 
 	i = 0;
 	x = 0;
+	// puts("wa l3alwa");
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
 		i = get_env(ms->env, "HOME");

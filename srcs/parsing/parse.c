@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/12 14:11:02 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/13 10:06:23 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,5 @@ void		parse(t_ms *ms)
 		new_cmd(ms, S_COLON, ms->tab);
 	}
 	ms->cmds = get_head(ms->cmds);
-	print_cmds(ms->cmds);
+	// print_cmds(ms->cmds);
 }

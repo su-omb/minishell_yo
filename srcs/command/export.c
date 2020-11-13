@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/10 11:18:45 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 11:44:33 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,28 @@ void			sort_env(char **env)
 int			ft_export(t_ms *ms)
 {
 	int i;
+	int len;
 
-	i = 0;
-	if (!ms->cmds->args[1])
+	i = 1;
+	len = 0;
+	if (!ms->cmds->args[i])
 		sort_env(ms->env);
-	else if (ft_strchr(ms->cmds->args[1], '='))
-	{
-		if ((i = check_exist(ms->env, ms->cmds->args[1])) != -1)
-		{
-			puts("meao");
-			(ms->env[i]) ? free(ms->env[i]) : 0;
-			ms->env[i] = ms->cmds->args[1];
-		}
-		else
-		{
-			puts("haw haw");
-			ms->env = add_to_arr(ms->cmds->args[1], ms->env);
-		}
-	}
 	else
-		ms->env = add_to_arr(ms->cmds->args[1], ms->env);
+	while (ms->cmds->args[i])
+	{
+		if (ft_strchr(ms->cmds->args[i], '='))
+		{
+			if ((len = check_exist(ms->env, ms->cmds->args[i])) != -1)
+			{
+				(ms->env[len]) ? free(ms->env[len]) : 0;
+				ms->env[len] = ms->cmds->args[i];
+			}
+			else
+				ms->env = add_to_arr(ms->cmds->args[i], ms->env);
+		}
+		else if ((cmp_get_pos(ms->env, ms->cmds->args[i])) == -1)
+				ms->env = add_to_arr(ms->cmds->args[i], ms->env);
+		i++;
+	}
 	return 0;
 }
