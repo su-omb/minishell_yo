@@ -4,3 +4,4 @@ libft/*.o
 libft/*.a
 debug
 minishell
+srcs/parsing/debug.c
