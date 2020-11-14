@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/13 10:06:23 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 20:47:17 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		make_cmd(t_ms *ms, int b, int *i, char *s)
 	free_str_table(ms->tab, tb_len(ms->tab));
 	ms->tab = NULL;
 	ms->redir = 0;
+	ms->cmd_err = 0;
 	return (*i + 1);
 }
 
@@ -98,16 +99,20 @@ void		parse(t_ms *ms)
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
+	{
+		if (ft_strchr("'\"", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
+			i += quote_handler(ms->input + i);
 		if (ft_strchr("|;><", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
 		{
 			make_cmd(ms, b, &i, ms->input);
 			b = i + 1;
 		}
+	}
 	if (ms->input[0])
 	{
 		ms->tab = parse_split(ms->input + b, ' ', ms);
 		new_cmd(ms, S_COLON, ms->tab);
 	}
 	ms->cmds = get_head(ms->cmds);
-	// print_cmds(ms->cmds);
+	print_cmds(ms->cmds);
 }

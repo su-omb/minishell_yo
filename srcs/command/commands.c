@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/13 13:05:58 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/13 18:50:16 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char 		*get_exec_path(t_ms *ms)
 	struct stat stats;
 
 	i = get_env(ms->env, "PATH");
-	tab  = ft_split(ms->env[i]  + 5, ':');
+	tab  = ft_split(ms->env[i] + 5, ':');
 	i = 0;
 	while (tab[i])
 	{

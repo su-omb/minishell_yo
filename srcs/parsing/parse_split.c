@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/12 14:08:18 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 11:07:47 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ int		quote_handler(char const *s)
 	//printf("String to quote_handler() ==>|%s|\n", s);
 	i = 1;
 	quote = s[0];
-	while (s[i] && s[i] != quote)
+	while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
 		i++;
 	if (!s[i])
-	{
-		printf("ERROR not finding the second quote !!\n");
 		return (i - 1);
-	}
 	return (i);
 }
 
@@ -99,55 +96,74 @@ int		ft_len_elem(char const *s, char c)
 	return (size);
 }
 
-char	*remove_bslash(char *elem, int *i, char *err)
+char	*remove_bslash(char *elem, int i, char *err)
 {
 	char *tmp;
 
-	if (ft_strchr("'\"", elem[*i + 1]))
+	if (!elem[i + 1])
 	{
-		if (!elem[*i + 1])
-		{
-			*err = STX_ERR;
-			puts("Error: backslash at the end of a line command !\n");
-			(*i)++;
-		}
-		else
-			puts("Warning: bslash is behind quote\n") && ++*i;
+		*err = STX_ERR;
+		puts("Error: backslash at the end of a line command !\n");
 		return (elem);
 	}
 	tmp = ft_strdup(elem);
-	tmp[(*i)++] = '\0';
-	ft_strcat(tmp, elem + *i);
+	tmp[i++] = '\0';
+	ft_strcat(tmp, elem + i);
 	free(elem);
 	return (tmp);
 }
 
-char	*remove_quotes(char *elem, int *i, int e)
+char	*remove_quotes(char *elem, int *i, int e, t_ms *ms)
 {
 	char	*tmp;
-	
+	int		j;
+
+	if (elem[*i] == '"')
+	{
+		j = *i;
+		while (elem[++j] && j < e)
+			if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
+			{	
+				elem = remove_bslash(elem, j, &ms->cmd_err);	
+				e--;
+			}
+	}
 	tmp = ft_strdup(elem);
 	tmp[(*i)++] = '\0';
 	ft_strcat(tmp, elem + *i);
 	tmp[e - 1] = '\0';
 	ft_strcat(tmp, elem + ++e);
 	free(elem);
-	*i = e - 2;
+	*i = e - 3;
 	return (tmp);
 }
 
 char	*parse_quote_bslash(char *elem, t_ms *ms)
 {
 	int		i;
+	int		l;
 
 	i = -1;
-	//printf("Elem==>|%s|\n", elem);
 	while (elem[++i])
 	{
-		if (ft_strchr("'\"", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
-			elem = remove_quotes(elem, &i, i + quote_handler(elem + i));
+		if (ft_strchr("\"'", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
+		{
+			l = quote_handler(elem + i);
+			//printf("Before i =|%d| l =|%d|  elem=|%s| elem + i + l=|%s|\n", i, l, elem, elem + i + l);
+			if (elem[i + l] != elem[i] && elem[i + l + 1] == '\0')
+			{
+				ms->cmd_err = 1; // make sure it is i + l or i + l + 1
+				break ;
+			}
+			elem = remove_quotes(elem, &i, i + l, ms);
+			//printf("After i =|%d| elem=|%s|\n", i, elem);
+		}
 		if (elem[i] == '\\')
-			elem = remove_bslash(elem, &i, &ms->cmd_err);
+		{
+			//printf("Before i =|%d| elem=|%s|\n", i, elem);
+			elem = remove_bslash(elem, i, &ms->cmd_err);
+			//printf("After i =|%d| elem=|%s|\n", i, elem);
+		}
 	}
 	return elem;
 }
