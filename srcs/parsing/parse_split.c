@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 13:21:28 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 14:52:18 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,12 @@ char	**parse_split(char const *s, char c, t_ms *ms)
 			return (free_everything(tab, l));
 		s = fill_elem(&tab[j++], (char *)s, c, ms);
 	}
+/* 	puts("\nBefore : Output of split():\n");
+	print_tab(tab, NULL); */
+	if (!tab[0])
+		tab[0] = ft_strdup("");
+/* 	puts("\nAfter : Output of split():\n");
+	print_tab(tab, NULL);
+	puts("\n========================================"); */
 	return (tab);
 }

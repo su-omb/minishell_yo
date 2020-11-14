@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 13:20:22 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 14:04:55 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void			exec_command(t_ms *ms)
 {
 	int		st = 0;
 
+	if (ms->input[0] == '\0')
+		return ;
 	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
@@ -37,7 +39,7 @@ void			exec_command(t_ms *ms)
 				if (pid == 0)
 				{
 					if (execve(get_exec_path(ms), ms->cmds->args, ms->env) < 0)
-						printf("%s", strerror(errno));
+						printf("%s\n", strerror(errno));
 				}
 				else
 					waitpid(pid, &st, 0);

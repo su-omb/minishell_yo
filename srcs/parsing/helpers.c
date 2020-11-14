@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:04:11 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/04 09:52:33 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 14:48:12 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ char	**free_str_table(char **tab, int size)
 	if (!tab)
 		return (NULL);
 	while (size--)
+	{
 		free(tab[size]);
+		tab[size] = NULL;
+	}
 	free(tab);
 	return (NULL);
 }
