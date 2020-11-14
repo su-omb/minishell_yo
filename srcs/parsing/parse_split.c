@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 12:03:16 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 13:18:55 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*remove_bslash(char *elem, int i, char *err)
 	if (!elem[i + 1])
 	{
 		*err = STX_ERR;
-		puts("Error: backslash at the end of a line command !\n");
+		//puts("Error: backslash at the end of a line command !\n");
 		return (elem);
 	}
 	tmp = ft_strdup(elem);
