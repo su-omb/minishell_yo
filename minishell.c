@@ -15,7 +15,6 @@
 int		minishell(char **env, int step)
 {
 	t_ms	ms;
-	
 
 	if (!step)
 		init(&ms, 0, env);

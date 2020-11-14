@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/12 12:27:13 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 10:01:20 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,15 @@ void	parse_d(t_ms *ms)
 {
 	int i;
 	int l;
+	char inside_dquote;
 
 	i = 0;
+	inside_dquote = 0;
 	while (ms->input[i])
 	{
-		if (((i && ms->input[i - 1] != '\\') || !i) && ms->input[i] == '\'')
+		if (ms->input[i] == '"' && ((i && ms->input[i - 1] != '\\') || !i))
+			inside_dquote = !inside_dquote;
+		if (((i && ms->input[i - 1] != '\\') || !i) && ms->input[i] == '\'' && !inside_dquote)
 				i += quote_handler(ms->input + i);
 		if (ms->input[i] == '$' && ((i && ms->input[i - 1] != '\\') || !i))
 		{
