@@ -110,6 +110,7 @@ void				check_command(t_ms *ms);
 char				*get_exec_path(t_ms *ms);
 void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
+int 				valid_arg(t_ms *ms, int i);
 /*  */
 int					minishell(char **env, int step);
 
