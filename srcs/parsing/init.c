@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/13 20:20:55 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:30:33 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 	if (!(c = (t_cmd*)malloc(sizeof(t_cmd))))
 		return ;
 	c->next = NULL;
+	// puts("here 1");
 	c->cmd = ft_strdup(tab[0]);
+	// puts("here 2");
 	c->args = dup_str_tab(tab);
+	// puts("here 3");
 	c->redir = ms->redir;
 	if (ms->cmds != NULL)
 		c->start = (ms->cmds->end == 1) ? 1 : 0;

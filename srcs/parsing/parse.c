@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 15:00:00 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:32:08 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,8 @@ int		make_cmd(t_ms *ms, int b, int *i, char *s)
 	
 	if (ms->tab[0])
 	{
-
 		ms->cmd_err = ms->tab[0][0] == '\0';
-		printf("here 1\n");
 		new_cmd(ms, s[*i], ms->tab);
-		printf("here 1\n");
 	}
 	free_str_table(ms->tab, tb_len(ms->tab));
 	ms->tab = NULL;
@@ -113,7 +110,7 @@ void		parse(t_ms *ms)
 	get_input(ms);
 	//printf("INPUT after get_input()==>|%s|\n", ms->input);
 	parse_d(ms);
-	printf("INPUT after parse_d()==>|%s|\n", ms->input);
+	//printf("INPUT after parse_d()==>|%s|\n", ms->input);
 	i = -1;
 	b = 0;
 	while (ms->input[++i])
@@ -139,6 +136,6 @@ void		parse(t_ms *ms)
 	else
 			ms->cmd_err = STX_ERR;
 	ms->cmds = get_head(ms->cmds);
-	puts("\nWE ARE OUT OF PARSING !");
+	//puts("\nWE ARE OUT OF PARSING !");
 	print_cmds(ms->cmds);
 }

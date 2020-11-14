@@ -41,7 +41,7 @@ int		minishell(char **env, int step)
 		parse(ms);
 		exec_command(ms);
 		init(ms, 1, NULL);
-		//free_cmds(ms);
+		free_cmds(ms);
 	}
 	return (1);
 }

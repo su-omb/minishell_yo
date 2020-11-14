@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 14:52:18 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:30:01 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,12 @@ char	**parse_split(char const *s, char c, t_ms *ms)
 /* 	puts("\nBefore : Output of split():\n");
 	print_tab(tab, NULL); */
 	if (!tab[0])
+	{
+		free_everything(tab, tb_len(tab));
+		tab = (char **)malloc(2 * sizeof(char *));
 		tab[0] = ft_strdup("");
+		tab[1] = NULL;
+	}
 /* 	puts("\nAfter : Output of split():\n");
 	print_tab(tab, NULL);
 	puts("\n========================================"); */
