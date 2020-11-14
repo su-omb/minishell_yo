@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 11:19:09 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 12:03:16 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char	*parse_quote_bslash(char *elem, t_ms *ms)
 		if (ft_strchr("\"'", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
 		{
 			l = quote_handler(elem + i);
-			if (elem[i + l] != elem[i] && elem[i + l + 1] == '\0')
+			if (i == i +l || (elem[i + l] != elem[i] && elem[i + l + 1] == '\0'))
 			{
 				ms->cmd_err = 1;
 				break ;

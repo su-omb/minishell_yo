@@ -24,11 +24,11 @@
 # include <sys/stat.h>
 # include "../libft/libft.h"
 
-# define SIZE		16384
+# define SIZE		1638
+# define TRUE		14
 # define APPEND		'a'
 # define TRUNC		'>'
 # define READ		'<'
-# define TRUE		1
 # define FLASE		0
 # define PIPE		124
 # define S_COLON	59
