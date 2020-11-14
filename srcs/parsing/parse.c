@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 11:44:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 11:44:43 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void		parse(t_ms *ms)
 			b = i + 1;
 		}
 	}
-	//puts(HELLO);
+	puts(HELLO);
 	if (ms->input[0])
 	{
 		ms->tab = parse_split(ms->input + b, ' ', ms);
