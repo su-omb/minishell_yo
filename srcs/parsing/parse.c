@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 12:00:56 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 13:10:34 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int		make_cmd(t_ms *ms, int b, int *i, char *s)
 		parse_trunc_rdr(ms, b, i, ms->input);
 	else if (s[*i] == READ)
 		parse_read_rdr(ms, b, *i, ms->input);
-	new_cmd(ms, s[*i], ms->tab);
+	if (ms->tab[0] && ms->tab[0][0])
+		new_cmd(ms, s[*i], ms->tab);
 	free_str_table(ms->tab, tb_len(ms->tab));
 	ms->tab = NULL;
 	ms->redir = 0;
@@ -85,6 +86,16 @@ void		get_input(t_ms *ms)
 		errex(ms, 0);
 	}
 	ms->input[i - 1] = '\0';
+}
+
+int			skip_while(char *s, char c)
+{
+	int i;
+	
+	i = 0;
+	while (s[i] == c)
+		++i;
+	return (i);
 }
 
 void		parse(t_ms *ms)
@@ -108,12 +119,26 @@ void		parse(t_ms *ms)
 			b = i + 1;
 		}
 	}
-	if (ms->input[0])
+	/* if (ms->cmds == NULL)
+		puts("CMDS IS NULL\n");  */
+	b += skip_while(ms->input + i + 1, ' ');
+	//printf("input+b=|%s| b=|%d|\n", ms->input + b, b);
+	if (ms->input[b]/*  && puts("FIRST COND\n") */)
 	{
-		ms->tab = parse_split(ms->input + b, ' ', ms);
+		if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
+			errex(ms, SPLT_ERR);
 		new_cmd(ms, S_COLON, ms->tab);
 	}
+	else
+	{
+		//puts("WE ARE IN \n");
+		if (ms->cmds/*  && puts(HELLO) */)
+			ms->cmds->is_err = STX_ERR;
+		else
+			ms->cmd_err = STX_ERR;
+	}
+
 	ms->cmds = get_head(ms->cmds);
-	//puts(HELLO);
 	print_cmds(ms->cmds);
+	//puts("WE ARE OUT \n");
 }
