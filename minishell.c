@@ -24,8 +24,6 @@ int		minishell(char **env, int step)
 		parse(&ms);
 		if (ms.input[0] == '\0')
 			continue ;
- 		else if (!ft_strcmp(ms.cmds->cmd, "clear") || !ft_strcmp(ms.cmds->cmd, "cl"))
-			ft_putstr_fd("\e[1;1H\e[2J",1);
 		else
 			exec_command(&ms);
 		init(&ms, 1, NULL);

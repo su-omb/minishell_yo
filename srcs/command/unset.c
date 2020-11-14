@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/13 11:56:25 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 12:29:46 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int         ft_unset(t_ms *ms)
 			ms->env = rm_arr(ms->env, len);
 		i++;
 	}
-	if (!ms->cmds->args[i] && !len)
-		ft_putendl_fd("", 1);
+	// if (!ms->cmds->args[i] && len == 0)
+	// 	ft_putendl_fd("", 1);
 	return 0;
 }

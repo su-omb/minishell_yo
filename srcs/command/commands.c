@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 11:49:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 13:20:22 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void			exec_command(t_ms *ms)
 {
 	int		st = 0;
 
-	if (ms->cmds->is_err == STX_ERR)
+	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
-		while(ms->cmds)
+		while(ms->cmds )
 		{
 			if (!is_builtin_sys(ms->cmds->cmd) /* || cmd->next */)
 			{
@@ -57,11 +57,10 @@ char 		*get_exec_path(t_ms *ms)
 	char *path;
 	struct stat stats;
 
-	i = 0;
-	tab  = ft_split(ms->env[i] + 5, ':');
-	i = get_env(ms->env, "PATH");
-	if (tab[i])
+	if ((i = get_env(ms->env, "PATH")) != -1)
 	{
+		tab  = ft_split(ms->env[i] + 5, ':');
+		i = 0;
 		while (tab[i])
 		{
 			path = ft_strjoin(tab[i], "/");
