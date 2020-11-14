@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 13:20:22 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 14:55:29 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ void			exec_command(t_ms *ms)
 			if (!is_builtin_sys(ms->cmds->cmd) /* || cmd->next */)
 			{
 				pid_t		pid = fork();
+				if (pid < 0)
+					perror("Fork error");
 				if (pid == 0)
 				{
 					if (execve(get_exec_path(ms), ms->cmds->args, ms->env) < 0)
-						printf("%s", strerror(errno));
+						printf("%s", strerror(errno)); ///////////////////
 				}
 				else
 					waitpid(pid, &st, 0);
 			}
 			else
-			{
 				check_command(ms);
-			}
 			ms->cmds = ms->cmds->next;
 		}
 }
