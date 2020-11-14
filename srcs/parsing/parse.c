@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 13:10:34 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 13:22:10 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,26 +119,17 @@ void		parse(t_ms *ms)
 			b = i + 1;
 		}
 	}
-	/* if (ms->cmds == NULL)
-		puts("CMDS IS NULL\n");  */
 	b += skip_while(ms->input + i + 1, ' ');
-	//printf("input+b=|%s| b=|%d|\n", ms->input + b, b);
-	if (ms->input[b]/*  && puts("FIRST COND\n") */)
+	if (ms->input[b])
 	{
 		if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
 			errex(ms, SPLT_ERR);
 		new_cmd(ms, S_COLON, ms->tab);
 	}
-	else
-	{
-		//puts("WE ARE IN \n");
-		if (ms->cmds/*  && puts(HELLO) */)
+	else if (ms->cmds)
 			ms->cmds->is_err = STX_ERR;
-		else
+	else
 			ms->cmd_err = STX_ERR;
-	}
-
 	ms->cmds = get_head(ms->cmds);
 	print_cmds(ms->cmds);
-	//puts("WE ARE OUT \n");
 }
