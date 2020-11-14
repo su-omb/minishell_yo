@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 11:42:06 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 11:49:13 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,28 @@ void			exec_command(t_ms *ms)
 {
 	int		st = 0;
 
-	while(ms->cmds)
-	{
-		if (!is_builtin_sys(ms->cmds->cmd) /* || cmd->next */)
+	if (ms->cmds->is_err == STX_ERR)
+		ft_putstr_fd("minishell: syntax error\n", 1);
+	else
+		while(ms->cmds)
 		{
-			pid_t		pid = fork();
-			if (pid == 0)
+			if (!is_builtin_sys(ms->cmds->cmd) /* || cmd->next */)
 			{
-				if (execve(get_exec_path(ms), ms->cmds->args, ms->env) < 0)
-					printf("%s", strerror(errno));
+				pid_t		pid = fork();
+				if (pid == 0)
+				{
+					if (execve(get_exec_path(ms), ms->cmds->args, ms->env) < 0)
+						printf("%s", strerror(errno));
+				}
+				else
+					waitpid(pid, &st, 0);
 			}
 			else
-				waitpid(pid, &st, 0);
+			{
+				check_command(ms);
+			}
+			ms->cmds = ms->cmds->next;
 		}
-		else
-		{
-			check_command(ms);
-		}
-		ms->cmds = ms->cmds->next;
-	}
 }
 
 char 		*get_exec_path(t_ms *ms)
@@ -59,7 +62,6 @@ char 		*get_exec_path(t_ms *ms)
 	i = get_env(ms->env, "PATH");
 	if (tab[i])
 	{
-		puts("here");
 		while (tab[i])
 		{
 			path = ft_strjoin(tab[i], "/");

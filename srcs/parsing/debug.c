@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 11:14:44 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/14 11:57:07 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd		*get_head(t_cmd *cmds)
 void		print_cmds(t_cmd *cmds)
 {
 	FILE *f;
-	f = fopen("/Users/yslati/Desktop/minishell_yo/debug", "w+");
+	f = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "w+");
 	if (cmds == NULL)
 		fputs("\nERROR: ==> cmds is NULL\n", f);
 	while (cmds)
