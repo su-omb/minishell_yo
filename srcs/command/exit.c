@@ -60,12 +60,10 @@ void		ft_exit(t_ms *ms)
 
 	ft_putendl_fd("exit", 1);
 	b = 1;
-	//printf("ret = %d",ms->ret);
-	//ft_print_env(ms->tab);
 	if (ms->cmds->args[1])
 		exit_analyse(ms, &b);
 	if (ms->env)
 		free_str_table(ms->env, tb_len(ms->env));
-	if (b == 1)
+	//if (b == 1)
 		exit(ms->status);
 }

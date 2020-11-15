@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 14:04:55 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/14 20:36:24 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			exec_command(t_ms *ms)
 				if (pid == 0)
 				{
 					if (execve(get_exec_path(ms), ms->cmds->args, ms->env) < 0)
-						printf("%s\n", strerror(errno));
+						/* printf("%s\n", strerror(errno)) */;
 				}
 				else
 					waitpid(pid, &st, 0);

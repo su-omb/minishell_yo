@@ -6,13 +6,13 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 20:30:01 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/15 21:04:29 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		quote_handler(char const *s)
+int		quote_handler(char const *s, int neg)
 {
 	char	quote;
 	int		i;
@@ -23,7 +23,12 @@ int		quote_handler(char const *s)
 	while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
 		i++;
 	if (!s[i])
-		return (i - 1);
+	{
+		if(!neg)
+			return (i - 1);
+		else
+			return (-1);
+	}
 	return (i);
 }
 
@@ -39,7 +44,7 @@ int		ft_words(char const *s, char c)
 	while (s[i])
 	{
 		if (((i && s[i - 1] != '\\') || !i) && (s[i] == '\'' || s[i] == '"'))
-			i += quote_handler(s + i);
+			i += quote_handler(s + i, 0);
 		if ((((i && s[i - 1] != '\\') && (s[i] == c && s[i + 1] != c))) || s[i + 1] == '\0')
 			len++;
 		i++;
@@ -86,7 +91,7 @@ int		ft_len_elem(char const *s, char c)
 	{
 		if (((i && s[i - 1] != '\\') || !i) && (s[i] == '\'' || s[i] == '"'))
 		{
-			ret = quote_handler(s + i);
+			ret = quote_handler(s + i, 0);
 			size += ret;
 			i += ret;
 		}
@@ -121,11 +126,17 @@ char	*remove_quotes(char *elem, int *i, int e, t_ms *ms)
 	{
 		j = *i;
 		while (elem[++j] && j < e)
+		{
 			if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
 			{	
-				elem = remove_bslash(elem, j, &ms->cmd_err);	
+				elem = remove_bslash(elem, j, &ms->cmd_err);
 				e--;
+				if (elem[j] == '$')
+					continue;
 			}
+			if (elem[j] == '$' && elem[j + 1] == '?')
+					ms->status = 1;
+		}
 	}
 	tmp = ft_strdup(elem);
 	tmp[(*i)++] = '\0';
@@ -145,10 +156,12 @@ char	*parse_quote_bslash(char *elem, t_ms *ms)
 	i = -1;
 	while (elem[++i])
 	{
+		if (elem[i] == '$' && ((i && elem[i - 1] != '\\') || !i))
+			if (elem[i + 1] == '?' && (ms->status = 1))
+				continue ;
 		if (ft_strchr("\"'", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
 		{
-			l = quote_handler(elem + i);
-			if (i == i +l || (elem[i + l] != elem[i] && elem[i + l + 1] == '\0'))
+			if ((l = quote_handler(elem + i, 1)) < 0)
 			{
 				ms->cmd_err = 1;
 				break ;
@@ -176,7 +189,7 @@ char	*fill_elem(char **elem, char *s, char c, t_ms *ms)
 		{
 			quote = s[j];
 			(*elem)[i++] = s[j++];
-			while (s[j] && s[j] != quote)
+			while (s[j] && (s[j] != quote || ((j && s[j - 1] == '\\') || !j)))
 				(*elem)[i++] = s[j++];
 			if (s[j])
 				(*elem)[i++] = s[j++];

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 20:32:08 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/15 19:20:35 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void		parse(t_ms *ms)
 	while (ms->input[++i])
 	{
 		if (ft_strchr("'\"", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
-			i += quote_handler(ms->input + i);
+			i += quote_handler(ms->input + i, 0);
 		if (ft_strchr("|;><", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
 		{
 			make_cmd(ms, b, &i, ms->input);
@@ -124,17 +124,20 @@ void		parse(t_ms *ms)
 		}
 	}
 
-	b += skip_while(ms->input + i + 1, ' ');
-	if (ms->input[b])
+	b += skip_while(ms->input + i, ' ');
+	if (ms->input[i - 1] != ';')
 	{
-		if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
-			errex(ms, SPLT_ERR);
-		new_cmd(ms, S_COLON, ms->tab);
+		if (ms->input[b])
+		{
+			if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
+				errex(ms, SPLT_ERR);
+			new_cmd(ms, S_COLON, ms->tab);
+		}
+		else if (ms->cmds)
+				ms->cmds->is_err = STX_ERR;
+		else
+				ms->cmd_err = STX_ERR;
 	}
-	else if (ms->cmds)
-			ms->cmds->is_err = STX_ERR;
-	else
-			ms->cmd_err = STX_ERR;
 	ms->cmds = get_head(ms->cmds);
 	//puts("\nWE ARE OUT OF PARSING !");
 	print_cmds(ms->cmds);

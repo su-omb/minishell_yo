@@ -12,22 +12,6 @@
 
 #include "./includes/minishell.h"
 
-void	free_cmds(t_ms *ms)
-{
-	t_cmd *c;
-
-	c = ms->cmds;
-	while (c)
-	{
-		free(c->cmd);
-		c->cmd = NULL;
-		free_str_table(c->args, tb_len(c->args));
-		c = c->next;
-	}
-	if (c)
-		free(ms->cmds);
-}
-
 int		minishell(char **env, int step)
 {
 	t_ms	*ms;
@@ -41,7 +25,6 @@ int		minishell(char **env, int step)
 		parse(ms);
 		exec_command(ms);
 		init(ms, 1, NULL);
-		free_cmds(ms);
 	}
 	return (1);
 }
