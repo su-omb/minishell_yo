@@ -14,20 +14,17 @@
 
 int		minishell(char **env, int step)
 {
-	t_ms	ms;
+	t_ms	*ms;
 
+	ms = (t_ms*)malloc(sizeof(t_ms));
 	if (!step)
-		init(&ms, 0, env);
+		init(ms, 0, env);
 	while (1)
 	{
 		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m",1);
-		parse(&ms);
-		if (ms.input[0] == '\0')
-			continue ;
-		else
-			exec_command(&ms);
-		init(&ms, 1, NULL);
-		//ms.cmds ? free_ms(ms) : 0 ;
+		parse(ms);
+		exec_command(ms);
+		init(ms, 1, NULL);
 	}
 	return (1);
 }
@@ -36,7 +33,6 @@ int		main(int ac,char **av, char **env)
 {
 	ac = 0;
 	av = NULL;
-	while (minishell(env, 0))
-		;
+	minishell(env, 0);
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 13:10:34 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/15 19:20:35 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,12 @@ int		make_cmd(t_ms *ms, int b, int *i, char *s)
 		parse_trunc_rdr(ms, b, i, ms->input);
 	else if (s[*i] == READ)
 		parse_read_rdr(ms, b, *i, ms->input);
-	if (ms->tab[0] && ms->tab[0][0])
+	
+	if (ms->tab[0])
+	{
+		ms->cmd_err = ms->tab[0][0] == '\0';
 		new_cmd(ms, s[*i], ms->tab);
+	}
 	free_str_table(ms->tab, tb_len(ms->tab));
 	ms->tab = NULL;
 	ms->redir = 0;
@@ -112,33 +116,29 @@ void		parse(t_ms *ms)
 	while (ms->input[++i])
 	{
 		if (ft_strchr("'\"", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
-			i += quote_handler(ms->input + i);
+			i += quote_handler(ms->input + i, 0);
 		if (ft_strchr("|;><", ms->input[i]) && ((i && ms->input[i - 1] != '\\') || !i))
 		{
 			make_cmd(ms, b, &i, ms->input);
 			b = i + 1;
 		}
 	}
-	/* if (ms->cmds == NULL)
-		puts("CMDS IS NULL\n");  */
-	b += skip_while(ms->input + i + 1, ' ');
-	//printf("input+b=|%s| b=|%d|\n", ms->input + b, b);
-	if (ms->input[b]/*  && puts("FIRST COND\n") */)
-	{
-		if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
-			errex(ms, SPLT_ERR);
-		new_cmd(ms, S_COLON, ms->tab);
-	}
-	else
-	{
-		//puts("WE ARE IN \n");
-		if (ms->cmds/*  && puts(HELLO) */)
-			ms->cmds->is_err = STX_ERR;
-		else
-			ms->cmd_err = STX_ERR;
-	}
 
+	b += skip_while(ms->input + i, ' ');
+	if (ms->input[i - 1] != ';')
+	{
+		if (ms->input[b])
+		{
+			if (!(ms->tab = parse_split(ms->input + b, ' ', ms)))
+				errex(ms, SPLT_ERR);
+			new_cmd(ms, S_COLON, ms->tab);
+		}
+		else if (ms->cmds)
+				ms->cmds->is_err = STX_ERR;
+		else
+				ms->cmd_err = STX_ERR;
+	}
 	ms->cmds = get_head(ms->cmds);
+	//puts("\nWE ARE OUT OF PARSING !");
 	print_cmds(ms->cmds);
-	//puts("WE ARE OUT \n");
 }

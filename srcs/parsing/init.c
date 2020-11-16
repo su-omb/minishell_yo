@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/13 20:20:55 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/15 16:16:18 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,24 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;
 	c->is_err = ms->cmd_err != 0;
+	c->is_status = ms->status;
 	ms->cmds = c;
+}
+
+void	free_cmds(t_ms *ms)
+{
+	t_cmd *c;
+
+	c = ms->cmds;
+	while (c)
+	{
+		free(c->cmd);
+		c->cmd = NULL;
+		free_str_table(c->args, tb_len(c->args));
+		c = c->next;
+	}
+	if (c)
+		free(ms->cmds);
 }
 
 void		init_cmd(t_cmd	*cmd)
@@ -58,6 +75,7 @@ void		init(t_ms *ms, char step, char **env)
 	{
 		free_str_table(ms->tab, tb_len(ms->tab));
 		ms->tab = NULL;
+		free_cmds(ms);
 	}
 	if (!step)
 	{

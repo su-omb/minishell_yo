@@ -6,19 +6,21 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/14 10:01:20 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/15 20:41:17 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		skip_till(char *s, char *set)
+int		skip_till(char *s, char *set, int inside_dquote)
 {
 	int i;
 
-	i = -1;
-	if (ft_strchr("$\\", *s))
+	if (*s == '"' && !inside_dquote)
+		return (-2);
+	if (ft_strchr("$\\\" /", *s))
 		return (-1);
+	i = -1;
 	while (s[++i])
 		if (ft_strchr(set, s[i]))
 			return (i);
@@ -67,13 +69,15 @@ void	parse_d(t_ms *ms)
 		if (ms->input[i] == '"' && ((i && ms->input[i - 1] != '\\') || !i))
 			inside_dquote = !inside_dquote;
 		if (((i && ms->input[i - 1] != '\\') || !i) && ms->input[i] == '\'' && !inside_dquote)
-				i += quote_handler(ms->input + i);
+				i += quote_handler(ms->input + i, 0);
 		if (ms->input[i] == '$' && ((i && ms->input[i - 1] != '\\') || !i))
 		{
-			if (ms->input[i + 1] == '?' && i++ && (ms->status = 1))
+			if (ms->input[i + 1] == '?' && i++)
 				continue ;
-			if ((l = skip_till(ms->input + ++i, " \"'\\$><|;")) < 0)
+			l = skip_till(ms->input + ++i, " \"'\\$><|;", inside_dquote);
+			if (l == -1)
 				continue ;
+			l = (l == -2)? 0 : l;
 			ms->input = remake_input(ms->input, get_vvalue(ft_strldup(ms->input + i, l), ms->env), l, &i);
 		}
 		else
