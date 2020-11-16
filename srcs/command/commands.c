@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 14:04:19 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/16 14:45:02 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			exec_command(t_ms *ms)
 			i++;
 		}
 		j = 0;
-		if ((ms->cmds->next && !ms->cmds->end) ||!is_builtin_sys(ms->cmds->cmd))
+		if (/* (ms->cmds->next && !ms->cmds->end) || */!is_builtin_sys(ms->cmds->cmd))
 		{
 			while(ms->cmds)
 			{

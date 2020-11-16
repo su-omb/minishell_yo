@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 09:17:59 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/16 14:53:04 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ void			redir(t_ms *ms, int i)
 	int		file;
 	char	*str;
 
-	str = ms->cmds->args[i];
-	while (ms->cmds && ms->cmds->next)
+	str = ft_strdup(ms->cmds->args[i]);
+	while (ms->cmds->args[++i])
 	{
-		//if (ms->cmds->next)
-			ms->cmds = ms->cmds->next;
-		file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
-		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
-		printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->next->cmd, str);
+		str = ft_strcat(str, " ");
+		str = ft_strcat(str, ms->cmds->args[i]);
 	}
+	ms->cmds = ms->cmds->next;
+	file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
+	// printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
 	ft_putstr_fd(str, file);
 	ft_putchar_fd('\n', file);
 }
