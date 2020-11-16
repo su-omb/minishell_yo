@@ -23,8 +23,11 @@ int		minishell(char **env, int step)
 	{
 		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m",1);
 		parse(ms);
+		//puts("1");
 		exec_command(ms);
+		//puts("2");
 		init(ms, 1, NULL);
+		//puts("3");
 	}
 	return (1);
 }

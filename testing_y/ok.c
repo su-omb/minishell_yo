@@ -27,3 +27,5 @@ int main()
 	printf("|%s|\n", s);
 	return 0;
 }
+
+/* ============ */

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 10:09:42 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/16 12:36:34 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,81 +22,102 @@ int 	is_builtin_sys(char *cmds)
 	return (1);
 }
 
+/* void			do_command(t_ms *ms)
+{
+	
+} */
+
 void			exec_command(t_ms *ms)
 {
 	int		st = 0;
-	int		fds[2];
+	int		fds[2 * ms->pp_count];
 	int		j;
-	pid_t		pid;
+	pid_t	pid;
 	int		i;
 
 	i = 0;
-	while ( i < 2)
-	{
-		pipe(fds + i * 2);
-		i++;
-	}
-	if (ms->input[0] == '\0')
-		return ;
 	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
 	{
-		j = 0;
-		while(ms->cmds )
+		while (i < 2 * ms->pp_count && ms->pp_count)
 		{
-			if (!is_builtin_sys(ms->cmds->cmd))
+			pipe(fds + i * 2);
+			i++;
+		}
+		j = 0;
+		if ((ms->cmds->next && !ms->cmds->end) ||!is_builtin_sys(ms->cmds->cmd))
+		{
+			while(ms->cmds)
 			{
 				pid = fork();
-				if (pid < 0)
-					perror("Fork error");
 				if (pid == 0)
 				{
 					if (j != 0)
 					{
-						dup2(fds[j - 2], 0);
+						if (dup2(fds[j - 2], 0) < 0)
+						{
+							perror("dup2");
+							exit(0);
+						}
 					}
-					else if (ms->cmds->next)
+					if (ms->cmds->next)
 					{
-						dup2(fds[j + 1], 1);
+						if (dup2(fds[j + 1], 1) < 0)
+						{
+							perror("dup2");
+							exit(0);
+						}
 					}
 					i = 0;
-					while (i < 2)
+					while (i < 2 * ms->pp_count)
+					{
 						close(fds[i++]);
+					}
 					if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
 					{
 						if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
+						{
 							perror("Err");
+							exit(0);
+						}
 					}
-					else 
+					else
+					{
 						execve(get_exec_path(ms), ms->cmds->args, ms->env);
+					}
 						/* printf("%s\n", strerror(errno)) */;
 					exit(0);
 				}
+				else if (pid < 0)
+				{
+					perror("Fork error");
+					exit(0);
+				}
+				if (ms->cmds->end)
+					break ;
+				else
+					ms->cmds = ms->cmds->next;
+				j += 2;
 			}
-			else
-				check_command(ms);
-			if (ms->cmds->end)
-				break ;
-			else
-				ms->cmds = ms->cmds->next;
-			j += 2;
-		}
-		printf("%d\n", ms->pp_count);
-		i = 0;
-		while (i < 2)
-			close(fds[i++]);
-		if (!ms->pp_count)
-			waitpid(pid, &st, 0);
-		else
-		{
 			i = 0;
-			while (i < ms->pp_count)
+			while (i < 2 * ms->pp_count && ms->pp_count)
 			{
-				wait(&st);
-				i++;
+				close(fds[i++]);
+			}
+			if (!ms->pp_count)
+			{
+				waitpid(pid, &st, 0);
+			}
+			else
+			{
+				i = -1;
+				while (++i < ms->pp_count)
+					wait(&st);
 			}
 		}
+		else
+			check_command(ms);
 	}
 }
 
