@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/16 10:12:51 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/16 12:36:56 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ void		parse(t_ms *ms)
 	}
 	ms->cmds = get_head(ms->cmds);
 	//puts("\nWE ARE OUT OF PARSING !");
-	printf("PIPE_COUNT=|%d|\n", ms->pp_count);
+	//printf("PIPE_COUNT=|%d|\n", ms->pp_count);
 	print_cmds(ms->cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 12:36:34 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/16 14:04:19 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int 	is_builtin_sys(char *cmds)
 
 /* void			do_command(t_ms *ms)
 {
+	
+} */
+
+/* pid_t			run_child(t_ms *ms)
+{
+	pid_t	pid;
 	
 } */
 
@@ -50,6 +56,7 @@ void			exec_command(t_ms *ms)
 		{
 			while(ms->cmds)
 			{
+				//pid = run_child(ms);
 				pid = fork();
 				if (pid == 0)
 				{
@@ -78,7 +85,8 @@ void			exec_command(t_ms *ms)
 					{
 						if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 						{
-							perror("Err");
+							ft_putstr_fd("minishell: ", 1);
+							perror(ms->cmds->cmd);
 							exit(0);
 						}
 					}
@@ -112,7 +120,7 @@ void			exec_command(t_ms *ms)
 			else
 			{
 				i = -1;
-				while (++i < ms->pp_count)
+				while (++i < ms->pp_count + 1)
 					wait(&st);
 			}
 		}
