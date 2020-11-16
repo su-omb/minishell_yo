@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/15 16:16:18 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/16 10:11:30 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void		init(t_ms *ms, char step, char **env)
 	ms->cmd_err = 0;
 	ms->cmds = NULL;
 	ms->redir = 0;
+	ms->pp_count = 0;
 	ms->status = 0;
 	if (step)
 	{

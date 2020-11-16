@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/15 19:20:35 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/16 10:12:51 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void		parse_pipe(t_ms *ms, int b, int i, char *s)
 	if (!(ms->tab = parse_split(tmp, ' ', ms)))
 		errex(ms, SPLT_ERR);
 	free(tmp);
+	ms->pp_count++;
 }
 
 void		parse_trunc_rdr(t_ms *ms, int b, int *i, char *s)
@@ -140,5 +141,6 @@ void		parse(t_ms *ms)
 	}
 	ms->cmds = get_head(ms->cmds);
 	//puts("\nWE ARE OUT OF PARSING !");
+	printf("PIPE_COUNT=|%d|\n", ms->pp_count);
 	print_cmds(ms->cmds);
 }
