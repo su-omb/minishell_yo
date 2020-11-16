@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/16 12:09:08 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/16 14:58:01 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void		parse(t_ms *ms)
 				ms->cmd_err = STX_ERR;
 	}
 	ms->cmds = get_head(ms->cmds);
-	puts("\nWE ARE OUT OF PARSING !");
-	//printf("PIPE_COUNT=|%d|\n", ms->pp_count);
+	// puts("\nWE ARE OUT OF PARSING !");
+	// printf("PIPE_COUNT=|%d|\n", ms->pp_count);
 	print_cmds(ms->cmds);
 }
