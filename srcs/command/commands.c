@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/17 11:27:19 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/17 12:23:12 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,87 +46,93 @@ void			exec_command(t_ms *ms)
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
 	{
-		
-		while (i < 2 * ms->pp_count && ms->pp_count)
+		while (ms->cmds)
 		{
-			pipe(fds + i * 2);
-			i++;
-		}
-		j = 0;
-		if ((ms->cmds->next && !ms->cmds->end) ||!is_builtin_sys(ms->cmds->cmd))
-		{
-			while(ms->cmds)
-			{
-				//pid = run_child(ms);
-				pid = fork();
-				if (pid == 0)
-				{
-					if (j != 0)
-					{
-						if (dup2(fds[j - 2], 0) < 0)
-						{
-							perror("dup2");
-							exit(0);
-						}
-					}
-					if (ms->cmds->next)
-					{
-						if (dup2(fds[j + 1], 1) < 0)
-						{
-							perror("dup2");
-							exit(0);
-						}
-					}
-					i = 0;
-					while (i < 2 * ms->pp_count)
-					{
-						close(fds[i++]);
-					}
-					if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
-					{
-						if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
-						{
-							ft_putstr_fd("minishell: ", 1);
-							perror(ms->cmds->cmd);
-							exit(0);
-						}
-					}
-					else
-					{
-						execve(get_exec_path(ms), ms->cmds->args, ms->env);
-					}
-						/* printf("%s\n", strerror(errno)) */;
-					exit(0);
-				}
-				else if (pid < 0)
-				{
-					perror("Fork error");
-					exit(0);
-				}
-				if (ms->cmds->end)
-					break ;
-				else
-					ms->cmds = ms->cmds->next;
-				j += 2;
-			}
-			i = 0;
 			while (i < 2 * ms->pp_count && ms->pp_count)
 			{
-				close(fds[i++]);
+				pipe(fds + i * 2);
+				i++;
 			}
-			if (!ms->pp_count)
+			j = 0;
+			if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 			{
-				waitpid(pid, &st, 0);
+				while(ms->cmds)
+				{
+					if (ms->cmds->start)
+						if (is_builtin_sys(ms->cmds->cmd))
+							break;
+					//pid = run_child(ms);
+					pid = fork();
+					if (pid == 0)
+					{
+						if (j != 0)
+						{
+							if (dup2(fds[j - 2], 0) < 0)
+							{
+								perror("dup2");
+								exit(0);
+							}
+						}
+						if (ms->cmds->next)
+						{
+							if (dup2(fds[j + 1], 1) < 0)
+							{
+								perror("dup2");
+								exit(0);
+							}
+						}
+						i = 0;
+						while (i < 2 * ms->pp_count)
+						{
+							close(fds[i++]);
+						}
+						if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
+						{
+							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
+							{
+								ft_putstr_fd("minishell: ", 1);
+								perror(ms->cmds->cmd);
+								exit(0);
+							}
+						}
+						else
+						{
+							execve(get_exec_path(ms), ms->cmds->args, ms->env);
+						}
+							/* printf("%s\n", strerror(errno)) */;
+						exit(0);
+					}
+					else if (pid < 0)
+					{
+						perror("Fork error");
+						exit(0);
+					}
+					if (ms->cmds->end)
+						break ;
+					else
+						ms->cmds = ms->cmds->next;
+					j += 2;
+				}
+				i = 0;
+				while (i < 2 * ms->pp_count && ms->pp_count)
+				{
+					close(fds[i++]);
+				}
+				if (!ms->pp_count)
+				{
+					waitpid(pid, &st, 0);
+				}
+				else
+				{
+					i = -1;
+					while (++i < ms->pp_count + 1)
+						wait(&st);
+				}
 			}
 			else
-			{
-				i = -1;
-				while (++i < ms->pp_count + 1)
-					wait(&st);
-			}
+				check_command(ms);
+			ms->cmds = ms->cmds->next;
 		}
-		else
-			check_command(ms);
 	}
 }
 
