@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 14:45:02 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/17 11:27:19 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ void			exec_command(t_ms *ms)
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
 	{
+		
 		while (i < 2 * ms->pp_count && ms->pp_count)
 		{
 			pipe(fds + i * 2);
 			i++;
 		}
 		j = 0;
-		if (/* (ms->cmds->next && !ms->cmds->end) || */!is_builtin_sys(ms->cmds->cmd))
+		if ((ms->cmds->next && !ms->cmds->end) ||!is_builtin_sys(ms->cmds->cmd))
 		{
 			while(ms->cmds)
 			{
