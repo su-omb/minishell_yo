@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/17 12:23:12 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/17 12:43:22 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			exec_command(t_ms *ms)
 				{
 					if (ms->cmds->start)
 						if (is_builtin_sys(ms->cmds->cmd))
-							break;
+							break ;
 					//pid = run_child(ms);
 					pid = fork();
 					if (pid == 0)
@@ -73,7 +73,7 @@ void			exec_command(t_ms *ms)
 								exit(0);
 							}
 						}
-						if (ms->cmds->next)
+						if (ms->cmds->next && !ms->cmds->end) // conditon khassk tzid hna f redirection
 						{
 							if (dup2(fds[j + 1], 1) < 0)
 							{
