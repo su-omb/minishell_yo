@@ -67,6 +67,8 @@ typedef		struct	s_ms
 	char			**env;
 
 	int				status;
+	int				skip;
+	int				j;
 }					t_ms;
 
 /* Parsing */

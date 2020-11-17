@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/16 14:53:04 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/17 12:49:20 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,6 @@ int			check_n(char **args, int *i)
 	return (nflag);
 }
 
-/* void			echo_dollar(t_ms *ms, int i)
-{
-	char	*tmp;
-	int		j;
-	//int		len;
-
-	tmp = ft_strdup("");
-	if ((tmp = ft_strcpy_pro(tmp, ms->cmds->args[i], '$')) && (!ft_strcmp("", tmp)))
-	{
-		puts("$ is first");
-		j = get_env(ms->env, ms->cmds->args[i] + 1);
-		//len = 
-		ft_putendl_fd(ms->env[j] + ft_strlen(ms->cmds->args[i] + 1) + 1, 1);
-	}
-	else
-	{
-		puts("something befor $");
-	}
-
-} */
-
 void			redir(t_ms *ms, int i)
 {
 	int		file;
@@ -60,7 +39,6 @@ void			redir(t_ms *ms, int i)
 	}
 	ms->cmds = ms->cmds->next;
 	file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
-	// printf("\ncmd in redir |%s| string: |%s|\n", ms->cmds->cmd, str);
 	ft_putstr_fd(str, file);
 	ft_putchar_fd('\n', file);
 }
@@ -78,7 +56,6 @@ void			ft_echo(t_ms *ms)
 	{
 		if (!ms->cmds->args[i])
 			ft_putendl_fd("", 1);
-		
 		else if (ms->cmds->args[i])
 		{
 			nflag = check_n(ms->cmds->args, &i);
@@ -92,6 +69,5 @@ void			ft_echo(t_ms *ms)
 			if (!nflag)
 				ft_putchar_fd('\n', 1);
 		}
-		
 	}
 }
