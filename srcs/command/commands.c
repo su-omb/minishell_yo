@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/18 10:02:12 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/18 10:24:10 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void			exec_command(t_ms *ms)
 			{
 				while(ms->cmds)
 				{
+					if (ms->cmds->start == 0 && ms->cmds->prev->redir)
+						break ;
 					if (ms->cmds->start)
 						if (is_builtin_sys(ms->cmds->cmd))
 							break ;
@@ -76,11 +78,11 @@ void			exec_command(t_ms *ms)
 									exit(0);
 								}
 							}
-							if (ms->cmds->next && !ms->cmds->end) // conditon khassk tzid hna f redirection
+							if (ms->cmds->next && !ms->cmds->end)
 							{
 								if (dup2(fds[j + 1], 1) < 0)
 								{
-									perror("dup3");
+									perror("dup2");
 									exit(0);
 								}
 							}
@@ -95,7 +97,7 @@ void			exec_command(t_ms *ms)
 							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 							dup2(fd, 1);
 						}
-						if (ms->cmds->redir == APPEND)
+						else if (ms->cmds->redir == APPEND)
 						{
 							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
 							dup2(fd, 1);
@@ -110,10 +112,7 @@ void			exec_command(t_ms *ms)
 							}
 						}
 						else
-						{
-							//printf("skip: %d\n",ms->cmds->skip);
 							execve(get_exec_path(ms), ms->cmds->args, ms->env);
-						}
 							/* printf("%s\n", strerror(errno)) */;
 						exit(0);
 					}
@@ -156,8 +155,6 @@ char 		*get_exec_path(t_ms *ms)
 	char		*path;
 	struct		stat stats;
 
-	if (ms->cmds->start == 0 && ms->cmds->prev->redir)
-		return (NULL);
 	if ((i = get_env(ms->env, "PATH")) != -1)
 	{
 		tab  = ft_split(ms->env[i] + 5, ':');
@@ -167,8 +164,11 @@ char 		*get_exec_path(t_ms *ms)
 			path = ft_strjoin(tab[i], "/");
 			path = ft_strjoin(path, ms->cmds->cmd);
 			if ((stat(path, &stats)) == 0)
+			{
+
 				if (stats.st_mode & X_OK)
 					return (path);
+			}
 			/* else if ((stat(path, &stats)) == -1)
 			{
 				//puts("not exec");
