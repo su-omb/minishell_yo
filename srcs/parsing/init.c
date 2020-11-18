@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/16 10:11:30 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/18 09:43:31 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		init_cmd(t_cmd	*cmd)
 	cmd->start = 2;
 	cmd->end = 2;
 	cmd->redir = 0;
+	cmd->skip = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;
 }

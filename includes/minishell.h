@@ -47,6 +47,7 @@ typedef		struct	s_cmd
 	char			redir;
 	char			is_status;
 	char			is_err;
+	int				skip;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -67,7 +68,6 @@ typedef		struct	s_ms
 	char			**env;
 
 	int				status;
-	int				skip;
 	int				j;
 }					t_ms;
 

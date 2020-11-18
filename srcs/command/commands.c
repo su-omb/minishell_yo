@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/17 14:53:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/18 09:58:38 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			exec_command(t_ms *ms)
 	pid_t	pid;
 	int		fd;
 	int		i;
-	ms->skip = 0;
+	
 
 	i = 0;
 	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
@@ -92,24 +92,23 @@ void			exec_command(t_ms *ms)
 						}
 						if (ms->cmds->redir == TRUNC)
 						{
+							ms->cmds->skip = 1;
 							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 							dup2(fd, 1);
-							ms->skip = 1;
 						}
 						if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
 						{
-							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0 && ms->skip != 1)
+							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0 && ms->cmds->skip != 1)
 							{
-								ft_putstr_fd("minishell: khi", 1);
+								ft_putstr_fd("minishell: ", 1);
 								perror(ms->cmds->cmd);
 								exit(0);
 							}
 						}
 						else
 						{
-							printf("skip: %d\n",ms->skip);
-							//if (ms->skip != 1 && (!ms->cmds->redir || !ms->cmds->end))
-								execve(get_exec_path(ms), ms->cmds->args, ms->env);
+							//printf("skip: %d\n",ms->cmds->skip);
+							execve(get_exec_path(ms), ms->cmds->args, ms->env);
 						}
 							/* printf("%s\n", strerror(errno)) */;
 						exit(0);
@@ -124,16 +123,14 @@ void			exec_command(t_ms *ms)
 					else
 						ms->cmds = ms->cmds->next;
 					j += 2;
+					if (ms->cmds->skip == 1)
+						ms->cmds = ms->cmds->next;
 				}
 				i = 0;
 				while (i < 2 * ms->pp_count && ms->pp_count)
-				{
 					close(fds[i++]);
-				}
 				if (!ms->pp_count)
-				{
 					waitpid(pid, &st, 0);
-				}
 				else
 				{
 					i = -1;
@@ -155,7 +152,8 @@ char 		*get_exec_path(t_ms *ms)
 	char		*path;
 	struct		stat stats;
 
-	printf("get skip: %d\n",ms->skip);
+	if (ms->cmds->start == 0 && ms->cmds->prev->redir)
+		return (NULL);
 	if ((i = get_env(ms->env, "PATH")) != -1)
 	{
 		tab  = ft_split(ms->env[i] + 5, ':');
