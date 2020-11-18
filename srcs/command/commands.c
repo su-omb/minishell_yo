@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/18 09:58:38 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/18 10:02:12 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,12 @@ void			exec_command(t_ms *ms)
 						}
 						if (ms->cmds->redir == TRUNC)
 						{
-							ms->cmds->skip = 1;
 							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+							dup2(fd, 1);
+						}
+						if (ms->cmds->redir == APPEND)
+						{
+							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
 							dup2(fd, 1);
 						}
 						if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
