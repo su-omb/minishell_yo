@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/18 10:24:10 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/18 14:54:20 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ int 	is_builtin_sys(char *cmds)
 	
 } */
 
+int			open_file(t_cmd *tmp)
+{
+	int 	fd;
+
+	while (tmp->redir == TRUNC && !tmp->end)
+	{
+		fd = open(tmp->next->args[0], O_RDONLY | O_CREAT | O_TRUNC, 0666);
+		puts("ok");
+		tmp = tmp->next;
+	}
+	return (fd);
+}
+
 void			exec_command(t_ms *ms)
 {
 	int		st = 0;
@@ -41,8 +54,9 @@ void			exec_command(t_ms *ms)
 	pid_t	pid;
 	int		fd;
 	int		i;
+	t_cmd	*tmp;
 	
-
+	tmp = ms->cmds;
 	i = 0;
 	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
 		ft_putstr_fd("minishell: syntax error\n", 1);
@@ -92,19 +106,27 @@ void			exec_command(t_ms *ms)
 						{
 							close(fds[i++]);
 						}
-						if (ms->cmds->redir == TRUNC)
+						if (ms->cmds->redir == TRUNC /* && ms->cmds->next->end *//*  && ms->skip != 1 */)
 						{
-							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+							ms->skip = 1;
+							fd = open_file(tmp);
+							//printf("cmd : |%s|\n", ms->cmds->cmd);
+							//fd = open(ms->cmds->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 							dup2(fd, 1);
 						}
-						else if (ms->cmds->redir == APPEND)
+						/* else if (ms->cmds->redir == APPEND && ms->cmds->end)
 						{
 							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
 							dup2(fd, 1);
 						}
+						else if (ms->cmds->redir == READ)
+						{
+							fd = open(ms->cmds->next->args[0], O_RDONLY);
+							dup2(fd, 0);
+						} */
 						if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
 						{
-							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0 && ms->cmds->skip != 1)
+							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 							{
 								ft_putstr_fd("minishell: ", 1);
 								perror(ms->cmds->cmd);
@@ -126,8 +148,6 @@ void			exec_command(t_ms *ms)
 					else
 						ms->cmds = ms->cmds->next;
 					j += 2;
-					if (ms->cmds->skip == 1)
-						ms->cmds = ms->cmds->next;
 				}
 				i = 0;
 				while (i < 2 * ms->pp_count && ms->pp_count)

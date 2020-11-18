@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/18 09:43:31 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/18 12:11:38 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void		init_cmd(t_cmd	*cmd)
 	cmd->start = 2;
 	cmd->end = 2;
 	cmd->redir = 0;
-	cmd->skip = 0;
 	cmd->prev = NULL;
 	cmd->next = NULL;
 }
@@ -73,6 +72,7 @@ void		init(t_ms *ms, char step, char **env)
 	ms->redir = 0;
 	ms->pp_count = 0;
 	ms->status = 0;
+	ms->skip = 0;
 	if (step)
 	{
 		free_str_table(ms->tab, tb_len(ms->tab));
