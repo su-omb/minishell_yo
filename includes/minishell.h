@@ -61,6 +61,7 @@ typedef		struct	s_ms
 	t_cmd			*lst_end;
 	int				redir;
 	int				pp_count;
+	int 			*fds;
 	char			*pwd;
 	char			*old_pwd;
 	char			**tab;
@@ -69,6 +70,7 @@ typedef		struct	s_ms
 	int				status;
 	int				skip;
 	int				j;
+	int 			backup[3];
 }					t_ms;
 
 /* Parsing */
@@ -112,7 +114,7 @@ void				check_command(t_ms *ms);
 char				*get_exec_path(t_ms *ms);
 void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
-int 				valid_arg(t_ms *ms, int i);
+int 				valid_arg(char *arg);
 /*  */
 int					minishell(char **env, int step);
 

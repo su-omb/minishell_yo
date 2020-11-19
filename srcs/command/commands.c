@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/19 09:19:24 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/19 14:55:47 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ int 	is_builtin_sys(char *cmds)
 	
 } */
 
-/* pid_t			run_child(t_ms *ms)
-{
-	pid_t	pid;
-	
-} */
 
 void			open_file(t_cmd *tmp)
 {
@@ -55,18 +50,101 @@ void			open_file(t_cmd *tmp)
 	dup2(fd, 1);
 }
 
-void			exec_command(t_ms *ms)
+void			read_file(t_cmd *tmp)
 {
-	int		st = 0;
-	int		fds[2 * ms->pp_count];
-	int		j;
+	int fd;
+
+	fd = open(tmp->next->cmd, O_RDONLY);
+	dup2(fd, 0);
+}
+
+void			save_fds(int *fds)
+{
+	fds[0] = dup(0);
+	fds[1] = dup(1);
+	fds[2] = dup(2);
+}
+
+void			restore_fds(int *fds)
+{
+	dup2(fds[0], 0);
+	close(fds[0]);
+	dup2(fds[1], 1);
+	close(fds[1]);
+	dup2(fds[2], 2);
+	close(fds[2]);
+}
+
+void			ft_redir(t_cmd *tmp)
+{
+	
+	if (tmp->redir == TRUNC)
+		open_file(tmp);
+	if (tmp->redir == APPEND)
+		open_file(tmp);
+	if (tmp->redir == READ)
+		read_file(tmp);
+}
+
+pid_t			run_child(t_ms *ms, int *i)
+{
 	pid_t	pid;
-	//int		fd;
-	int		i;
 	t_cmd	*tmp;
 	
 	tmp = ms->cmds;
+	pid = fork();
+	if (pid == 0)
+	{
+
+		if (ms->pp_count && ms->cmds->redir != TRUNC)
+		{
+			if (ms->j != 0)
+			{
+				if (dup2(ms->fds[ms->j - 2], 0) < 0)
+				{
+					perror("dup2");
+					exit(0);
+				}
+			}
+			if (ms->cmds->next && !ms->cmds->end)
+			{
+				if (dup2(ms->fds[ms->j + 1], 1) < 0)
+				{
+					perror("dup2");
+					exit(0);
+				}
+			}
+		}
+		*i = 0;
+		while (*i < 2 * ms->pp_count)
+			close(ms->fds[++*i]);
+		if (ms->cmds->redir)
+			ft_redir(tmp);
+		if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
+		{
+			if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
+			{
+				ft_putstr_fd("minishell: ", 1);
+				perror(ms->cmds->cmd);
+				exit(0);
+			}
+		}
+		else
+			execve(get_exec_path(ms), ms->cmds->args, ms->env);
+			/* printf("%s\n", strerror(errno)) */;
+		exit(0);
+	}
+	return (pid);
+}
+
+void			exec_command(t_ms *ms)
+{
+	int		st = 0;
+	pid_t	pid;
+	int		i;
+	
 	i = 0;
+	ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int));
 	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
 		ft_putstr_fd("minishell: syntax error\n", 1);
 	else
@@ -75,83 +153,19 @@ void			exec_command(t_ms *ms)
 		{
 			while (i < 2 * ms->pp_count && ms->pp_count)
 			{
-				pipe(fds + i * 2);
+				pipe(ms->fds + i * 2);
 				i++;
 			}
-			j = 0;
+			ms->j = 0;
 			if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 			{
 				while(ms->cmds)
 				{
-					if (ms->cmds->start == 0 && ms->cmds->prev->redir)
+					save_fds(ms->backup);
+					if ((ms->cmds->start == 0 && ms->cmds->prev->redir) || (ms->cmds->start && is_builtin_sys(ms->cmds->cmd) && !ms->cmds->redir))
 						break ;
-					if (ms->cmds->start)
-						if (is_builtin_sys(ms->cmds->cmd))
-							break ;
-					pid = fork();
-					if (pid == 0)
-					{
-						if (ms->pp_count && ms->cmds->redir != TRUNC)
-						{
-							if (j != 0)
-							{
-								if (dup2(fds[j - 2], 0) < 0)
-								{
-									perror("dup2");
-									exit(0);
-								}
-							}
-							if (ms->cmds->next && !ms->cmds->end)
-							{
-								if (dup2(fds[j + 1], 1) < 0)
-								{
-									perror("dup2");
-									exit(0);
-								}
-							}
-						}
-						i = 0;
-						while (i < 2 * ms->pp_count)
-						{
-							close(fds[i++]);
-						}
-						if (ms->cmds->redir == TRUNC /* && ms->cmds->next->end *//*  && ms->skip != 1 */)
-						{
-							//ms->skip = 1;
-							// puts("if trunc");
-							open_file(tmp);
-							//printf("cmd : |%s|\n", ms->cmds->cmd);
-							//fd = open(ms->cmds->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-							//dup2(fd, 1);
-						}
-						if (ms->cmds->redir == APPEND/*  && ms->cmds->end */)
-						{
-							//ms->skip = 1;
-							// puts("if append");
-							open_file(tmp);
-							//fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
-							//dup2(fd, 1);
-						}
-						/* if (ms->cmds->redir == READ)
-						{
-							fd = open(ms->cmds->next->args[0], O_RDONLY);
-							dup2(fd, 0);
-						} */
-						if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
-						{
-							if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
-							{
-								ft_putstr_fd("minishell: ", 1);
-								perror(ms->cmds->cmd);
-								exit(0);
-							}
-						}
-						else
-							execve(get_exec_path(ms), ms->cmds->args, ms->env);
-							/* printf("%s\n", strerror(errno)) */;
-						exit(0);
-					}
-					else if (pid < 0)
+					pid = run_child(ms, &i);
+					if (pid < 0)
 					{
 						perror("Fork error");
 						exit(0);
@@ -160,11 +174,11 @@ void			exec_command(t_ms *ms)
 						break ;
 					else
 						ms->cmds = ms->cmds->next;
-					j += 2;
+					ms->j += 2;
 				}
 				i = 0;
 				while (i < 2 * ms->pp_count && ms->pp_count)
-					close(fds[i++]);
+					close(ms->fds[i++]);
 				if (!ms->pp_count)
 					waitpid(pid, &st, 0);
 				else
@@ -173,8 +187,9 @@ void			exec_command(t_ms *ms)
 					while (++i < ms->pp_count + 1)
 						wait(&st);
 				}
+				restore_fds(ms->backup);
 			}
-			else
+			if (is_builtin_sys(ms->cmds->cmd))
 				check_command(ms);
 			ms->cmds = ms->cmds->next;
 		}
