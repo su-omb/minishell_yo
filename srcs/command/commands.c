@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/18 14:54:20 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/19 09:19:24 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,26 @@ int 	is_builtin_sys(char *cmds)
 	
 } */
 
-int			open_file(t_cmd *tmp)
+void			open_file(t_cmd *tmp)
 {
 	int 	fd;
 
-	while (tmp->redir == TRUNC && !tmp->end)
+	while (tmp->redir && !tmp->end)
 	{
-		fd = open(tmp->next->args[0], O_RDONLY | O_CREAT | O_TRUNC, 0666);
-		puts("ok");
-		tmp = tmp->next;
+		while (tmp->redir == TRUNC && !tmp->end)
+		{
+			fd = open(tmp->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			// puts("trunc");
+			tmp = tmp->next;
+		}
+		while (tmp->redir == APPEND && !tmp->end)
+		{
+			fd = open(tmp->next->cmd, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			// puts("append");
+			tmp = tmp->next;
+		}
 	}
-	return (fd);
+	dup2(fd, 1);
 }
 
 void			exec_command(t_ms *ms)
@@ -52,7 +61,7 @@ void			exec_command(t_ms *ms)
 	int		fds[2 * ms->pp_count];
 	int		j;
 	pid_t	pid;
-	int		fd;
+	//int		fd;
 	int		i;
 	t_cmd	*tmp;
 	
@@ -108,18 +117,22 @@ void			exec_command(t_ms *ms)
 						}
 						if (ms->cmds->redir == TRUNC /* && ms->cmds->next->end *//*  && ms->skip != 1 */)
 						{
-							ms->skip = 1;
-							fd = open_file(tmp);
+							//ms->skip = 1;
+							// puts("if trunc");
+							open_file(tmp);
 							//printf("cmd : |%s|\n", ms->cmds->cmd);
 							//fd = open(ms->cmds->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-							dup2(fd, 1);
+							//dup2(fd, 1);
 						}
-						/* else if (ms->cmds->redir == APPEND && ms->cmds->end)
+						if (ms->cmds->redir == APPEND/*  && ms->cmds->end */)
 						{
-							fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
-							dup2(fd, 1);
+							//ms->skip = 1;
+							// puts("if append");
+							open_file(tmp);
+							//fd = open(ms->cmds->next->args[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
+							//dup2(fd, 1);
 						}
-						else if (ms->cmds->redir == READ)
+						/* if (ms->cmds->redir == READ)
 						{
 							fd = open(ms->cmds->next->args[0], O_RDONLY);
 							dup2(fd, 0);
