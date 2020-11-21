@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/19 14:55:47 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/21 10:48:34 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,10 +159,10 @@ void			exec_command(t_ms *ms)
 			ms->j = 0;
 			if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 			{
+				save_fds(ms->backup);
 				while(ms->cmds)
 				{
-					save_fds(ms->backup);
-					if ((ms->cmds->start == 0 && ms->cmds->prev->redir) || (ms->cmds->start && is_builtin_sys(ms->cmds->cmd) && !ms->cmds->redir))
+					if ((ms->cmds->start == 0 && ms->cmds->prev->redir) || (ms->cmds->start && is_builtin_sys(ms->cmds->cmd) && (!ms->cmds->redir && !ms->pp_count)))
 						break ;
 					pid = run_child(ms, &i);
 					if (pid < 0)

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/19 09:23:21 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/21 10:14:57 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,6 @@ int			check_n(char **args, int *i)
 	return (nflag);
 }
 
-/* void			redir(t_ms *ms, int i)
-{
-	int		file;
-	char	*str;
-
-	str = ft_strdup(ms->cmds->args[i]);
-	while (ms->cmds->args[++i])
-	{
-		str = ft_strcat(str, " ");
-		str = ft_strcat(str, ms->cmds->args[i]);
-	}
-	ms->cmds = ms->cmds->next;
-	file = open(ms->cmds->cmd, O_WRONLY | O_CREAT, 0666);
-	ft_putstr_fd(str, file);
-	ft_putchar_fd('\n', file);
-} */
-
 void			ft_echo(t_ms *ms)
 {
 	int i;
@@ -50,8 +33,6 @@ void			ft_echo(t_ms *ms)
 
 	i = 1;
 	nflag = 0;
-	//if (ms->cmds->redir == TRUNC)
-	//	redir(ms, i);
 
 	if (!ms->cmds->args[i])
 		ft_putendl_fd("", 1);
