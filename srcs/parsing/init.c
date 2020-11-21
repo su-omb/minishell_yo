@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/18 12:11:38 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/21 12:52:24 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
 
 void		new_cmd(t_ms *ms, char del, char **tab)
 {
@@ -73,16 +71,23 @@ void		init(t_ms *ms, char step, char **env)
 	ms->pp_count = 0;
 	ms->status = 0;
 	ms->skip = 0;
-	if (step)
-	{
-		free_str_table(ms->tab, tb_len(ms->tab));
-		ms->tab = NULL;
-		free_cmds(ms);
-	}
 	if (!step)
 	{
 		ms->input = (char *)malloc(SIZE);
 		ms->env = dup_str_tab(env);
 		ms->pwd = getcwd(NULL, 0);
+		ms->cmd_tab = NULL;
+	}
+	if (step == 1)
+	{
+		ms->input = (char *)malloc(SIZE);
+	}
+	if (step == 2)
+	{
+		ms->input = (char *)malloc(SIZE);
+		free_str_table(ms->tab, tb_len(ms->tab));
+		ms->cmd_tab = NULL;
+		ms->tab = NULL;
+		free_cmds(ms);
 	}
 }

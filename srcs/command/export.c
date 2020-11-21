@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/14 12:26:42 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/19 14:12:10 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int			ft_export(t_ms *ms)
 			ft_putstr_fd("minishell: export: `", 1);	
 			ft_putstr_fd(ms->cmds->args[i++], 1);	
 			ft_putstr_fd("': not a valid identifier\n", 1);
-			continue;	
+			continue;
 		}
 		if (ft_strchr(ms->cmds->args[i], '='))
 		{
