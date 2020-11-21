@@ -1,3 +1,4 @@
+       1       1      35
 CMDs_Docs
 Makefile
 cd.o
@@ -16,6 +17,7 @@ libft
 libminishell.a
 minishell
 minishell.c
+ou
 out
 out1
 out2
@@ -27,5 +29,7 @@ run_minishell.sh
 srcs
 test.c
 testing_y
+txt
 unset.o
-/Users/yslati/Desktop/minishell_yo
+
+jjjjjj hell

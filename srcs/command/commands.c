@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/21 10:48:34 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/21 14:54:27 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void			open_file(t_cmd *tmp)
 		}
 	}
 	dup2(fd, 1);
+	close(fd);
 }
 
 void			read_file(t_cmd *tmp)
@@ -56,6 +57,7 @@ void			read_file(t_cmd *tmp)
 
 	fd = open(tmp->next->cmd, O_RDONLY);
 	dup2(fd, 0);
+	close(fd);
 }
 
 void			save_fds(int *fds)
@@ -80,15 +82,16 @@ void			ft_redir(t_cmd *tmp)
 	
 	if (tmp->redir == TRUNC)
 		open_file(tmp);
-	if (tmp->redir == APPEND)
+	else if (tmp->redir == APPEND)
 		open_file(tmp);
-	if (tmp->redir == READ)
+	else if (tmp->redir == READ)
 		read_file(tmp);
 }
 
-pid_t			run_child(t_ms *ms, int *i)
+pid_t			run_child(t_ms *ms)
 {
 	pid_t	pid;
+	int i;
 	t_cmd	*tmp;
 	
 	tmp = ms->cmds;
@@ -96,8 +99,9 @@ pid_t			run_child(t_ms *ms, int *i)
 	if (pid == 0)
 	{
 
-		if (ms->pp_count && ms->cmds->redir != TRUNC)
+		if (ms->pp_count)
 		{
+			//printf("========> j : %d\n",ms->j);
 			if (ms->j != 0)
 			{
 				if (dup2(ms->fds[ms->j - 2], 0) < 0)
@@ -115,9 +119,9 @@ pid_t			run_child(t_ms *ms, int *i)
 				}
 			}
 		}
-		*i = 0;
-		while (*i < 2 * ms->pp_count)
-			close(ms->fds[++*i]);
+		i = 0;
+		while (i < 2 * ms->pp_count)
+			close(ms->fds[i++]);
 		if (ms->cmds->redir)
 			ft_redir(tmp);
 		if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
@@ -145,54 +149,70 @@ void			exec_command(t_ms *ms)
 	
 	i = 0;
 	ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int));
-	if ((ms->cmd_err == 1 && !ms->cmds) || (ms->cmds && ms->cmds->is_err == STX_ERR))
-		ft_putstr_fd("minishell: syntax error\n", 1);
-	else
+	while (i < 2 * ms->pp_count && ms->pp_count)
 	{
-		while (ms->cmds)
+		pipe(ms->fds + i * 2);
+		i++;
+	}
+	ms->j = 0;
+	while (ms->cmds)
+	{
+		//puts("oo");
+
+		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 		{
-			while (i < 2 * ms->pp_count && ms->pp_count)
+			save_fds(ms->backup);
+			while(ms->cmds)
 			{
-				pipe(ms->fds + i * 2);
-				i++;
-			}
-			ms->j = 0;
-			if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
-			{
-				save_fds(ms->backup);
-				while(ms->cmds)
+				//puts("ok");
+				if ((ms->cmds->start == 0 && ms->cmds->prev->redir) || (ms->cmds->start && is_builtin_sys(ms->cmds->cmd) && (!ms->cmds->redir && !ms->pp_count)))
 				{
-					if ((ms->cmds->start == 0 && ms->cmds->prev->redir) || (ms->cmds->start && is_builtin_sys(ms->cmds->cmd) && (!ms->cmds->redir && !ms->pp_count)))
-						break ;
-					pid = run_child(ms, &i);
-					if (pid < 0)
-					{
-						perror("Fork error");
-						exit(0);
-					}
-					if (ms->cmds->end)
-						break ;
-					else
-						ms->cmds = ms->cmds->next;
-					ms->j += 2;
+					// if (ms->cmds->args[1])
+					// 	print No such file or directory
+					break ;
 				}
-				i = 0;
-				while (i < 2 * ms->pp_count && ms->pp_count)
-					close(ms->fds[i++]);
-				if (!ms->pp_count)
-					waitpid(pid, &st, 0);
+				pid = run_child(ms);
+				//puts("ok1");
+				// if (ms->cmds->next && ms->cmds->redir && ms->cmds->end)
+				// 	break ;
+				if (pid < 0)
+				{
+					perror("Fork error");
+					exit(0);
+				}
+				if (ms->cmds->end)
+					break ;
 				else
-				{
-					i = -1;
-					while (++i < ms->pp_count + 1)
-						wait(&st);
-				}
-				restore_fds(ms->backup);
+					ms->cmds = ms->cmds->next;
+				ms->j += 2;
+				//puts("ok11");
 			}
-			if (is_builtin_sys(ms->cmds->cmd))
-				check_command(ms);
-			ms->cmds = ms->cmds->next;
+			//puts("ok2");
+			i = 0;
+			while (i < 2 * ms->pp_count && ms->pp_count)
+				close(ms->fds[i++]);
+			//puts("ok3");
+			if (!ms->pp_count)
+				waitpid(pid, &st, 0);
+			else
+			{
+				i = -1;
+				//puts("ok4");
+				while (++i < ms->pp_count + 1)
+				{
+					wait(&st);
+					/* if (ms->cmds->prev->redir && ms->cmds->end)
+						break ; */
+				}
+				//puts("ok44");
+			}
+			restore_fds(ms->backup);
+			//puts("ok5");
 		}
+		//puts("ok6");
+		if (is_builtin_sys(ms->cmds->cmd))
+			check_command(ms);
+		ms->cmds = ms->cmds->next;
 	}
 }
 
@@ -223,6 +243,7 @@ char 		*get_exec_path(t_ms *ms)
 			} */
 			i++;
 		}
+		// !ft_strcmp(ms->cmds->cmd, "") for empty cmd 
 		ft_putstr_fd("minishell: ", 1);
 		ft_putstr_fd(ms->cmds->cmd, 1);
 		ft_putstr_fd(": command not found\n", 1);
