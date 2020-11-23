@@ -47,7 +47,7 @@ int		minishell(char **env, int step)
 					ms->cmd_tab = NULL;
 					break ;
 				}
-				puts("\nNow command");
+				// puts("\nNow command");
 				exec_command(ms);
 			}
 		}
