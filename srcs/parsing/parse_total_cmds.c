@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/21 20:40:38 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/21 20:53:09 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,10 @@ int		parse_total_cmds(t_ms *ms)
 	}
 	if (get_hm_cmds(ms->input, &p) < 0)
 	{
-		// puts("Beg");
 		free(ms->input);
 		ms->input =	NULL;
 		return (STX_ERR);
 	}
-	// printf("l = |%d|\n", p.l);
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	p.i = -1;
 	p.j = 0;
