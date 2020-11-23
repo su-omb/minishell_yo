@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/23 13:00:53 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/23 13:49:14 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ pid_t			run_child(t_ms *ms)
 		{
 			if (ms->cmds->next->cmd)
 			{
-				puts("redir");
+				//puts("redir");
 				ft_redir(tmp, ms->cmds);
 			}
 			else
