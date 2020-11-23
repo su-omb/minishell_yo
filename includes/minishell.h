@@ -51,6 +51,17 @@ typedef		struct	s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef		struct	s_parser
+{
+	int		i;
+	int		j;
+	int		m;
+	int		ti;
+	int		ignore;
+	int		l;
+	char	*tmp;
+}					t_parser;
+
 typedef		struct	s_ms
 {
 	char			*input;
@@ -65,6 +76,7 @@ typedef		struct	s_ms
 	char			*pwd;
 	char			*old_pwd;
 	char			**tab;
+	char			**cmd_tab;
 	char			**env;
 
 	int				status;
@@ -78,17 +90,19 @@ void				get_input(t_ms *ms);
 int					tb_len(char **table);
 char				**free_str_table(char **tab, int size);
 void				init(t_ms *ms, char step, char **env);
+int					parse_total_cmds(t_ms *ms);
 void				parse(t_ms *ms);
 int					char_counter(char *s, char c);
 char				**parse_split(char const *s, char c, t_ms *ms);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
-t_cmd				*get_head(t_cmd *cmds);
+int					skip_while(char *s, char c);
+t_cmd				*get_head(t_cmd *cmds, char *err);
 void				parse_d(t_ms *ms);
 void				new_cmd(t_ms *ms, char del, char **tab);
 int					quote_handler(char const *s, int neg);
 // Debugging
-void				print_tab(char **tab, FILE *f);
+void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);
 
 /* Cmds */

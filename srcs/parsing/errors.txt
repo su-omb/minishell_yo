@@ -1,2 +1,9 @@
+parsing:
+show a syntax error 
 
-/bin/ls : should work
+
+============================
+cmds: 
+
+echo Echo ECHO ECho EcHo ... : work exact same way
+CD Cd cD : doesn't work && doesn't display an error
