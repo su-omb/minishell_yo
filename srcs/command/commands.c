@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/23 13:49:14 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/23 14:55:08 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ void			exec_command(t_ms *ms)
 	while (ms->cmds)
 	{
 		//puts("oo");
-
+		if (ft_strcmp(ms->cmds->cmd, "")) /* ============ empty cmd ======= */
+			puts("hello");
 		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 		{
 			save_fds(ms->backup);
