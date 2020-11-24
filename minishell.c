@@ -48,6 +48,7 @@ int		minishell(char **env, int step)
 				}
 				// puts("\nNow command");
 				exec_command(ms);
+				free_cmds(ms);
 			}
 		}
 		init(ms, 2, NULL);

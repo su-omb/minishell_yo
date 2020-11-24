@@ -104,6 +104,7 @@ t_cmd				*get_head(t_cmd *cmds, char *err);
 void				parse_d(t_ms *ms);
 void				new_cmd(t_ms *ms, char del, char **tab);
 int					quote_handler(char const *s, int neg);
+void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);

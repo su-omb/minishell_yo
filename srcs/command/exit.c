@@ -54,6 +54,14 @@ void		exit_analyse(t_ms *ms, int *b)
 	}
 }
 
+void		free_parsing_struct(t_ms *ms)
+{
+	free_str_table(ms->tab, tb_len(ms->tab));
+	free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
+	free_cmds(ms);
+	free(ms);
+}
+
 void		ft_exit(t_ms *ms)
 {
 	int	b;
@@ -65,5 +73,6 @@ void		ft_exit(t_ms *ms)
 	if (ms->env)
 		free_str_table(ms->env, tb_len(ms->env));
 	//if (b == 1)
-		exit(ms->ret_status);
+	free_parsing_struct(ms);
+	exit(ms->ret_status);
 }

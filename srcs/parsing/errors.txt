@@ -1,6 +1,9 @@
 parsing:
 show a syntax error 
 
+when command exit is sent you need to free all your parsing struct before performing exit command
+
+
 
 ============================
 cmds: 
