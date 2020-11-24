@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/23 13:52:06 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:11:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		print_cmds(t_cmd *cmds)
 {
 	FILE *fd;
 
-	fd = fopen("/Users/yslati/Desktop/minishell_yo/debug", "a+");
+	fd = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "a+");
 	if (fd)
 	{
 		if (cmds == NULL)

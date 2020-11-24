@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/24 12:01:34 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:18:21 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ pid_t			run_child(t_ms *ms)
 		// printf("cmd:::::|%s|\n", ms->cmds->cmd);
 		if (ms->pp_count)
 		{
-			printf("cmd:|%s|\n", ms->cmds->cmd);
+			// printf("cmd:|%s|\n", ms->cmds->cmd);
 			//printf("========> j : %d\n",ms->j);
 			if (ms->j != 0)
 			{
@@ -123,10 +123,10 @@ pid_t			run_child(t_ms *ms)
 				}
 			}
 		}
-		printf("redir|%d|\n", ms->cmds->redir);
+		// printf("redir|%d|\n", ms->cmds->redir);
 		if (ms->cmds->redir)
 		{
-			puts("here");
+			// puts("here");
 		/*	if (!ms->cmds->next->cmd)
 			{
 				puts("err");

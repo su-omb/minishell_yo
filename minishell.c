@@ -38,7 +38,7 @@ int		minishell(char **env, int step)
 			{
 				ms->input = ms->cmd_tab[i];
 				parse(ms);
-				if (ms->cmd_err)
+				if (ms->cmd_err || (ms->lst_end && !ms->lst_end->end))
 				{
 					// puts("parser2");
 					ft_putstr_fd("minishell: syntax error\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_total_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/23 13:51:54 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:11:45 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		parse_total_cmds(t_ms *ms)
 	ms->input = NULL;
 	/* Debugging */
 	FILE *f;
-	f = fopen("/Users/yslati/Desktop/minishell_yo/debug", "w+");
+	f = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "w+");
 	print_tab(ms->cmd_tab, "Cmds_Table", f);
 	fclose(f);
 	/* End_Debugging */
