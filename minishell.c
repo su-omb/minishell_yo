@@ -25,7 +25,6 @@ int		minishell(char **env, int step)
 		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m",1);
 		if (parse_total_cmds(ms))
 		{
-			// puts("parser1");
 			ft_putstr_fd("minishell: syntax error\n", 1);
 			free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
 			ms->cmd_tab = NULL;
