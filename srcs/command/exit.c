@@ -50,7 +50,7 @@ void		exit_analyse(t_ms *ms, int *b)
 			*b = 0;
 		}
 		else
-			ms->status = ft_atoi(ms->cmds->args[1]);
+			ms->ret_status = ft_atoi(ms->cmds->args[1]);
 	}
 }
 
@@ -65,5 +65,5 @@ void		ft_exit(t_ms *ms)
 	if (ms->env)
 		free_str_table(ms->env, tb_len(ms->env));
 	//if (b == 1)
-		exit(ms->status);
+		exit(ms->ret_status);
 }

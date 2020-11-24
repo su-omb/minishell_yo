@@ -35,6 +35,8 @@
 # define STX_ERR	1
 # define RDIN_ERR	2
 # define SPLT_ERR	3
+# define F_NOT_FOUND_ERR	2
+# define CMD_NOT_FOUND_ERR	4
 
 # define HELLO "\n\n======> SAFE <======\n\n"
 
@@ -80,6 +82,7 @@ typedef		struct	s_ms
 	char			**env;
 
 	int				status;
+	int 			ret_status;
 	int				skip;
 	int				j;
 	int 			backup[3];
