@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/24 13:18:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/24 13:58:18 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void			exec_command(t_ms *ms)
 		//puts("oo");
 		//printf("cmd:|%s|\n", ms->cmds->cmd);
 		if (*ms->cmds->cmd == '\0')
-			ft_error(ms, 4);
+			ft_error(ms, CMD_NOT_FOUND_ERR);
 		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 		{
 			save_fds(ms->backup);
@@ -267,10 +267,10 @@ char 		*get_exec_path(t_ms *ms)
 			i++;
 		}
 		// !ft_strcmp(ms->cmds->cmd, "") for empty cmd 
-		ft_error(ms, 4);
+		ft_error(ms, CMD_NOT_FOUND_ERR);
 	}
 	else
-		ft_error(ms, 2);
+		ft_error(ms, F_NOT_FOUND_ERR);
 	//free(path);
 	return (NULL);
 }
