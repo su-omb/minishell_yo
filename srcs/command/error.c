@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 10:05:17 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/23 13:26:58 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:26:11 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			ft_error(t_ms *ms, int err)
 	if (err == STX_ERR)
 	{
 		ft_putstr_fd("syntax error", 1);
-		ms->status = 258;
+		ms->ret_status = 258;
 	}
 	else
 	{	
@@ -27,12 +27,12 @@ int			ft_error(t_ms *ms, int err)
 		if (err == 2)
 		{
 			ft_putstr_fd(": No such file or directory\n", 1);
-			ms->status = 1;
+			ms->ret_status = 1;
 		}
 		else if (err == 4)
 		{
 			ft_putstr_fd(": command not found\n", 1);
-			ms->status = 127;
+			ms->ret_status = 127;
 		}
 		//else if 
 

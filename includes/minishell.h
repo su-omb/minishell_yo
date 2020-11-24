@@ -80,6 +80,7 @@ typedef		struct	s_ms
 	char			**env;
 
 	int				status;
+	int 			ret_status;
 	int				skip;
 	int				j;
 	int 			backup[3];

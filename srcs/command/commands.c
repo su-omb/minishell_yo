@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/23 14:55:08 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:01:34 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ pid_t			run_child(t_ms *ms)
 	pid = fork();
 	if (pid == 0)
 	{
-
+		// printf("cmd:::::|%s|\n", ms->cmds->cmd);
 		if (ms->pp_count)
 		{
+			printf("cmd:|%s|\n", ms->cmds->cmd);
 			//printf("========> j : %d\n",ms->j);
 			if (ms->j != 0)
 			{
@@ -113,31 +114,33 @@ pid_t			run_child(t_ms *ms)
 					exit(0);
 				}
 			}
-			if (ms->cmds->next && !ms->cmds->end)
+			if (ms->cmds->next && (ms->pp_count || !ms->cmds->end))
 			{
 				if (dup2(ms->fds[ms->j + 1], 1) < 0)
 				{
-					perror("dup2");
+					perror("dup3");
 					exit(0);
 				}
 			}
 		}
-		i = 0;
-		while (i < 2 * ms->pp_count)
-			close(ms->fds[i++]);
+		printf("redir|%d|\n", ms->cmds->redir);
 		if (ms->cmds->redir)
 		{
-			if (ms->cmds->next->cmd)
-			{
-				//puts("redir");
-				ft_redir(tmp, ms->cmds);
-			}
-			else
+			puts("here");
+		/*	if (!ms->cmds->next->cmd)
 			{
 				puts("err");
 				ft_error(ms, STX_ERR);
 			}
+			else
+			{
+				puts("redir"); */
+				ft_redir(tmp, ms->cmds);
+			// }
 		}
+		i = 0;
+		while (i < 2 * ms->pp_count)
+			close(ms->fds[i++]);
 		if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/'))
 		{
 			if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
@@ -149,7 +152,6 @@ pid_t			run_child(t_ms *ms)
 		}
 		else
 			execve(get_exec_path(ms), ms->cmds->args, ms->env);
-			/* printf("%s\n", strerror(errno)) */;
 		exit(0);
 	}
 	return (pid);
@@ -160,20 +162,24 @@ void			exec_command(t_ms *ms)
 	int		st = 0;
 	pid_t	pid;
 	int		i;
+	t_cmd	*tmp;
 	
 	i = 0;
 	ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int));
+	// printf("PP: |%d|\n", ms->pp_count);
 	while (i < 2 * ms->pp_count && ms->pp_count)
 	{
 		pipe(ms->fds + i * 2);
 		i++;
 	}
 	ms->j = 0;
+	// printf("status: |%d|\n", ms->status);
 	while (ms->cmds)
 	{
 		//puts("oo");
-		if (ft_strcmp(ms->cmds->cmd, "")) /* ============ empty cmd ======= */
-			puts("hello");
+		//printf("cmd:|%s|\n", ms->cmds->cmd);
+		if (*ms->cmds->cmd == '\0')
+			ft_error(ms, 4);
 		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
 		{
 			save_fds(ms->backup);
@@ -187,6 +193,13 @@ void			exec_command(t_ms *ms)
 					break ;
 				}
 				pid = run_child(ms);
+				tmp = ms->cmds;
+				// while (tmp && tmp->redir)
+				// {
+				// 	if (!tmp->next)
+				// 		break;
+				// 	tmp = tmp->next;
+				// }
 				//puts("ok1");
 				// if (ms->cmds->next && ms->cmds->redir && ms->cmds->end)
 				// 	break ;
