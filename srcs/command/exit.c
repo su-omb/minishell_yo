@@ -72,7 +72,7 @@ void		ft_exit(t_ms *ms)
 		exit_analyse(ms, &b);
 	if (ms->env)
 		free_str_table(ms->env, tb_len(ms->env));
-	//if (b == 1)
+	b = ms->ret_status;
 	free_parsing_struct(ms);
 	exit(ms->ret_status);
 }
