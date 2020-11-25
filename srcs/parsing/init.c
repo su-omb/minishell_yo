@@ -6,33 +6,20 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/24 14:13:06 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/25 14:27:44 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		new_cmd(t_ms *ms, char del, char **tab)
+void	init_parser(t_parser *p)
 {
-	t_cmd	*c;
-
-	if (!(c = (t_cmd*)malloc(sizeof(t_cmd))))
-		return ;
-	c->next = NULL;
-	c->cmd = ft_strdup(tab[0]);
-	c->args = dup_str_tab(tab);
-	c->redir = ms->redir;
-	if (ms->cmds != NULL)
-		c->start = (ms->cmds->end == 1) ? 1 : 0;
-	else
-		c->start = 1;
-	c->end = (del == S_COLON) ? 1 : 0;
-	if (ms->cmds)
-		ms->cmds->next = c;
-	c->prev = ms->cmds;
-	c->is_err = ms->cmd_err != 0;
-	c->is_status = ms->status;
-	ms->cmds = c;
+	p->i = 0;
+	p->j = 0;
+	p->m = 0;
+	p->quote_ig = 0;
+	p->slash_ig = 0;
+	p->l = 0;
 }
 
 void	free_cmds(t_ms *ms)

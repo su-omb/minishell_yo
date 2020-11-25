@@ -25,11 +25,13 @@
 # include "../libft/libft.h"
 
 # define SIZE		1638
+# define CONT		1
 # define TRUE		14
 # define APPEND		'a'
 # define TRUNC		'>'
 # define READ		'<'
 # define FLASE		0
+# define SUCCESS	0
 # define PIPE		124
 # define S_COLON	59
 # define STX_ERR	1
@@ -37,6 +39,7 @@
 # define SPLT_ERR	3
 # define F_NOT_FOUND_ERR	2
 # define CMD_NOT_FOUND_ERR	4
+
 
 # define HELLO "\n\n======> SAFE <======\n\n"
 
@@ -58,9 +61,9 @@ typedef		struct	s_parser
 	int		i;
 	int		j;
 	int		m;
-	int		ti;
-	int		ignore;
 	int		l;
+	char	quote_ig;
+	char	slash_ig;
 	char	*tmp;
 }					t_parser;
 
@@ -104,6 +107,8 @@ t_cmd				*get_head(t_cmd *cmds, char *err);
 void				parse_d(t_ms *ms);
 void				new_cmd(t_ms *ms, char del, char **tab);
 int					quote_handler(char const *s, int neg);
+void				clean_stx_err(t_ms *ms);
+void				init_parser(t_parser *p);
 void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
@@ -133,8 +138,7 @@ void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
 int 				valid_arg(char *arg);
 int					ft_error(t_ms *ms, int err);
-/*  */
+/* main function */
 int					minishell(char **env, int step);
-
 
 #endif

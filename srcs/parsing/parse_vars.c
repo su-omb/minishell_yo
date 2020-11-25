@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   parse_vars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/15 20:41:17 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/25 14:23:08 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		skip_till(char *s, char *set, int inside_dquote)
+int		skip_till(char *s, char *set, int quote_ig)
 {
 	int i;
 
-	if (*s == '"' && !inside_dquote)
+	if (*s == '"' && !quote_ig)
 		return (-2);
 	if (ft_strchr("$\\\" /", *s))
 		return (-1);
@@ -56,31 +56,38 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 	return (tmp);
 }
 
+int		replace_var(t_ms *ms, t_parser *p)
+{
+	if (ms->input[p->i + 1] == '?' && p->i++)
+		return (CONT) ;
+	p->l = skip_till(ms->input + ++p->i, " \"'\\$><|;", p->quote_ig);
+	if (p->l == -1)
+		return (CONT) ;
+	p->l = (p->l == -2) ? 0 : p->l;
+	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->env);
+	ms->input = remake_input(ms->input, p->tmp, p->l, &p->i);
+	return (0);
+}
+
 void	parse_d(t_ms *ms)
 {
-	int i;
-	int l;
-	char inside_dquote;
+	t_parser p;
 
-	i = 0;
-	inside_dquote = 0;
-	while (ms->input[i])
+	init_parser(&p);
+	while (ms->input[p.i])
 	{
-		if (ms->input[i] == '"' && ((i && ms->input[i - 1] != '\\') || !i))
-			inside_dquote = !inside_dquote;
-		if (((i && ms->input[i - 1] != '\\') || !i) && ms->input[i] == '\'' && !inside_dquote)
-				i += quote_handler(ms->input + i, 0);
-		if (ms->input[i] == '$' && ((i && ms->input[i - 1] != '\\') || !i))
+		p.slash_ig = (p.i && ms->input[p.i - 1] != '\\') || !p.i;
+		if (ms->input[p.i] == '"' && p.slash_ig)
+			p.quote_ig = !p.quote_ig;
+		if (p.slash_ig && ms->input[p.i] == '\'' && !p.quote_ig)
+				p.i += quote_handler(ms->input + p.i, 0);
+		p.slash_ig = (p.i && ms->input[p.i - 1] != '\\') || !p.i;
+		if (ms->input[p.i] == '$' && p.slash_ig)
 		{
-			if (ms->input[i + 1] == '?' && i++)
+			if (replace_var(ms, &p))
 				continue ;
-			l = skip_till(ms->input + ++i, " \"'\\$><|;", inside_dquote);
-			if (l == -1)
-				continue ;
-			l = (l == -2)? 0 : l;
-			ms->input = remake_input(ms->input, get_vvalue(ft_strldup(ms->input + i, l), ms->env), l, &i);
 		}
 		else
-			i++;
+			p.i++;
 	}
 }

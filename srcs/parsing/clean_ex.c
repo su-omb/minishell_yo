@@ -6,11 +6,18 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:23:08 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/15 17:24:24 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/25 13:36:23 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	clean_stx_err(t_ms *ms)
+{
+	ft_putstr_fd("minishell: syntax error\n", 1);
+	free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
+	ms->cmd_tab = NULL;
+}
 
 void	clean(t_ms *ms)
 {
