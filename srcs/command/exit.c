@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int		is_set(char *target, char *set)
+int				is_set(char *target, char *set)
 {
 	int	i;
 	int j;
@@ -34,7 +34,7 @@ int		is_set(char *target, char *set)
 	return (1);
 }
 
-void		exit_analyse(t_ms *ms, int *b)
+void			exit_analyse(t_ms *ms, int *b)
 {
 	if (!is_set(ms->cmds->args[1], "0123456789"))
 	{
@@ -54,7 +54,7 @@ void		exit_analyse(t_ms *ms, int *b)
 	}
 }
 
-void		free_parsing_struct(t_ms *ms)
+void			free_parsing_struct(t_ms *ms)
 {
 	free_str_table(ms->tab, tb_len(ms->tab));
 	free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
@@ -62,7 +62,7 @@ void		free_parsing_struct(t_ms *ms)
 	free(ms);
 }
 
-void		ft_exit(t_ms *ms)
+int				ft_exit(t_ms *ms)
 {
 	int	b;
 
@@ -75,4 +75,5 @@ void		ft_exit(t_ms *ms)
 	b = ms->ret_status;
 	free_parsing_struct(ms);
 	exit(ms->ret_status);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/23 13:35:05 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/25 12:16:52 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ int			ft_export(t_ms *ms)
 				ms->env = add_to_arr(ms->cmds->args[i], ms->env);
 		i++;
 	}
-	return 0;
+	return (0);
 }

@@ -1,31 +1,37 @@
-CMDs_Docs
-Makefile
-cd.o
-clean_ex.o
-commands.o
-debug
-debug.o
-echo.o
-env.o
-error.o
-exit.o
-export.o
-helpers.o
-includes
-init.o
-libft
-libminishell.a
-minishell
-minishell.c
-minishell.dSYM
-out
-parse.o
-parse_input.o
-parse_split.o
-parse_total_cmds.o
-pwd.o
-run_minishell.sh
-srcs
-test.c
-testing_y
-unset.o
+total 392
+drwxr-xr-x   36 yslati  candidate   1224 Nov 25 15:00 .
+drwxr-xr-x   21 yslati  candidate    714 Nov 25 10:55 ..
+drwxr-xr-x    2 yslati  candidate     68 Oct 26 09:11 .dist
+drwxr-xr-x   15 yslati  candidate    510 Nov 25 15:00 .git
+-rw-r--r--    1 yslati  candidate     64 Nov 14 11:42 .gitignore
+-rw-r--r--    1 yslati  candidate   5523 Oct 25 14:42 CMDs_Docs
+-rw-r--r--    1 yslati  candidate   1660 Nov 13 09:54 Makefile
+-rw-r--r--    1 yslati  candidate   1668 Nov 25 15:00 cd.o
+-rw-r--r--    1 yslati  candidate   1248 Nov 25 15:00 clean_ex.o
+-rw-r--r--    1 yslati  candidate   7160 Nov 25 15:00 commands.o
+-rw-r--r--    1 yslati  candidate    404 Nov 25 15:00 debug
+-rw-r--r--    1 yslati  candidate   2024 Nov 25 15:00 debug.o
+-rw-r--r--    1 yslati  candidate   1540 Nov 25 15:00 echo.o
+-rw-r--r--    1 yslati  candidate   3084 Nov 25 15:00 env.o
+-rw-r--r--    1 yslati  candidate   1108 Nov 25 15:00 error.o
+-rw-r--r--    1 yslati  candidate   2292 Nov 25 15:00 exit.o
+-rw-r--r--    1 yslati  candidate   3116 Nov 25 15:00 export.o
+-rw-r--r--    1 yslati  candidate   1544 Nov 25 15:00 helpers.o
+drwxr-xr-x    3 yslati  candidate    102 Nov 24 14:21 includes
+-rw-r--r--    1 yslati  candidate   2132 Nov 25 15:00 init.o
+drwxr-xr-x  101 yslati  candidate   3434 Nov 25 15:00 libft
+-rw-r--r--    1 yslati  candidate  47720 Nov 25 15:00 libminishell.a
+-rwxr-xr-x    1 yslati  candidate  38648 Nov 25 15:00 minishell
+-rw-r--r--    1 yslati  candidate   1953 Nov 24 14:21 minishell.c
+drwxr-xr-x    3 yslati  candidate    102 Nov 23 13:05 minishell.dSYM
+-rw-r--r--    1 yslati  candidate      0 Nov 25 15:00 out
+-rw-r--r--    1 yslati  candidate   3748 Nov 25 15:00 parse.o
+-rw-r--r--    1 yslati  candidate   2684 Nov 25 15:00 parse_input.o
+-rw-r--r--    1 yslati  candidate   5600 Nov 25 15:00 parse_split.o
+-rw-r--r--    1 yslati  candidate   2916 Nov 25 15:00 parse_total_cmds.o
+-rw-r--r--    1 yslati  candidate    736 Nov 25 15:00 pwd.o
+-rwxr-xr-x    1 yslati  candidate    250 Nov 14 11:12 run_minishell.sh
+drwxr-xr-x    4 yslati  candidate    136 Nov 23 13:49 srcs
+-rw-r--r--    1 yslati  candidate   1551 Nov 21 13:20 test.c
+drwxr-xr-x    8 yslati  candidate    272 Nov  9 12:55 testing_y
+-rw-r--r--    1 yslati  candidate   2248 Nov 25 15:00 unset.o
