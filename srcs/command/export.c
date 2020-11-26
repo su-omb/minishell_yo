@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/25 12:16:52 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/26 11:19:14 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int			ft_export(t_ms *ms)
 	{
 		if (!valid_arg(ms->cmds->args[i]))
 		{
-			ft_putstr_fd("minishell: export: `", 1);	
-			ft_putstr_fd(ms->cmds->args[i++], 1);	
-			ft_putstr_fd("': not a valid identifier\n", 1);
+			ft_putstr_fd("minishell: export: `", 2);	
+			ft_putstr_fd(ms->cmds->args[i++], 2);	
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			continue;
 		}
 		if (ft_strchr(ms->cmds->args[i], '='))

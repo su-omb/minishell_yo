@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/25 15:01:10 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/26 12:59:45 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ int 	is_builtin_sys(char *cmds)
 		return 0;
 	return (1);
 }
-
-/* void			do_command(t_ms *ms)
-{
-	
-} */
-
 
 int			open_file(t_cmd *tmp)
 {
@@ -125,12 +119,7 @@ pid_t			run_child(t_ms *ms)
 		if (ms->pp_count)
 			ms->fds = dup_in_out(ms);
 		if (ms->cmds->redir)
-		{
-			/* if (!ms->cmds->next->cmd)
-				ft_error(ms, STX_ERR);
-			else */
-				ft_redir(tmp, ms->cmds);
-		}
+			ft_redir(tmp, ms->cmds);
 		i = 0;
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
@@ -141,16 +130,28 @@ pid_t			run_child(t_ms *ms)
 	return (pid);
 }
 
+t_ms		*exucte_help(t_ms *ms)
+{
+	while (ms && ms->cmds->redir)
+	{
+		if (!ms->cmds->next)
+			break;
+		ms->cmds = ms->cmds->next;
+	}
+	return (ms);
+}
+
 t_cmd		*exucte_cmd(t_ms *ms)
 {
 	while(ms->cmds)
 	{
 		// puts("ok");
 		if ((ms->cmds->start == 0 && ms->cmds->prev->redir)
-		|| (ms->cmds->start && is_builtin_sys(ms->cmds->cmd)
-		&& (!ms->cmds->redir && !ms->pp_count)))
+			|| (ms->cmds->start && is_builtin_sys(ms->cmds->cmd)
+			&& (!ms->cmds->redir && !ms->pp_count)))
 			break ;
 		ms->pid = run_child(ms);
+		ms = exucte_help(ms);
 		if (ms->pid < 0)
 		{
 			perror("Fork error");
@@ -173,7 +174,6 @@ void			exec_command(t_ms *ms)
 	
 	i = 0;
 	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int)) : 0;
-	// printf("PP: |%d|\n", ms->pp_count);
 	while (ms->pp_count && i < 2 * ms->pp_count)
 	{
 		pipe(ms->fds + i * 2);
@@ -183,7 +183,6 @@ void			exec_command(t_ms *ms)
 	// printf("status: |%d|\n", ms->status);
 	while (ms->cmds)
 	{
-		// puts("oo");
 		if (*ms->cmds->cmd == '\0')
 			ft_error(ms, CMD_NOT_FOUND_ERR);
 		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
@@ -191,6 +190,7 @@ void			exec_command(t_ms *ms)
 			save_fds(ms->backup);
 			ms->cmds = exucte_cmd(ms);
 			// puts("ok2");
+			restore_fds(ms->backup);
 			i = 0;
 			while (ms->pp_count && i < 2 * ms->pp_count)
 				close(ms->fds[i++]);
@@ -205,7 +205,6 @@ void			exec_command(t_ms *ms)
 					wait(&st);
 				// puts("ok44");
 			}
-			restore_fds(ms->backup);
 			// puts("ok5");
 		}
 		// puts("ok6");
@@ -259,7 +258,7 @@ void		check_command_help(t_ms *ms)
 	else
 	{
 		path = get_exec_path(ms);
-		execve(path, ms->cmds->args, ms->env);
+		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
 		(path) ? free(path) : 0;
 	}
 }

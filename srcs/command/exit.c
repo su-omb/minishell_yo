@@ -38,15 +38,15 @@ void			exit_analyse(t_ms *ms, int *b)
 {
 	if (!is_set(ms->cmds->args[1], "0123456789"))
 	{
-		ft_putstr_fd("minishell: exit: ", 1);
-		ft_putstr_fd(ms->cmds->args[1], 1);
-		ft_putendl_fd(": numeric argument required", 1);	
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(ms->cmds->args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);	
 	}
 	else if (is_set(ms->cmds->args[1], "0123456789"))
 	{
 		if (ms->tab[2])
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", 1);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			*b = 0;
 		}
 		else

@@ -1,4 +1,0 @@
-ls > out | ls | ls | wc > out1
-echo a > out | ls | ls | wc >out
-skjdhfkjs | pwd
-sdkfhgsd | ls
