@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/24 12:26:00 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/25 12:16:07 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			check_n(char **args, int *i)
 	return (nflag);
 }
 
-void			ft_echo(t_ms *ms)
+int			ft_echo(t_ms *ms)
 {
 	int i;
 	int nflag;
@@ -55,4 +55,5 @@ void			ft_echo(t_ms *ms)
 		if (!nflag)
 			ft_putchar_fd('\n', 1);
 	}
+	return (0);
 }

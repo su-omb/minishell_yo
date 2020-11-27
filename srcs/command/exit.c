@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int		is_set(char *target, char *set)
+int				is_set(char *target, char *set)
 {
 	int	i;
 	int j;
@@ -34,19 +34,19 @@ int		is_set(char *target, char *set)
 	return (1);
 }
 
-void		exit_analyse(t_ms *ms, int *b)
+void			exit_analyse(t_ms *ms, int *b)
 {
 	if (!is_set(ms->cmds->args[1], "0123456789"))
 	{
-		ft_putstr_fd("minishell: exit: ", 1);
-		ft_putstr_fd(ms->cmds->args[1], 1);
-		ft_putendl_fd(": numeric argument required", 1);	
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(ms->cmds->args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);	
 	}
 	else if (is_set(ms->cmds->args[1], "0123456789"))
 	{
 		if (ms->tab[2])
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", 1);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			*b = 0;
 		}
 		else
@@ -54,7 +54,7 @@ void		exit_analyse(t_ms *ms, int *b)
 	}
 }
 
-void		free_parsing_struct(t_ms *ms)
+void			free_parsing_struct(t_ms *ms)
 {
 	free_str_table(ms->tab, tb_len(ms->tab));
 	free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
@@ -62,7 +62,7 @@ void		free_parsing_struct(t_ms *ms)
 	free(ms);
 }
 
-void		ft_exit(t_ms *ms)
+int				ft_exit(t_ms *ms)
 {
 	int	b;
 
@@ -75,4 +75,5 @@ void		ft_exit(t_ms *ms)
 	b = ms->ret_status;
 	free_parsing_struct(ms);
 	exit(ms->ret_status);
+	return (0);
 }

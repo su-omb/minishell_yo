@@ -71,6 +71,7 @@ typedef		struct	s_ms
 {
 	char			*input;
 	char			*output;
+	pid_t			pid;
 	char			err;
 	char			cmd_err;
 	t_cmd			*cmds;
@@ -130,9 +131,10 @@ int					ft_env(t_ms *ms);
 int					ft_export(t_ms *ms);
 int					ft_pwd(t_ms *ms);
 int					ft_unset(t_ms *ms);
-void				ft_exit(t_ms *ms);
-void				ft_echo(t_ms *ms);
-void				check_command(t_ms *ms);
+int					ft_exit(t_ms *ms);
+int					ft_echo(t_ms *ms);
+int					check_command(t_ms *ms);
+void				check_command_help(t_ms *ms);
 char				*get_exec_path(t_ms *ms);
 void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);

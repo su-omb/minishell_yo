@@ -1,9 +1,9 @@
 parsing:
 
-
 norm parse_total_cmds(t_ms *ms)
 ============================
 cmds: 
-
-echo Echo ECHO ECho EcHo ... : work exact same way
-CD Cd cD : doesn't work && doesn't display an error
+> file lls > out
+> file
+>> file
+< file
