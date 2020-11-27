@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/24 13:37:29 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/26 11:05:37 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ int		quote_handler(char const *s, int neg)
 	//printf("String to quote_handler() ==>|%s|\n", s);
 	i = 1;
 	quote = s[0];
-	while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
-		i++;
+	if (quote == '\'')
+		while (s[i] && s[i] != quote)
+			i++;
+	else
+		while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
+			i++;
 	if (!s[i])
 	{
 		if(!neg)

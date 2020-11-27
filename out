@@ -20,9 +20,9 @@ minishell.c
 minishell.dSYM
 out
 parse.o
-parse_input.o
 parse_split.o
 parse_total_cmds.o
+parse_vars.o
 pwd.o
 run_minishell.sh
 srcs

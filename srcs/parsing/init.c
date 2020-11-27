@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/25 14:27:44 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/27 12:00:14 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		init(t_ms *ms, char step, char **env)
 		ms->env = dup_str_tab(env);
 		ms->pwd = getcwd(NULL, 0);
 		ms->cmd_tab = NULL;
+		ms->tab = NULL;
 		ms->ret_status = 0;
 	}
 	if (step == 1)
@@ -73,7 +74,8 @@ void		init(t_ms *ms, char step, char **env)
 	if (step == 2)
 	{
 		ms->input = (char *)malloc(SIZE);
-		free_str_table(ms->tab, tb_len(ms->tab));
+		if (ms->tab)
+			free_str_table(ms->tab, tb_len(ms->tab));
 		ms->cmd_tab = NULL;
 		ms->tab = NULL;
 	}

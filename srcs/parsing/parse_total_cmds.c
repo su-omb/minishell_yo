@@ -6,11 +6,21 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/25 14:55:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/27 11:44:56 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int			skip_while(char *s, char c)
+{
+	int i;
+	
+	i = 0;
+	while (s[i] == c)
+		++i;
+	return (i);
+}
 
 void		get_input(t_ms *ms)
 {
@@ -22,16 +32,6 @@ void		get_input(t_ms *ms)
 		errex(ms, 0);
 	}
 	ms->input[i - 1] = '\0';
-}
-
-int			skip_while(char *s, char c)
-{
-	int i;
-	
-	i = 0;
-	while (s[i] == c)
-		++i;
-	return (i);
 }
 
 int		sm_finder(char *input, t_parser *p)
@@ -58,8 +58,6 @@ int		sm_finder(char *input, t_parser *p)
 int		get_hm_cmds(char *input, t_parser *p)
 {
 	init_parser(p);
-	if (input[skip_while(input, ' ')] == ';')
-		return (-1);
 	while (input[p->i])
 	{
 		if (p->slash_ig)
@@ -83,8 +81,13 @@ int		parse_total_cmds(t_ms *ms)
 	t_parser p;
 
 	get_input(ms);
-	if (!ms->input[0])
-		return (0);
+	p.m = ms->input[skip_while(ms->input, ' ')];
+	if (!p.m || p.m == ';')
+	{
+		free(ms->input);
+		ms->input =	NULL;
+		return (!p.m ? 0 : STX_ERR);
+	}
 	if (get_hm_cmds(ms->input, &p) < 0)
 	{
 		free(ms->input);
@@ -94,6 +97,7 @@ int		parse_total_cmds(t_ms *ms)
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	ms->cmd_tab[p.l] = NULL;
 	init_parser(&p);
+	p.i = -1;
 	while (ms->input[++p.i])
 	{
 		if (ft_strchr("'\"", ms->input[p.i]) && ((p.i && ms->input[p.i - 1] != '\\') || !p.i))
