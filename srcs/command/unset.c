@@ -6,27 +6,26 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/26 11:19:38 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 15:00:29 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int				cmp_get_pos(char **env, char *var)
+int			cmp_get_pos(char **env, char *var)
 {
-	int i;
+	int		i;
 
 	i = -1;
-	if (env)
-		while (env[++i])
-			if ((!ft_strcmp(env[i], var)))
-				return (i);
+	while (env && env[++i])
+		if ((!ft_strcmp(env[i], var)))
+			return (i);
 	return (get_env(env, var));
 }
 
-int				check_exist(char **env, char *arg)
+int			check_exist(char **env, char *arg)
 {
-	int i;
+	int		i;
 	char	*wanted;
 
 	wanted = ft_strdup("");
@@ -36,12 +35,12 @@ int				check_exist(char **env, char *arg)
 	return (-1);
 }
 
-char			**rm_arr(char **env, int pos)
+char		**rm_arr(char **env, int pos)
 {
-	char 		**arr;
-	int			i;
-	int			j;
-	int			len;
+	char	**arr;
+	int		i;
+	int		j;
+	int		len;
 
 	i = 0;
 	j = 0;
@@ -58,10 +57,10 @@ char			**rm_arr(char **env, int pos)
 	return (arr);
 }
 
-int         ft_unset(t_ms *ms)
+int			ft_unset(t_ms *ms)
 {
-	int i;
-	int len;
+	int		i;
+	int		len;
 
 	len = 0;
 	i = 1;

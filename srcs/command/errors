@@ -1,1 +1,2 @@
-echo kjdk| pwd; pwd;cd  ; echo $\PWD$OLDPWD
+malloc in export 
+try lot of env then export 

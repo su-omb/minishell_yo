@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/26 11:07:57 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 14:46:59 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 int			get_env(char **env, char *var)
 {
-	int 	i;
+	int		i;
 	char	*search;
 
 	search = (char *)malloc(sizeof(char) * (ft_strlen(var) + 2));
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	//printf("\n GE ;;;; env[%i]: %s -- search: %s\n", i, env[i], search);
 	if (env)
 	{
 		while (env[i])
@@ -38,7 +37,7 @@ int			get_env(char **env, char *var)
 	return (-1);
 }
 
-char	**get_arr(char *value, char **env)
+char		**get_arr(char *value, char **env)
 {
 	char	**arr;
 	int		len;
@@ -59,11 +58,11 @@ char	**get_arr(char *value, char **env)
 	return (arr);
 }
 
-char	**add_to_arr(char *value, char **env)
+char		**add_to_arr(char *value, char **env)
 {
-	int i;
-	int len;
-	char **new_arr;
+	int		i;
+	int		len;
+	char	**new_arr;
 
 	i = 0;
 	len = tb_len(env);	
@@ -78,9 +77,9 @@ char	**add_to_arr(char *value, char **env)
 	return (new_arr);
 }
 
-char	**set_env(char *var, char *value, char **env)
+char		**set_env(char *var, char *value, char **env)
 {
-	int 	i;
+	int		i;
 	size_t	len;
 	char	*line;
 	
@@ -101,18 +100,14 @@ char	**set_env(char *var, char *value, char **env)
 	return (env);
 }
 
-void	ft_print_env(char **env)
+void		ft_print_env(char **env)
 {
-	int		i = 0;
-	if (env)
-	{
-		while (env[i])
-		{
-			if (ft_strchr(env[i], '='))
-				printf("%s\n", env[i]);
-			i++;
-		}
-	}
+	int		i;
+
+	i = -1;
+	while (env && env[++i])
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
 }
 
 int			ft_env(t_ms *ms)
@@ -124,9 +119,7 @@ int			ft_env(t_ms *ms)
 		ft_print_env(ms->env);
 	else
 	{
-		ft_putstr_fd("env: ", 2);
-		ft_putstr_fd(ms->cmds->args[1], 2);
-		ft_putendl_fd(": No such file or directory", 2);
+		cmd_error(1, "env", ms->cmds->args[1]);
 		return (1);
 	}
 	return (0);
