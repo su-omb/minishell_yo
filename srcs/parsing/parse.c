@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/24 14:20:24 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/25 14:18:57 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,29 @@ void		parse_read_rdr(t_ms *ms, int b, int i, char *s)
 	free(tmp);
 }
 
+void		new_cmd(t_ms *ms, char del, char **tab)
+{
+	t_cmd	*c;
+
+	if (!(c = (t_cmd*)malloc(sizeof(t_cmd))))
+		return ;
+	c->next = NULL;
+	c->cmd = ft_strdup(tab[0]);
+	c->args = dup_str_tab(tab);
+	c->redir = ms->redir;
+	if (ms->cmds != NULL)
+		c->start = (ms->cmds->end == 1) ? 1 : 0;
+	else
+		c->start = 1;
+	c->end = (del == S_COLON) ? 1 : 0;
+	if (ms->cmds)
+		ms->cmds->next = c;
+	c->prev = ms->cmds;
+	c->is_err = ms->cmd_err != 0;
+	c->is_status = ms->status;
+	ms->cmds = c;
+}
+
 int		make_cmd(t_ms *ms, int b, int *i, char *s)
 {
 	if (s[*i] == S_COLON)
@@ -94,43 +117,48 @@ t_cmd		*get_head(t_cmd *cmds, char *err)
 	return (cmds);
 }
 
+void	make_cmds_lst(t_ms *ms, t_parser *p)
+{
+	while (ms->input[p->i])
+	{
+		if (p->slash_ig)
+			p->i++;
+		p->slash_ig = 0;
+		if (ms->input[p->i] == '\\' && ++p->i)
+			p->slash_ig = 1;
+		if (ms->input[p->i] && !p->slash_ig)
+		{
+			if (ft_strchr("'\"", ms->input[p->i]))
+				p->i += quote_handler(ms->input + p->i, 0);
+			if (ft_strchr("|;><", ms->input[p->i]))
+			{
+				make_cmd(ms, p->j, &p->i, ms->input);
+				p->j = p->i + 1 + skip_while(ms->input + p->i + 1, ' ');
+			}
+		}
+		if (!p->slash_ig)
+			p->i++;
+	}
+}
+
+void		make_last_cmd(t_ms *ms, t_parser *p)
+{
+	if (!(ms->tab = parse_split(ms->input + p->j, ' ', ms)))
+		errex(ms, SPLT_ERR);
+	new_cmd(ms, S_COLON, ms->tab);
+}
+
 void		parse(t_ms *ms)
 {
 	t_parser p;
 
 	parse_d(ms);
-	p.i = 0;
-	p.ignore = 0;
-	p.j = 0;
-	while (ms->input[p.i])
-	{
-		if (p.ignore)
-			p.i++;
-		p.ignore = 0;
-		if (ms->input[p.i] == '\\' && ++p.i)
-			p.ignore = 1;
-		if (ms->input[p.i] && !p.ignore)
-		{
-			if (ft_strchr("'\"", ms->input[p.i]))
-				p.i += quote_handler(ms->input + p.i, 0);
-			if (ft_strchr("|;><", ms->input[p.i]))
-			{
-				make_cmd(ms, p.j, &p.i, ms->input);
-				p.j = p.i + 1 + skip_while(ms->input + p.i + 1, ' ');
-			}
-		}
-		if (!p.ignore)
-			p.i++;
-	}
+	init_parser(&p);
+	make_cmds_lst(ms, &p);
 	if (ms->input[p.j])
-	{
-		if (!(ms->tab = parse_split(ms->input + p.j, ' ', ms)))
-			errex(ms, SPLT_ERR);
-		new_cmd(ms, S_COLON, ms->tab);
-	}
+		make_last_cmd(ms, &p);
 	ms->lst_end = ms->cmds;
 	ms->cmds = get_head(ms->cmds, &ms->cmd_err);
 	/* Debug */
 	print_cmds(ms->cmds);
-	// puts("\nOut of parser2");
 }

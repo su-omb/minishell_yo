@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/27 10:16:22 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 10:25:37 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ int			ft_echo(t_ms *ms)
 		while (ms->cmds->args[i])
 		{
 			if (!ft_strcmp(ms->cmds->args[i], "$?"))
-			{
-				// printf("status: |%d|\n", ms->ret_status);
-				ft_putnbr_fd(ms->ret_status, 1);
-			}
+				ft_putnbr_fd(ms->skip, 1);
 			else
 				ft_putstr_fd(ms->cmds->args[i], 1);
 			if (ms->cmds->args[i + 1])

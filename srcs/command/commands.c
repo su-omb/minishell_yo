@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/27 12:11:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 10:43:23 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,14 @@ pid_t			run_child(t_ms *ms)
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
 		if (ms->cmds->args && check_command(ms) && !is_builtin_sys(ms->cmds->cmd))
+		{
 			ft_error(ms, CMD_NOT_FOUND_ERR);
+			exit(127);
+		}
 		exit(0);
 	}
+	if (ms->pp_count)
+		ms->tpid[ms->j / 2] = pid;
 	return (pid);
 }
 
@@ -171,8 +176,11 @@ int				wait_child(t_ms *ms)
 	else
 	{
 		while (++i < ms->pp_count + 1)
-			wait(&st);
-		//printf("2 - |%d|\n", st);
+		{
+			waitpid(ms->tpid[i], &st, 0);
+			if (st == 2)
+				return 2;
+		}
 	}
 	return (st);
 }
@@ -180,11 +188,11 @@ int				wait_child(t_ms *ms)
 void			exec_command(t_ms *ms)
 {
 	int		st = 0;
-	ms->skip = 0;
 	int		i;
 	
 	i = 0;
 	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int)) : 0;
+	(ms->pp_count) ? ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1)) : 0;
 	while (ms->pp_count && i < 2 * ms->pp_count)
 	{
 		pipe(ms->fds + i * 2);
@@ -207,10 +215,7 @@ void			exec_command(t_ms *ms)
 			if (st == 2 || st == 3)
 				ms->skip = st + 128;
 			else
-			{
 				ms->skip = (st >> 8) & 255;
-			}
-			//printf("%d\n", ms->skip);
 		}
 		if (is_builtin_sys(ms->cmds->cmd) && (!ms->pp_count))
 			check_command(ms);
