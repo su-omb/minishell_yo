@@ -6,11 +6,20 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/27 12:05:46 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 10:06:39 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+void	print_total_cmds(char **cmds_tab)
+{	
+	/* Debugging */
+	FILE *f;
+	f = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "w+");
+	print_tab(cmds_tab, "Cmds_Table", f);
+	fclose(f);
+	/* End_Debugging */
+}
 
 void		print_tab(char **tab, char *tab_name, FILE *f)
 {
