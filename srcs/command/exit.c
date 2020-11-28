@@ -74,6 +74,6 @@ int				ft_exit(t_ms *ms)
 		free_str_table(ms->env, tb_len(ms->env));
 	b = ms->ret_status;
 	free_parsing_struct(ms);
-	exit(ms->ret_status);
+	exit(b);
 	return (0);
 }

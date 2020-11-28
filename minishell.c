@@ -50,16 +50,32 @@ int		minishell(char **env, int step)
 		init(ms, 0, env);
 	while (1)
 	{
-		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
+		if (ms->skip != 130)
+			ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
 		parse_exec(ms);
 	}
 	return (0);
+}
+
+void	handle_sig(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
+	}
+	/* else if (sig == SIGQUIT)
+	{
+
+	}
+	else if (sig == ) */
 }
 
 int		main(int ac,char **av, char **env)
 {
 	ac = 0;
 	av = NULL;
+	signal(SIGINT, handle_sig);
 	minishell(env, 0);
 	return(0);
 }

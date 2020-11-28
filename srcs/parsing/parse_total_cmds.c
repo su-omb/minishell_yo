@@ -6,21 +6,11 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 10:07:09 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 12:37:26 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int			skip_while(char *s, char c)
-{
-	int i;
-	
-	i = 0;
-	while (s[i] == c)
-		++i;
-	return (i);
-}
 
 void		get_input(t_ms *ms)
 {
@@ -94,6 +84,26 @@ int		stx_handler(char **input, t_parser *p)
 	return (VALID_STX);
 }
 
+void	get_cmds_tab(char *input, char **cmd_tab, t_parser *p)
+{
+	init_parser(p);
+	p->i = -1;
+	while (input[++p->i])
+	{
+		p->slash_ig = ((p->i && input[p->i - 1] != '\\') || !p->i);
+		if (ft_strchr("'\"", input[p->i]) && p->slash_ig)
+			p->i += quote_handler(input + p->i, 1);
+		p->slash_ig = ((p->i && input[p->i - 1] != '\\') || !p->i);
+		if (input[p->i] == ';' && p->slash_ig)
+		{
+			cmd_tab[p->m++] = ft_substr(input, p->j, p->i - p->j + 1);
+			p->j = p->i + 1 + skip_while(input + p->i + 1, ' ');
+		}
+	}
+	if (input[p->j])
+		cmd_tab[p->m] = ft_substr(input, p->j, p->i - p->j + 1);
+}
+
 int		parse_total_cmds(t_ms *ms)
 {
 	t_parser p;
@@ -103,7 +113,8 @@ int		parse_total_cmds(t_ms *ms)
 		return (p.m);
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	ms->cmd_tab[p.l] = NULL;
-	init_parser(&p);
+	get_cmds_tab(ms->input, ms->cmd_tab, &p);
+/* 	init_parser(&p);
 	p.i = -1;
 	while (ms->input[++p.i])
 	{
@@ -117,8 +128,10 @@ int		parse_total_cmds(t_ms *ms)
 	}
 	if (ms->input[p.j])
 		ms->cmd_tab[p.m] = ft_substr(ms->input, p.j, p.i - p.j + 1);
+	 */
 	free(ms->input);
 	ms->input = NULL;
+	/* Debug */
 	print_total_cmds(ms->cmd_tab);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/27 12:12:19 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 10:43:23 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ void			ft_redir(t_cmd *tmp, t_cmd *cmd)
 	{
 		if (tmp->redir == TRUNC || tmp->redir == APPEND)
 		{
+			i = 1;
 			if (tb_len(tmp->next->args) > 1 && !tmp->next->start)
-			{
-				i = 1;
 				while (tmp->next->args[i])
 					cmd->args =  get_arr(tmp->next->args[i++], cmd->args);
-			}
 			fd_in = open_file(tmp);
 		}
 		else if (tmp->redir == READ)
@@ -88,21 +86,17 @@ void			ft_redir(t_cmd *tmp, t_cmd *cmd)
 int		*dup_in_out(t_ms *ms)
 {
 	if (ms->j != 0)
-	{
 		if (dup2(ms->fds[ms->j - 2], 0) < 0)
 		{
 			perror("dup2");
 			exit(1);
 		}
-	}
 	if (ms->cmds->next && (ms->pp_count || !ms->cmds->end))
-	{
 		if (dup2(ms->fds[ms->j + 1], 1) < 0)
 		{
-			perror("dup3");
+			perror("dup2");
 			exit(1);
 		}
-	}
 	return (ms->fds);
 }
 
@@ -124,9 +118,14 @@ pid_t			run_child(t_ms *ms)
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
 		if (ms->cmds->args && check_command(ms) && !is_builtin_sys(ms->cmds->cmd))
+		{
 			ft_error(ms, CMD_NOT_FOUND_ERR);
+			exit(127);
+		}
 		exit(0);
 	}
+	if (ms->pp_count)
+		ms->tpid[ms->j / 2] = pid;
 	return (pid);
 }
 
@@ -145,7 +144,6 @@ t_cmd		*exucte_cmd(t_ms *ms)
 {
 	while(ms->cmds)
 	{
-		// puts("ok");
 		if ((ms->cmds->start == 0 && ms->cmds->prev->redir)
 			|| (ms->cmds->start && is_builtin_sys(ms->cmds->cmd)
 			&& (!ms->cmds->redir && !ms->pp_count)))
@@ -162,9 +160,29 @@ t_cmd		*exucte_cmd(t_ms *ms)
 		else
 			ms->cmds = ms->cmds->next;
 		ms->j += 2;
-		// puts("ok11");
 	}
 	return (ms->cmds);
+}
+
+int				wait_child(t_ms *ms)
+{
+	int		st;
+	int		i;
+
+	st = 0;
+	i = -1;
+	if (!ms->pp_count)
+		waitpid(ms->pid, &st, 0);
+	else
+	{
+		while (++i < ms->pp_count + 1)
+		{
+			waitpid(ms->tpid[i], &st, 0);
+			if (st == 2)
+				return 2;
+		}
+	}
+	return (st);
 }
 
 void			exec_command(t_ms *ms)
@@ -174,13 +192,13 @@ void			exec_command(t_ms *ms)
 	
 	i = 0;
 	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int)) : 0;
+	(ms->pp_count) ? ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1)) : 0;
 	while (ms->pp_count && i < 2 * ms->pp_count)
 	{
 		pipe(ms->fds + i * 2);
 		i++;
 	}
 	ms->j = 0;
-	// printf("status: |%d|\n", ms->status);
 	while (ms->cmds)
 	{
 		if (*ms->cmds->cmd == '\0')
@@ -189,28 +207,18 @@ void			exec_command(t_ms *ms)
 		{
 			save_fds(ms->backup);
 			ms->cmds = exucte_cmd(ms);
-			// puts("ok2");
 			restore_fds(ms->backup);
 			i = 0;
 			while (ms->pp_count && i < 2 * ms->pp_count)
 				close(ms->fds[i++]);
-			// puts("ok3");
-			if (!ms->pp_count)
-				waitpid(ms->pid, &st, 0);
+			st = wait_child(ms);
+			if (st == 2 || st == 3)
+				ms->skip = st + 128;
 			else
-			{
-				i = -1;
-				// puts("ok4");
-				while (++i < ms->pp_count + 1)
-					wait(&st);
-				// puts("ok44");
-			}
-			// puts("ok5");
+				ms->skip = (st >> 8) & 255;
 		}
-		// puts("ok6");
 		if (is_builtin_sys(ms->cmds->cmd) && (!ms->pp_count))
 			check_command(ms);
-		// puts("next CMD 2");
 		ms->cmds = ms->cmds->next;
 	}
 }
@@ -234,7 +242,6 @@ char 		*get_exec_path(t_ms *ms)
 				if (stats.st_mode & X_OK)
 					return (path);
 		}
-		// ft_error(ms, CMD_NOT_FOUND_ERR);
 	}
 	else
 		ft_error(ms, F_NOT_FOUND_ERR);

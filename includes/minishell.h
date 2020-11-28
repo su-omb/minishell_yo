@@ -73,6 +73,7 @@ typedef		struct	s_ms
 	char			*input;
 	char			*output;
 	pid_t			pid;
+	pid_t			*tpid;
 	char			err;
 	char			cmd_err;
 	t_cmd			*cmds;
@@ -100,7 +101,6 @@ char				**free_str_table(char **tab, int size);
 void				init(t_ms *ms, char step, char **env);
 int					parse_total_cmds(t_ms *ms);
 void				parse(t_ms *ms);
-int					char_counter(char *s, char c);
 char				**parse_split(char const *s, char c, t_ms *ms);
 void				errex(t_ms *ms, int ex);
 char				**dup_str_tab(char **arr);
