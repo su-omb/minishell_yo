@@ -12,9 +12,9 @@
 
 #include "./includes/minishell.h"
 
-void	parse_exec(t_ms *ms)
+void		parse_exec(t_ms *ms)
 {
-	int i;
+	int		i;
 
 	if (parse_total_cmds(ms))
 	{
@@ -25,7 +25,7 @@ void	parse_exec(t_ms *ms)
 	if (ms->cmd_tab)
 	{
 		i = -1;
-		while(ms->cmd_tab[++i])
+		while (ms->cmd_tab[++i])
 		{
 			ms->input = ms->cmd_tab[i];
 			parse(ms);
@@ -41,7 +41,7 @@ void	parse_exec(t_ms *ms)
 	init(ms, 2, NULL);
 }
 
-int		minishell(char **env, int step)
+int			minishell(char **env, int step)
 {
 	t_ms	*ms;
 
@@ -50,15 +50,17 @@ int		minishell(char **env, int step)
 		init(ms, 0, env);
 	while (1)
 	{
-		if (ms->skip != 130 && ms->skip != 131)
+		if (ms->skip != 130)
 			ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
 		parse_exec(ms);
 	}
 	return (0);
 }
 
-void	handle_sig(int sig)
+void		handle_sig(int sig)
 {
+	t_ms		ms;
+
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
@@ -66,16 +68,17 @@ void	handle_sig(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		puts("l3iba");
+		kill(ms.pid, sig);
 	}
 }
 
-int		main(int ac,char **av, char **env)
+int			main(int ac, char **av, char **env)
 {
 	ac = 0;
 	av = NULL;
+
 	signal(SIGINT, handle_sig);
 	signal(SIGQUIT, handle_sig);
 	minishell(env, 0);
-	return(0);
+	return (0);
 }

@@ -143,6 +143,7 @@ void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
 int 				valid_arg(char *arg);
 int					ft_error(t_ms *ms, int err);
+int					cmd_error(int err, char *cmd, char *arg);
 /* main function */
 int					minishell(char **env, int step);
 

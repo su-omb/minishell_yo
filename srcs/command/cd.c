@@ -6,14 +6,20 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 12:15:42 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 14:38:46 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void		set_OLDPWD(t_ms *ms)
+{
+	ms->env = set_env("OLDPWD", ms->pwd, ms->env);
+	ms->pwd = getcwd(NULL, 0);
+	ms->env = set_env("PWD", ms->pwd, ms->env);
+}
 
-int         ft_cd(t_ms *ms)
+int			ft_cd(t_ms *ms)
 {
 	int i;
 	int x;
@@ -23,7 +29,7 @@ int         ft_cd(t_ms *ms)
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
 		if ((i = get_env(ms->env, "HOME")) < 0)
-			ft_putstr_fd("minishell: cd: HOME not set\n", 1);
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		else
 			chdir(ms->env[i] + 5);
 	}
@@ -32,24 +38,12 @@ int         ft_cd(t_ms *ms)
 		if ((i = get_env(ms->env, "OLDPWD")) != -1)
 			chdir(ms->env[i] + 7);
 		else
-		{
-			x = 1;
-			ft_putendl_fd("cd: OLDPWD not set", 2);
-		}
+			x = cmd_error(2, "cd", NULL);
 	}
 	else if (ms->cmds->args[1] != NULL)
 		if (chdir(ms->cmds->args[1]) != 0)
-		{
-			ft_putstr_fd("minishell: cd: ", 2);
-			ft_putstr_fd(ms->cmds->args[1], 2);
-			ft_putendl_fd(": No such file or directory", 2);
-			x = 1;
-		}
+			x = cmd_error(1, "cd", ms->cmds->args[1]);
 	if (x == 0)
-	{
-		ms->env = set_env("OLDPWD", ms->pwd, ms->env);
-		ms->pwd = getcwd(NULL, 0);
-		ms->env = set_env("PWD", ms->pwd, ms->env);
-	}
+		set_OLDPWD(ms);
 	return (0);
 }
