@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 10:43:23 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 12:37:33 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ pid_t			run_child(t_ms *ms)
 		i = 0;
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && check_command(ms) && !is_builtin_sys(ms->cmds->cmd))
+		if (ms->cmds->args && !is_builtin_sys(ms->cmds->cmd) && check_command(ms))
 		{
 			ft_error(ms, CMD_NOT_FOUND_ERR);
 			exit(127);
@@ -217,7 +217,7 @@ void			exec_command(t_ms *ms)
 			else
 				ms->skip = (st >> 8) & 255;
 		}
-		if (is_builtin_sys(ms->cmds->cmd) && (!ms->pp_count))
+		if (is_builtin_sys(ms->cmds->cmd) /* && (!ms->pp_count) */)
 			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
@@ -262,11 +262,11 @@ void		check_command_help(t_ms *ms)
 			exit(1);
 		}
 	}
-	else
+	else if (!is_builtin_sys(ms->cmds->cmd))
 	{
 		path = get_exec_path(ms);
 		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
-		(path) ? free(path) : 0;
+		// (path) ? free(path) : 0;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 10:06:52 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 11:14:16 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,31 @@ int		get_hm_cmds(char *input, t_parser *p)
 	return (p->l);
 }
 
+int		stx_handler(char **input, t_parser *p)
+{
+	p->m = input[0][skip_while(*input, ' ')];
+	if (!p->m || p->m == ';')
+	{
+		free(*input);
+		*input = NULL;
+		return (!p->m ? 0 : STX_ERR);
+	}
+	if (get_hm_cmds(*input, p) < 0)
+	{
+		free(*input);
+		*input = NULL;
+		return (STX_ERR);
+	}
+	return (VALID_STX);
+}
+
 int		parse_total_cmds(t_ms *ms)
 {
 	t_parser p;
 
 	get_input(ms);
-	p.m = ms->input[skip_while(ms->input, ' ')];
-	if (!p.m || p.m == ';')
-	{
-		free(ms->input);
-		ms->input =	NULL;
-		return (!p.m ? 0 : STX_ERR);
-	}
-	if (get_hm_cmds(ms->input, &p) < 0)
-	{
-		free(ms->input);
-		ms->input =	NULL;
-		return (STX_ERR);
-	}
+	if ((p.m = stx_handler(&ms->input, &p)) != VALID_STX)
+		return (p.m);
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	ms->cmd_tab[p.l] = NULL;
 	init_parser(&p);
@@ -112,13 +119,6 @@ int		parse_total_cmds(t_ms *ms)
 		ms->cmd_tab[p.m] = ft_substr(ms->input, p.j, p.i - p.j + 1);
 	free(ms->input);
 	ms->input = NULL;
-	
-	/* Debugging */
-	FILE *f;
-	f = fopen("/Users/yslati/Desktop/minishell_yo/debug", "w+");
-	print_tab(ms->cmd_tab, "Cmds_Table", f);
-	fclose(f);
-	/* End_Debugging */
-	
-	return (ms->cmd_err);
+	print_total_cmds(ms->cmd_tab);
+	return (0);
 }

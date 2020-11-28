@@ -6,11 +6,20 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 10:06:56 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 11:14:25 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+void	print_total_cmds(char **cmds_tab)
+{	
+	/* Debugging */
+	FILE *f;
+	f = fopen("/Users/yslati/Desktop/minishell_yo/debug", "w+");
+	print_tab(cmds_tab, "Cmds_Table", f);
+	fclose(f);
+	/* End_Debugging */
+}
 
 void		print_tab(char **tab, char *tab_name, FILE *f)
 {

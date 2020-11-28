@@ -35,6 +35,7 @@
 # define PIPE		124
 # define S_COLON	59
 # define STX_ERR	1
+# define VALID_STX	7
 # define RDIN_ERR	2
 # define SPLT_ERR	3
 # define F_NOT_FOUND_ERR	2
@@ -115,6 +116,7 @@ void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);
+void				print_total_cmds(char **cmds_tab);
 
 /* Cmds */
 char				*ft_strcpy_pro(char *dst, const char *src, char c);
