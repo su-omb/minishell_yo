@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 10:24:51 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 20:17:33 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@ void		init(t_ms *ms, char step, char **env)
 	ms->cmds = NULL;
 	ms->redir = 0;
 	ms->pp_count = 0;
-	ms->status = 0;
 	if (!step)
 	{
-		ms->skip = 0;
+		ms->status = 0;
+		// ms->skip = 0;
 		ms->input = (char *)malloc(SIZE);
 		ms->env = dup_str_tab(env);
 		ms->pwd = getcwd(NULL, 0);
 		ms->cmd_tab = NULL;
 		ms->tab = NULL;
-		ms->ret_status = 0;
+		// ms->ret_status = 0;
 	}
 	if (step == 1)
 	{

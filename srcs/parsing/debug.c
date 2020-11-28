@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 12:56:57 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 20:14:28 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void		print_cmds(t_cmd *cmds)
 		{
 			fprintf(fd,"\n\n===================================\n\n==> CMD=|%s|\n", cmds->cmd);
 			print_tab(cmds->args, "CMD_ARGS", fd);
-			fprintf(fd, "\n\nStart=|%d|\tEnd=|%d|\tRedir=|%c|%d|\tErr=|%d|\tStatus=|%d|\n", 
-						cmds->start, cmds->end, cmds->redir, cmds->redir, cmds->is_err, cmds->is_status);
+			fprintf(fd, "\n\nStart=|%d|\tEnd=|%d|\tRedir=|%c|%d|\tErr=|%d|\n", 
+						cmds->start, cmds->end, cmds->redir, cmds->redir, cmds->is_err);
 			cmds = cmds->next;
 		}
 	}

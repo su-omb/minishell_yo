@@ -51,7 +51,6 @@ typedef		struct	s_cmd
 	char			start;
 	char			end;
 	char			redir;
-	char			is_status;
 	char			is_err;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
@@ -111,6 +110,10 @@ void				new_cmd(t_ms *ms, char del, char **tab);
 int					quote_handler(char const *s, int neg);
 void				clean_stx_err(t_ms *ms);
 void				init_parser(t_parser *p);
+void				parse_read_rdr(t_ms *ms, int b, int i, char *s);
+void				parse_trunc_rdr(t_ms *ms, int b, int *i, char *s);
+void				parse_pipe(t_ms *ms, int b, int i, char *s);
+void				parse_scolon(t_ms *ms, int b, int i, char *s);
 char				*parse_quote_bslash(char *elem, t_ms *ms);
 void				free_cmds(t_ms *ms);
 // Debugging

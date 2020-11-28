@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 14:22:34 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 20:48:54 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,13 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 
 int		replace_var(t_ms *ms, t_parser *p)
 {
-	if (ms->input[p->i + 1] == '?' && p->i++)
+	if (ms->input[p->i + 1] == '?')
+	{
+		++p->i;
+		p->tmp = ft_itoa(ms->status);
+		ms->input = remake_input(ms->input, p->tmp, 1, &p->i);
 		return (CONT);
+	}
 	p->l = skip_till(ms->input + ++p->i, " \"'\\$><|;", p->quote_ig);
 	if (p->l == -1)
 		return (CONT);
@@ -84,7 +89,7 @@ void	parse_d(t_ms *ms)
 		p.slash_ig = (p.i && ms->input[p.i - 1] != '\\') || !p.i;
 		if (ms->input[p.i] == '$' && p.slash_ig)
 		{
-			if (replace_var(ms, &p))
+			if (replace_var(ms, &p) == CONT)
 				continue ;
 		}
 		else

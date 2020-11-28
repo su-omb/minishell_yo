@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 11:40:29 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 20:18:42 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ int			ft_echo(t_ms *ms)
 		nflag = check_n(ms->cmds->args, &i);
 		while (ms->cmds->args[i])
 		{
-			if (!ft_strcmp(ms->cmds->args[i], "$?"))
-				ft_putnbr_fd(ms->skip, 1);
-			else
-				ft_putstr_fd(ms->cmds->args[i], 1);
+			ft_putstr_fd(ms->cmds->args[i], 1);
 			if (ms->cmds->args[i + 1])
 				ft_putchar_fd(' ', 1);
 			i++;
@@ -52,6 +49,6 @@ int			ft_echo(t_ms *ms)
 		if (!nflag)
 			ft_putchar_fd('\n', 1);
 	}
-	ms->skip = 0;
+	ms->status = 0;
 	return (0);
 }

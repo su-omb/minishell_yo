@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 14:52:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 14:59:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 20:16:28 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,29 @@ char	*remove_bslash(char *elem, int i, char *err)
 	return (tmp);
 }
 
+char	*catch_bslash(char *elem, t_ms *ms, int j, int *e)
+{
+	while (elem[++j] && j < *e)
+	{
+		if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
+		{	
+			elem = remove_bslash(elem, j, &ms->cmd_err);
+			--*e;
+			if (elem[j] == '$')
+				continue;
+		}
+/* 		if (elem[j] == '$' && elem[j + 1] == '?')
+				ms->status = 1; */
+	}
+	return (elem);
+}
+
 char	*remove_quotes(char *elem, int *i, int e, t_ms *ms)
 {
 	char	*tmp;
-	int		j;
 
 	if (elem[*i] == '"')
-	{
-		j = *i;
-		while (elem[++j] && j < e)
-		{
-			if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
-			{	
-				elem = remove_bslash(elem, j, &ms->cmd_err);
-				e--;
-				if (elem[j] == '$')
-					continue;
-			}
-			if (elem[j] == '$' && elem[j + 1] == '?')
-					ms->status = 1;
-		}
-	}
+		elem = catch_bslash(elem, ms, *i, &e);
 	tmp = ft_strdup(elem);
 	tmp[(*i)++] = '\0';
 	ft_strcat(tmp, elem + *i);
@@ -90,9 +92,9 @@ char	*parse_quote_bslash(char *elem, t_ms *ms)
 	i = -1;
 	while (elem[++i])
 	{
-		if (elem[i] == '$' && ((i && elem[i - 1] != '\\') || !i))
+/* 		if (elem[i] == '$' && ((i && elem[i - 1] != '\\') || !i))
 			if (elem[i + 1] == '?' && (ms->status = 1))
-				continue ;
+				continue ; */
 		if (ft_strchr("\"'", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
 		{
 			if ((l = quote_handler(elem + i, 1)) < 0)
