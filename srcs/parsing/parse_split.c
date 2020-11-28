@@ -6,34 +6,11 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 14:44:47 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 14:58:04 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int		quote_handler(char const *s, int neg)
-{
-	char	quote;
-	int		i;
-
-	i = 1;
-	quote = s[0];
-	if (quote == '\'')
-		while (s[i] && s[i] != quote)
-			i++;
-	else
-		while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
-			i++;
-	if (!s[i])
-	{
-		if(!neg)
-			return (i - 1);
-		else
-			return (-1);
-	}
-	return (i);
-}
 
 int		ft_words(char const *s, char c)
 {
@@ -41,6 +18,10 @@ int		ft_words(char const *s, char c)
 	int		i;
 	char	slash_ig;
 
+	if (!s)
+		return (0);
+	else if (!*s)
+		return (-1);
 	len = 0;
 	i = 0;
 	while (s[i] && s[i] == c)
@@ -56,33 +37,6 @@ int		ft_words(char const *s, char c)
 		i++;
 	}
 	return (len);
-}
-
-char	**ft_exception(char const *s)
-{
-	char	**tab;
-
-	tab = NULL;
-	if (!s)
-	{
-		tab = (char **)malloc(1 * sizeof(char *));
-		tab[0] = NULL;
-	}
-	return (tab);
-}
-
-char	**free_everything(char **tab, int count)
-{
-	int		i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (NULL);
 }
 
 int		ft_len_elem(char const *s, char c)
@@ -101,85 +55,10 @@ int		ft_len_elem(char const *s, char c)
 			size += ret;
 			i += ret;
 		}
-		if (s[i] != c  || (i && s[i - 1] == '\\'))
+		if (s[i] != c || (i && s[i - 1] == '\\'))
 			size++;
 	}
 	return (size);
-}
-
-char	*remove_bslash(char *elem, int i, char *err)
-{
-	char *tmp;
-
-	if (!elem[i + 1])
-	{
-		*err = STX_ERR;
-		return (elem);
-	}
-	tmp = ft_strdup(elem);
-	tmp[i++] = '\0';
-	ft_strcat(tmp, elem + i);
-	free(elem);
-	return (tmp);
-}
-
-char	*remove_quotes(char *elem, int *i, int e, t_ms *ms)
-{
-	char	*tmp;
-	int		j;
-
-	if (elem[*i] == '"')
-	{
-		j = *i;
-		while (elem[++j] && j < e)
-		{
-			if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
-			{	
-				elem = remove_bslash(elem, j, &ms->cmd_err);
-				e--;
-				if (elem[j] == '$')
-					continue;
-			}
-			if (elem[j] == '$' && elem[j + 1] == '?')
-					ms->status = 1;
-		}
-	}
-	tmp = ft_strdup(elem);
-	tmp[(*i)++] = '\0';
-	ft_strcat(tmp, elem + *i);
-	tmp[e - 1] = '\0';
-	ft_strcat(tmp, elem + ++e);
-	free(elem);
-	*i = e - 3;
-	return (tmp);
-}
-
-char	*parse_quote_bslash(char *elem, t_ms *ms)
-{
-	int		i;
-	int		l;
-
-	i = -1;
-	while (elem[++i])
-	{
-		if (elem[i] == '$' && ((i && elem[i - 1] != '\\') || !i))
-			if (elem[i + 1] == '?' && (ms->status = 1))
-				continue ;
-		if (ft_strchr("\"'", elem[i]) && ((i && elem[i - 1] != '\\') || !i))
-		{
-			if ((l = quote_handler(elem + i, 1)) < 0)
-			{
-				ms->cmd_err = 1;
-				break ;
-			}
-			elem = remove_quotes(elem, &i, i + l, ms);
-			if (i < 0)
-				continue ;
-		}
-		if (elem[i] == '\\')
-			elem = remove_bslash(elem, i, &ms->cmd_err);
-	}
-	return elem;
 }
 
 char	*fill_elem(char **elem, char *s, char c, t_ms *ms)
@@ -210,7 +89,7 @@ char	*fill_elem(char **elem, char *s, char c, t_ms *ms)
 	return (s + j);
 }
 
-char	**zero_length()
+char	**for_empty_str(void)
 {
 	char **tab;
 
@@ -227,10 +106,8 @@ char	**parse_split(char const *s, char c, t_ms *ms)
 	int		j;
 	int		l;
 
-	if ((tab = ft_exception(s)))
-		return (tab);
-	if (!(l = ft_words(s, c)))
-		return (zero_length());
+	if ((l = ft_words(s, c)) == -1)
+		return (for_empty_str());
 	j = 0;
 	if (!(tab = (char **)malloc(sizeof(char *) * (l + 1))))
 		return (NULL);

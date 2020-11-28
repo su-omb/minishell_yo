@@ -111,6 +111,7 @@ void				new_cmd(t_ms *ms, char del, char **tab);
 int					quote_handler(char const *s, int neg);
 void				clean_stx_err(t_ms *ms);
 void				init_parser(t_parser *p);
+char				*parse_quote_bslash(char *elem, t_ms *ms);
 void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
