@@ -1,1 +1,1 @@
-ls > out | wc > out
+echo kjdk| pwd; pwd;cd  ; echo $\PWD$OLDPWD

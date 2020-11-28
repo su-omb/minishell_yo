@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/26 11:18:20 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/28 12:15:42 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int         ft_cd(t_ms *ms)
 	x = 0;
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
-		i = get_env(ms->env, "HOME");
-		chdir(ms->env[i] + 5);
+		if ((i = get_env(ms->env, "HOME")) < 0)
+			ft_putstr_fd("minishell: cd: HOME not set\n", 1);
+		else
+			chdir(ms->env[i] + 5);
 	}
 	else if (!ft_strcmp(ms->cmds->args[1], "-"))
 	{

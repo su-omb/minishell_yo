@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 12:37:26 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 12:55:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,6 @@ int		parse_total_cmds(t_ms *ms)
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	ms->cmd_tab[p.l] = NULL;
 	get_cmds_tab(ms->input, ms->cmd_tab, &p);
-/* 	init_parser(&p);
-	p.i = -1;
-	while (ms->input[++p.i])
-	{
-		if (ft_strchr("'\"", ms->input[p.i]) && ((p.i && ms->input[p.i - 1] != '\\') || !p.i))
-			p.i += quote_handler(ms->input + p.i, 1);
-		if (';' == ms->input[p.i] && ((p.i && ms->input[p.i - 1] != '\\') || !p.i))
-		{
-			ms->cmd_tab[p.m++] = ft_substr(ms->input, p.j, p.i - p.j + 1);
-			p.j = p.i + 1 + skip_while(ms->input + p.i + 1, ' ');
-		}
-	}
-	if (ms->input[p.j])
-		ms->cmd_tab[p.m] = ft_substr(ms->input, p.j, p.i - p.j + 1);
-	 */
 	free(ms->input);
 	ms->input = NULL;
 	/* Debug */
