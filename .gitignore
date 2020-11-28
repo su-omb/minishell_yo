@@ -1,7 +1,7 @@
+.gitignore
 *.o
 libft/*.o
 *.a
 libft/*.a
 debug
 minishell
-srcs/parsing/debug.c

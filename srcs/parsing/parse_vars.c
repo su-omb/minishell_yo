@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/25 14:23:08 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 14:22:34 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 {
 	int		l;
 	char	*tmp;
-	
+
 	l = ft_strlen(input) - name_len + ft_strlen(varv) - 1;
 	tmp = (char *)malloc(l + 1);
 	ft_bzero(tmp, l + 1);
@@ -59,10 +59,10 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 int		replace_var(t_ms *ms, t_parser *p)
 {
 	if (ms->input[p->i + 1] == '?' && p->i++)
-		return (CONT) ;
+		return (CONT);
 	p->l = skip_till(ms->input + ++p->i, " \"'\\$><|;", p->quote_ig);
 	if (p->l == -1)
-		return (CONT) ;
+		return (CONT);
 	p->l = (p->l == -2) ? 0 : p->l;
 	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->env);
 	ms->input = remake_input(ms->input, p->tmp, p->l, &p->i);
@@ -80,7 +80,7 @@ void	parse_d(t_ms *ms)
 		if (ms->input[p.i] == '"' && p.slash_ig)
 			p.quote_ig = !p.quote_ig;
 		if (p.slash_ig && ms->input[p.i] == '\'' && !p.quote_ig)
-				p.i += quote_handler(ms->input + p.i, 0);
+			p.i += quote_handler(ms->input + p.i, 0);
 		p.slash_ig = (p.i && ms->input[p.i - 1] != '\\') || !p.i;
 		if (ms->input[p.i] == '$' && p.slash_ig)
 		{

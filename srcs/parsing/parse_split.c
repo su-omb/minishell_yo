@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/26 11:05:37 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 14:44:47 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int		quote_handler(char const *s, int neg)
 	char	quote;
 	int		i;
 
-	//printf("String to quote_handler() ==>|%s|\n", s);
 	i = 1;
 	quote = s[0];
 	if (quote == '\'')
@@ -40,6 +39,7 @@ int		ft_words(char const *s, char c)
 {
 	int		len;
 	int		i;
+	char	slash_ig;
 
 	len = 0;
 	i = 0;
@@ -47,9 +47,11 @@ int		ft_words(char const *s, char c)
 		i++;
 	while (s[i])
 	{
-		if (((i && s[i - 1] != '\\') || !i) && (s[i] == '\'' || s[i] == '"'))
+		slash_ig = (i && s[i - 1] != '\\');
+		if ((slash_ig || !i) && (s[i] == '\'' || s[i] == '"'))
 			i += quote_handler(s + i, 0);
-		if ((((i && s[i - 1] != '\\') && (s[i] == c && s[i + 1] != c))) || s[i + 1] == '\0')
+		slash_ig = (i && s[i - 1] != '\\');
+		if (((slash_ig && (s[i] == c && s[i + 1] != c))) || s[i + 1] == '\0')
 			len++;
 		i++;
 	}
@@ -208,6 +210,17 @@ char	*fill_elem(char **elem, char *s, char c, t_ms *ms)
 	return (s + j);
 }
 
+char	**zero_length()
+{
+	char **tab;
+
+	if (!(tab = (char **)malloc(sizeof(char *) * 2)))
+		return (NULL);
+	tab[1] = NULL;
+	tab[0] = ft_strdup("");
+	return (tab);
+}
+
 char	**parse_split(char const *s, char c, t_ms *ms)
 {
 	char	**tab;
@@ -216,7 +229,8 @@ char	**parse_split(char const *s, char c, t_ms *ms)
 
 	if ((tab = ft_exception(s)))
 		return (tab);
-	l = ft_words(s, c);
+	if (!(l = ft_words(s, c)))
+		return (zero_length());
 	j = 0;
 	if (!(tab = (char **)malloc(sizeof(char *) * (l + 1))))
 		return (NULL);
@@ -226,20 +240,8 @@ char	**parse_split(char const *s, char c, t_ms *ms)
 		while (*s && *s == c)
 			s++;
 		if (!(tab[j] = (char *)malloc((ft_len_elem(s, c) + 1) * sizeof(char))))
-			return (free_everything(tab, l));
+			return (free_str_table(tab, l));
 		s = fill_elem(&tab[j++], (char *)s, c, ms);
 	}
-/* 	puts("\nBefore : Output of split():\n");
-	print_tab(tab, NULL); */
-	if (!tab[0])
-	{
-		free_everything(tab, tb_len(tab));
-		tab = (char **)malloc(2 * sizeof(char *));
-		tab[0] = ft_strdup("");
-		tab[1] = NULL;
-	}
-/* 	puts("\nAfter : Output of split():\n");
-	print_tab(tab, NULL);
-	puts("\n========================================"); */
 	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 12:55:24 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/28 12:56:57 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		print_tab(char **tab, char *tab_name, FILE *f)
 	else
 		printf("FILE DESCRIPTOR IS NULL\n");
 }
+
 
 void		print_cmds(t_cmd *cmds)
 {
