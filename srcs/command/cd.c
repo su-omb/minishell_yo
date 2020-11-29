@@ -6,13 +6,13 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 14:38:46 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/29 11:14:49 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		set_OLDPWD(t_ms *ms)
+void		set_oldpwd(t_ms *ms)
 {
 	ms->env = set_env("OLDPWD", ms->pwd, ms->env);
 	ms->pwd = getcwd(NULL, 0);
@@ -44,6 +44,6 @@ int			ft_cd(t_ms *ms)
 		if (chdir(ms->cmds->args[1]) != 0)
 			x = cmd_error(1, "cd", ms->cmds->args[1]);
 	if (x == 0)
-		set_OLDPWD(ms);
+		set_oldpwd(ms);
 	return (0);
 }

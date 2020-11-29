@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 20:26:59 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/29 14:40:59 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int 	is_builtin_sys(char *cmds)
+int				is_builtin_sys(char *cmds)
 {
 	if (ft_strcmp(cmds, "env") && ft_strcmp(cmds, "cd") &&
 		ft_strcmp(cmds, "pwd") && ft_strcmp(cmds, "export") &&
 		ft_strcmp(cmds, "unset") && ft_strcmp(cmds, "echo") &&
-		ft_strcmp(cmds, "exit"))	
-		return 0;
+		ft_strcmp(cmds, "exit"))
+		return (0);
 	return (1);
 }
 
-int			open_file(t_cmd *tmp)
+int				open_file(t_cmd *tmp)
 {
-	int 	fd;
+	int			fd;
 
 	fd = 1;
 	if (tmp->redir == TRUNC)
@@ -36,11 +36,15 @@ int			open_file(t_cmd *tmp)
 
 void			read_file(t_cmd *tmp)
 {
-	int fd;
+	int		fd;
 
-	fd = open(tmp->next->cmd, O_RDONLY);
-	dup2(fd, 0);
-	close(fd);
+	if ((fd = open(tmp->next->cmd, O_RDONLY)) < 0)
+		ft_putendl_fd("minishell: No such file or directory\n", 2);
+	else
+	{
+		dup2(fd, 0);
+	}
+	close(fd);	
 }
 
 void			save_fds(int *fds)
@@ -62,8 +66,8 @@ void			restore_fds(int *fds)
 
 void			ft_redir(t_cmd *tmp, t_cmd *cmd)
 {
-	int 	i;
-	int 	fd_in;
+	int			i;
+	int			fd_in;
 
 	while (tmp && tmp->redir)
 	{
@@ -72,7 +76,7 @@ void			ft_redir(t_cmd *tmp, t_cmd *cmd)
 			i = 1;
 			if (tb_len(tmp->next->args) > 1 && !tmp->next->start)
 				while (tmp->next->args[i])
-					cmd->args =  get_arr(tmp->next->args[i++], cmd->args);
+					cmd->args = get_arr(tmp->next->args[i++], cmd->args);
 			fd_in = open_file(tmp);
 		}
 		else if (tmp->redir == READ)
@@ -83,7 +87,7 @@ void			ft_redir(t_cmd *tmp, t_cmd *cmd)
 	close(fd_in);
 }
 
-int		*dup_in_out(t_ms *ms)
+int				*dup_in_out(t_ms *ms)
 {
 	if (ms->j != 0)
 		if (dup2(ms->fds[ms->j - 2], 0) < 0)
@@ -100,12 +104,11 @@ int		*dup_in_out(t_ms *ms)
 	return (ms->fds);
 }
 
-pid_t			run_child(t_ms *ms)
+pid_t			run_child(t_ms *ms, int i)
 {
-	pid_t	pid;
-	int i;
-	t_cmd	*tmp;
-	
+	pid_t		pid;
+	t_cmd		*tmp;
+
 	tmp = ms->cmds;
 	pid = fork();
 	if (pid == 0)
@@ -114,10 +117,10 @@ pid_t			run_child(t_ms *ms)
 			ms->fds = dup_in_out(ms);
 		if (ms->cmds->redir)
 			ft_redir(tmp, ms->cmds);
-		i = 0;
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && !is_builtin_sys(ms->cmds->cmd) && check_command(ms))
+		if (ms->cmds->args && !is_builtin_sys(ms->cmds->cmd)
+			&& check_command(ms))
 		{
 			ft_error(ms, CMD_NOT_FOUND_ERR);
 			exit(127);
@@ -129,27 +132,29 @@ pid_t			run_child(t_ms *ms)
 	return (pid);
 }
 
-t_ms		*exucte_help(t_ms *ms)
+t_ms			*exucte_help(t_ms *ms)
 {
 	while (ms && ms->cmds->redir)
 	{
 		if (!ms->cmds->next)
-			break;
+			break ;
 		ms->cmds = ms->cmds->next;
 	}
 	return (ms);
 }
 
-t_cmd		*exucte_cmd(t_ms *ms)
+t_cmd			*exucte_cmd(t_ms *ms)
 {
-	while(ms->cmds)
+	while (ms->cmds)
 	{
 		if ((ms->cmds->start == 0 && ms->cmds->prev->redir)
 			|| (ms->cmds->start && is_builtin_sys(ms->cmds->cmd)
 			&& (!ms->cmds->redir && !ms->pp_count)))
 			break ;
-		ms->pid = run_child(ms);
+		ms->pid = run_child(ms, 0);
+		printf("cmd:%s\n", ms->cmds->cmd);
 		ms = exucte_help(ms);
+		printf("cmd2:%s\n", ms->cmds->cmd);
 		if (ms->pid < 0)
 		{
 			perror("Fork error");
@@ -166,8 +171,8 @@ t_cmd		*exucte_cmd(t_ms *ms)
 
 int				wait_child(t_ms *ms)
 {
-	int		st;
-	int		i;
+	int			st;
+	int			i;
 
 	st = 0;
 	i = -1;
@@ -179,19 +184,37 @@ int				wait_child(t_ms *ms)
 		{
 			waitpid(ms->tpid[i], &st, 0);
 			if (st == 2)
-				return 2;
+				return (2);
 		}
 	}
 	return (st);
 }
 
+void			manage_cmd(t_ms *ms)
+{
+	int			st;
+	int			i;
+
+	st = 0;
+	i = 0;
+	save_fds(ms->backup);
+	ms->cmds = exucte_cmd(ms);
+	restore_fds(ms->backup);
+	while (ms->pp_count && i < 2 * ms->pp_count)
+		close(ms->fds[i++]);
+	st = wait_child(ms);
+	if (st == 2 || st == 3)
+		ms->status = st + 128;
+	else
+		ms->status = (st >> 8) & 255;
+}
+
 void			exec_command(t_ms *ms)
 {
-	int		st = 0;
-	int		i;
-	
+	int			i;
+
 	i = 0;
-	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count)*sizeof(int)) : 0;
+	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int)) : 0;
 	(ms->pp_count) ? ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1)) : 0;
 	while (ms->pp_count && i < 2 * ms->pp_count)
 	{
@@ -203,36 +226,24 @@ void			exec_command(t_ms *ms)
 	{
 		if (*ms->cmds->cmd == '\0')
 			ft_error(ms, CMD_NOT_FOUND_ERR);
-		if ((ms->cmds->next && !ms->cmds->end) || (!is_builtin_sys(ms->cmds->cmd)))
-		{
-			save_fds(ms->backup);
-			ms->cmds = exucte_cmd(ms);
-			restore_fds(ms->backup);
-			i = 0;
-			while (ms->pp_count && i < 2 * ms->pp_count)
-				close(ms->fds[i++]);
-			st = wait_child(ms);
-			if (st == 2 || st == 3)
-				ms->status = st + 128;
-			else
-				ms->status = (st >> 8) & 255;
-		}
-		if (is_builtin_sys(ms->cmds->cmd) /* && (!ms->pp_count) */)
+		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
+			manage_cmd(ms);
+		if (is_builtin_sys(ms->cmds->cmd))
 			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
 }
 
-char 		*get_exec_path(t_ms *ms)
+char			*get_exec_path(t_ms *ms)
 {
 	int			i;
 	char		**tab;
 	char		*path;
-	struct		stat stats;
+	struct stat	stats;
 
 	if ((i = get_env(ms->env, "PATH")) != -1)
 	{
-		tab  = ft_split(ms->env[i] + 5, ':');
+		tab = ft_split(ms->env[i] + 5, ':');
 		i = -1;
 		while (tab[++i])
 		{
@@ -248,12 +259,12 @@ char 		*get_exec_path(t_ms *ms)
 	return (NULL);
 }
 
-void		check_command_help(t_ms *ms)
+void			check_command_help(t_ms *ms)
 {
-	char	*path;
+	char		*path;
 
 	path = NULL;
-	if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' &&  ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
+	if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 		{
@@ -266,13 +277,13 @@ void		check_command_help(t_ms *ms)
 	{
 		path = get_exec_path(ms);
 		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
-		// (path) ? free(path) : 0;
+		(path) ? free(path) : 0;
 	}
 }
 
-int			check_command(t_ms *ms)
+int				check_command(t_ms *ms)
 {
-	int		ret;
+	int			ret;
 
 	ret = 1;
 	if (!ft_strcmp(ms->cmds->cmd, "cd"))

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/28 15:00:29 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/29 12:37:29 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 int			cmp_get_pos(char **env, char *var)
 {
 	int		i;
+	char	*tmp;
 
 	i = -1;
-	while (env && env[++i])
-		if ((!ft_strcmp(env[i], var)))
+	tmp = ft_strdup(var);
+	if (ft_strchr(var, '='))
+		tmp = ft_strcpy_pro(tmp, var, '=');
+	while (env[++i])
+		if ((!ft_strcmp(env[i], tmp)))
 			return (i);
-	return (get_env(env, var));
+	return (get_env(env, tmp));
 }
 
 int			check_exist(char **env, char *arg)

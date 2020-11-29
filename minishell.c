@@ -50,7 +50,7 @@ int			minishell(char **env, int step)
 		init(ms, 0, env);
 	while (1)
 	{
-		if (ms->skip != 130)
+		if (ms->status != 130)
 			ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
 		parse_exec(ms);
 	}

@@ -1,2 +1,9 @@
-malloc in export 
-try lot of env then export 
+malloc in export
+try lot of env then export
+
+echo 0n < out   |   with && without out 
+echo $>
+
+status with ctrl+c
+
+redir with built_in 

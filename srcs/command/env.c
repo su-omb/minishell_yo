@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 14:46:59 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/29 12:15:17 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,12 @@ int			get_env(char **env, char *var)
 	i = 0;
 	search = ft_strcpy(search, var);
 	search = ft_strcat(search, "=");
-	if (env)
-	{
-		while (env[i])
+	while (env && env[i++])
+		if (!(ft_strncmp(env[i], search, ft_strlen(search))))
 		{
-			if (!(ft_strncmp(env[i], search, ft_strlen(search))))
-			{
-				free(search);
-				return (i);
-			}
-			i++;
+			free(search);
+			return (i);
 		}
-	}
 	free(search);
 	return (-1);
 }
@@ -40,14 +34,13 @@ int			get_env(char **env, char *var)
 char		**get_arr(char *value, char **env)
 {
 	char	**arr;
-	int		len;
 	int		i;
-	
-	i = 0;
-	len = tb_len(env) + 2;
-	if (!(arr = (char **)malloc(sizeof(char *) * len)))
+
+	i = tb_len(env) + 2;
+	if (!(arr = (char **)malloc(sizeof(char *) * i)))
 		return (NULL);
-	while(env[i])
+	i = 0;
+	while (env[i])
 	{
 		arr[i] = (char *)malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
 		arr[i] = env[i];
@@ -60,12 +53,8 @@ char		**get_arr(char *value, char **env)
 
 char		**add_to_arr(char *value, char **env)
 {
-	int		i;
-	int		len;
 	char	**new_arr;
 
-	i = 0;
-	len = tb_len(env);	
 	if (env == NULL)
 	{
 		new_arr = (char **)malloc(sizeof(char *) * 2);
@@ -82,7 +71,7 @@ char		**set_env(char *var, char *value, char **env)
 	int		i;
 	size_t	len;
 	char	*line;
-	
+
 	i = 0;
 	len = ft_strlen(var) + ft_strlen(value) + 2;
 	if (!(line = (char *)malloc(sizeof(char) * len)))
@@ -100,23 +89,17 @@ char		**set_env(char *var, char *value, char **env)
 	return (env);
 }
 
-void		ft_print_env(char **env)
+int			ft_env(t_ms *ms)
 {
 	int		i;
 
 	i = -1;
-	while (env && env[++i])
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
-}
-
-int			ft_env(t_ms *ms)
-{
-    int		i;
-
-    i = 0;
 	if (!ms->cmds->args[1])
-		ft_print_env(ms->env);
+	{
+		while (ms->env && ms->env[++i])
+			if (ft_strchr(ms->env[i], '='))
+				printf("%s\n", ms->env[i]);
+	}
 	else
 	{
 		cmd_error(1, "env", ms->cmds->args[1]);
