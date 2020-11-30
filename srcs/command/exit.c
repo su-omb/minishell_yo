@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/08 16:01:34 by obouykou          #+#    #+#             */
-/*   Updated: 2020/06/08 16:01:34 by obouykou         ###   ########.fr       */
+/*   Created: 2020/11/29 12:46:10 by yslati            #+#    #+#             */
+/*   Updated: 2020/11/29 12:46:10 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int				is_set(char *target, char *set)
 {
-	int	i;
-	int j;
-	int	b;
+	int			i;
+	int			j;
+	int			b;
 
 	if (!target || !*target || !set)
 		return (0);
@@ -63,9 +63,9 @@ void			free_parsing_struct(t_ms *ms)
 	free(ms);
 }
 
-int 			ft_exit(t_ms *ms)
+int				ft_exit(t_ms *ms)
 {
-	int	b;
+	int			b;
 
 	ft_putendl_fd("exit", 1);
 	b = 1;

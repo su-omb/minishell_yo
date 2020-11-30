@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 12:30:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 20:14:28 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/29 13:44:42 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ void	print_total_cmds(char **cmds_tab)
 {	
 	/* Debugging */
 	FILE *f;
-	f = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "w+");
+	f = fopen("/Users/yslati/Desktop/minishell_yo/debug", "w+");
 	print_tab(cmds_tab, "Cmds_Table", f);
 	fclose(f);
 	/* End_Debugging */
@@ -40,8 +40,8 @@ void		print_tab(char **tab, char *tab_name, FILE *f)
 				fprintf(f, "\t%s[%d] = |%s|", tab_name, i, tab[i]);
 		}
 	}
-	else
-		printf("FILE DESCRIPTOR IS NULL\n");
+	//else
+	//	printf("FILE DESCRIPTOR IS NULL\n");
 }
 
 
@@ -49,7 +49,7 @@ void		print_cmds(t_cmd *cmds)
 {
 	FILE *fd;
 
-	fd = fopen("/Users/obouykou/Desktop/minishell_yo/debug", "a+");
+	fd = fopen("/Users/yslati/Desktop/minishell_yo/debug", "a+");
 	if (fd)
 	{
 		if (cmds == NULL)
@@ -63,7 +63,7 @@ void		print_cmds(t_cmd *cmds)
 			cmds = cmds->next;
 		}
 	}
-	else
-		printf("FILE DESCRIPTOR IS NULL\n");
+	//else
+	//	printf("FILE DESCRIPTOR IS NULL\n");
 	fclose(fd);
 }
