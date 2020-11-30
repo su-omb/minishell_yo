@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 20:17:33 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:38:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,19 @@ void	free_cmds(t_ms *ms)
 		free(ms->cmds);
 }
 
-void		init_cmd(t_cmd	*cmd)
+void	init_zero(t_ms *ms, char **env)
 {
-	cmd->cmd = NULL;
-	cmd->args = NULL;
-	cmd->start = 2;
-	cmd->end = 2;
-	cmd->redir = 0;
-	cmd->prev = NULL;
-	cmd->next = NULL;
+	ms->status = 0;
+	ms->input = (char *)malloc(SIZE);
+	ms->env = dup_str_tab(env);
+	ms->pwd = getcwd(NULL, 0);
+	ms->old_pwd = NULL;
+	ms->cmd_tab = NULL;
+	ms->tab = NULL;
+	ms->ret_status = 0;
 }
 
-void		init(t_ms *ms, char step, char **env)
+void	init(t_ms *ms, char step, char **env)
 {
 	ms->err = 0;
 	ms->cmd_err = 0;
@@ -57,16 +58,7 @@ void		init(t_ms *ms, char step, char **env)
 	ms->redir = 0;
 	ms->pp_count = 0;
 	if (!step)
-	{
-		ms->status = 0;
-		// ms->skip = 0;
-		ms->input = (char *)malloc(SIZE);
-		ms->env = dup_str_tab(env);
-		ms->pwd = getcwd(NULL, 0);
-		ms->cmd_tab = NULL;
-		ms->tab = NULL;
-		// ms->ret_status = 0;
-	}
+		init_zero(ms, env);
 	if (step == 1)
 	{
 		ms->input = (char *)malloc(SIZE);

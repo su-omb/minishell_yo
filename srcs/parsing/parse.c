@@ -6,13 +6,13 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 20:57:58 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:31:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		make_cmd(t_ms *ms, int b, int *i, char *s)
+int			make_cmd(t_ms *ms, int b, int *i, char *s)
 {
 	if (s[*i] == S_COLON)
 		parse_scolon(ms, b, *i, ms->input);
@@ -22,7 +22,6 @@ int		make_cmd(t_ms *ms, int b, int *i, char *s)
 		parse_trunc_rdr(ms, b, i, ms->input);
 	else if (s[*i] == READ)
 		parse_read_rdr(ms, b, *i, ms->input);
-	
 	if (ms->tab[0])
 	{
 		ms->cmd_err = ms->tab[0][0] == '\0';
@@ -48,7 +47,7 @@ t_cmd		*get_head(t_cmd *cmds, char *err)
 	return (cmds);
 }
 
-void	make_cmds_lst(t_ms *ms, t_parser *p)
+void		make_cmds_lst(t_ms *ms, t_parser *p)
 {
 	while (ms->input[p->i])
 	{

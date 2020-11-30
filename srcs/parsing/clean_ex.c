@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:23:08 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/27 11:49:49 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/30 18:10:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	clean_stx_err(t_ms *ms)
 {
-	ft_putstr_fd("minishell: syntax error\n", 1);
+	ft_putendl_fd("minishell: syntax error", 1);
 	if (ms->cmd_tab)
 		free_str_table(ms->cmd_tab, tb_len(ms->cmd_tab));
 	ms->cmd_tab = NULL;
@@ -22,18 +22,16 @@ void	clean_stx_err(t_ms *ms)
 
 void	clean(t_ms *ms)
 {
-	free(ms->input);
+	free(ms->input); // Attention : free the whole struct
 }
 
 void	errex(t_ms *ms, int step)
 {
-	if (ms->err == STX_ERR)
-		ft_putstr_fd("minishell: syntax error", 1);
-	else if (ms->err == RDIN_ERR)
-		ft_putstr_fd("minishell: reading input error", 1);
+	if (ms->err == RDIN_ERR)
+		ft_putendl_fd("minishell: reading input error", 1);
 	else if (ms->err == SPLT_ERR)
-		ft_putstr_fd("minishell: splitting input error", 1);
+		ft_putendl_fd("minishell: splitting input error", 1);
 	if (!step)
-		clean(ms);
-	minishell(ms->env, step != 0);
+		clean(ms); // needs more free functions
+	exit(ms->err);
 }

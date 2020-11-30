@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/28 20:48:54 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:24:44 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		skip_till(char *s, char *set, int quote_ig)
 
 	if (*s == '"' && !quote_ig)
 		return (-2);
-	if (ft_strchr("$\\\" /", *s))
+	if (ft_strchr("$\\\" /+", *s))
 		return (-1);
 	i = -1;
 	while (s[++i])
@@ -56,22 +56,21 @@ char	*remake_input(char *input, char *varv, int name_len, int *i)
 	return (tmp);
 }
 
-int		replace_var(t_ms *ms, t_parser *p)
+void	replace_var(t_ms *ms, t_parser *p)
 {
 	if (ms->input[p->i + 1] == '?')
 	{
 		++p->i;
 		p->tmp = ft_itoa(ms->status);
 		ms->input = remake_input(ms->input, p->tmp, 1, &p->i);
-		return (CONT);
+		return ;
 	}
 	p->l = skip_till(ms->input + ++p->i, " \"'\\$><|;", p->quote_ig);
 	if (p->l == -1)
-		return (CONT);
+		return ;
 	p->l = (p->l == -2) ? 0 : p->l;
 	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->env);
 	ms->input = remake_input(ms->input, p->tmp, p->l, &p->i);
-	return (0);
 }
 
 void	parse_d(t_ms *ms)
@@ -88,10 +87,7 @@ void	parse_d(t_ms *ms)
 			p.i += quote_handler(ms->input + p.i, 0);
 		p.slash_ig = (p.i && ms->input[p.i - 1] != '\\') || !p.i;
 		if (ms->input[p.i] == '$' && p.slash_ig)
-		{
-			if (replace_var(ms, &p) == CONT)
-				continue ;
-		}
+			replace_var(ms, &p);
 		else
 			p.i++;
 	}
