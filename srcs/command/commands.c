@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/29 14:40:59 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/30 14:21:58 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,71 +20,6 @@ int				is_builtin_sys(char *cmds)
 		ft_strcmp(cmds, "exit"))
 		return (0);
 	return (1);
-}
-
-int				open_file(t_cmd *tmp)
-{
-	int			fd;
-
-	fd = 1;
-	if (tmp->redir == TRUNC)
-		fd = open(tmp->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (tmp->redir == APPEND)
-		fd = open(tmp->next->cmd, O_WRONLY | O_CREAT | O_APPEND, 0666);
-	return (fd);
-}
-
-void			read_file(t_cmd *tmp)
-{
-	int		fd;
-
-	if ((fd = open(tmp->next->cmd, O_RDONLY)) < 0)
-		ft_putendl_fd("minishell: No such file or directory\n", 2);
-	else
-	{
-		dup2(fd, 0);
-	}
-	close(fd);	
-}
-
-void			save_fds(int *fds)
-{
-	fds[0] = dup(0);
-	fds[1] = dup(1);
-	fds[2] = dup(2);
-}
-
-void			restore_fds(int *fds)
-{
-	dup2(fds[0], 0);
-	close(fds[0]);
-	dup2(fds[1], 1);
-	close(fds[1]);
-	dup2(fds[2], 2);
-	close(fds[2]);
-}
-
-void			ft_redir(t_cmd *tmp, t_cmd *cmd)
-{
-	int			i;
-	int			fd_in;
-
-	while (tmp && tmp->redir)
-	{
-		if (tmp->redir == TRUNC || tmp->redir == APPEND)
-		{
-			i = 1;
-			if (tb_len(tmp->next->args) > 1 && !tmp->next->start)
-				while (tmp->next->args[i])
-					cmd->args = get_arr(tmp->next->args[i++], cmd->args);
-			fd_in = open_file(tmp);
-		}
-		else if (tmp->redir == READ)
-			read_file(tmp);
-		tmp = tmp->next;
-	}
-	dup2(fd_in, 1);
-	close(fd_in);
 }
 
 int				*dup_in_out(t_ms *ms)
@@ -116,13 +51,13 @@ pid_t			run_child(t_ms *ms, int i)
 		if (ms->pp_count)
 			ms->fds = dup_in_out(ms);
 		if (ms->cmds->redir)
-			ft_redir(tmp, ms->cmds);
+			ft_redir(ms, tmp, ms->cmds);
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && !is_builtin_sys(ms->cmds->cmd)
-			&& check_command(ms))
+		if (ms->cmds->args && (!is_builtin_sys(ms->cmds->cmd)
+			|| ms->cmds->redir) && check_command(ms))
 		{
-			ft_error(ms, CMD_NOT_FOUND_ERR);
+			cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
 			exit(127);
 		}
 		exit(0);
@@ -152,12 +87,10 @@ t_cmd			*exucte_cmd(t_ms *ms)
 			&& (!ms->cmds->redir && !ms->pp_count)))
 			break ;
 		ms->pid = run_child(ms, 0);
-		printf("cmd:%s\n", ms->cmds->cmd);
 		ms = exucte_help(ms);
-		printf("cmd2:%s\n", ms->cmds->cmd);
 		if (ms->pid < 0)
 		{
-			perror("Fork error");
+			perror("Fork error"); /* ======================= */
 			exit(0);
 		}
 		if (ms->cmds->end)
@@ -224,8 +157,6 @@ void			exec_command(t_ms *ms)
 	ms->j = 0;
 	while (ms->cmds)
 	{
-		if (*ms->cmds->cmd == '\0')
-			ft_error(ms, CMD_NOT_FOUND_ERR);
 		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
 		if (is_builtin_sys(ms->cmds->cmd))
@@ -255,7 +186,10 @@ char			*get_exec_path(t_ms *ms)
 		}
 	}
 	else
-		ft_error(ms, F_NOT_FOUND_ERR);
+	{
+		cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
+		exit (127);
+	}
 	return (NULL);
 }
 
@@ -268,9 +202,11 @@ void			check_command_help(t_ms *ms)
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 		{
-			ft_putstr_fd("minishell: ", 1);
-			perror(ms->cmds->cmd);
-			exit(1);
+			if (ft_strchr(ms->cmds->cmd, '/'))
+				cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
+			else
+				cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
+			exit(127);
 		}
 	}
 	else if (!is_builtin_sys(ms->cmds->cmd))

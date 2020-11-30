@@ -34,12 +34,15 @@
 # define SUCCESS	0
 # define PIPE		124
 # define S_COLON	59
-# define STX_ERR	1
 # define VALID_STX	7
 # define RDIN_ERR	2
 # define SPLT_ERR	3
+# define STX_ERR			1
 # define F_NOT_FOUND_ERR	2
+# define NOT_VALID_ERR		3
 # define CMD_NOT_FOUND_ERR	4
+# define OLDPWD_ERR			5
+# define HOME_NOT_SET_ERR	6
 
 
 # define HELLO "\n\n======> SAFE <======\n\n"
@@ -58,13 +61,13 @@ typedef		struct	s_cmd
 
 typedef		struct	s_parser
 {
-	int		i;
-	int		j;
-	int		m;
-	int		l;
-	char	quote_ig;
-	char	slash_ig;
-	char	*tmp;
+	int				i;
+	int				j;
+	int				m;
+	int				l;
+	char			quote_ig;
+	char			slash_ig;
+	char			*tmp;
 }					t_parser;
 
 typedef		struct	s_ms
@@ -146,7 +149,11 @@ void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
 int 				valid_arg(char *arg);
 int					ft_error(t_ms *ms, int err);
-int					cmd_error(int err, char *cmd, char *arg);
+int					cmd_error(t_ms *ms, int err, char *cmd, char *arg);
+void				save_fds(int *fds);
+void				restore_fds(int *fds);
+void				ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd);
+void				handle_sig(int sig);
 /* main function */
 int					minishell(char **env, int step);
 

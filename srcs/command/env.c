@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/29 12:15:17 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:10:46 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,12 @@ int			ft_env(t_ms *ms)
 	{
 		while (ms->env && ms->env[++i])
 			if (ft_strchr(ms->env[i], '='))
-				printf("%s\n", ms->env[i]);
+				ft_putendl_fd(ms->env[i], 1);
 	}
 	else
 	{
-		cmd_error(1, "env", ms->cmds->args[1]);
+		cmd_error(ms, F_NOT_FOUND_ERR, "env", ms->cmds->args[1]);
+		ms->status = 127;
 		return (1);
 	}
 	return (0);
