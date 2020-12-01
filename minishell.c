@@ -28,7 +28,7 @@ void		parse_exec(t_ms *ms)
 		while (ms->cmd_tab[++i])
 		{
 			signal(SIGQUIT, handle_sig);
-			ms->input = ms->cmd_tab[i];
+			ms->input = ft_strdup(ms->cmd_tab[i]);
 			parse(ms);
 			if (ms->cmd_err || (ms->lst_end && !ms->lst_end->end))
 			{
@@ -46,10 +46,7 @@ void		handle_sig(int sig)
 	t_ms		ms;
 
 	if (sig == SIGINT)
-	{
-		ft_putchar_fd('\n', 1);
-		ft_putstr_fd("\033[1;31m$minishell$~> \033[0m", 1);
-	}
+		ft_putstr_fd("\n\033[1;31m$minishell$~> \033[0m", 1);
 	else if (sig == SIGQUIT)
 	{
 		ft_putendl_fd("Quit: 3", 2);

@@ -74,20 +74,20 @@ typedef		struct	s_ms
 {
 	char			*input;
 	char			*output;
-	pid_t			pid;
-	pid_t			*tpid;
 	char			err;
 	char			cmd_err;
-	t_cmd			*cmds;
-	t_cmd			*lst_end;
-	int				redir;
-	int				pp_count;
-	int 			*fds;
 	char			*pwd;
 	char			*old_pwd;
 	char			**tab;
 	char			**cmd_tab;
 	char			**env;
+	pid_t			pid;
+	pid_t			*tpid;
+	t_cmd			*cmds;
+	t_cmd			*lst_end;
+	int				redir;
+	int				pp_count;
+	int 			*fds;
 
 	int				status;
 	int 			ret_status;
@@ -122,7 +122,7 @@ void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);
-void				print_total_cmds(char **cmds_tab);
+void				print_total_cmds(char **cmds_tab, char *mode);
 
 /* Cmds */
 char				*ft_strcpy_pro(char *dst, const char *src, char c);

@@ -41,7 +41,7 @@ void			exit_analyse(t_ms *ms, int *b)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(ms->cmds->args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
-		ms->ret_status = 1;
+		ms->ret_status = 255;
 	}
 	else if (is_set(ms->cmds->args[1], "0123456789"))
 	{

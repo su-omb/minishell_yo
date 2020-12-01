@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/30 14:21:58 by yslati           ###   ########.fr       */
+/*   Updated: 2020/11/30 18:00:41 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void			exec_command(t_ms *ms)
 		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
 		if (is_builtin_sys(ms->cmds->cmd))
-			check_command(ms);
+			ms->status = check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
 }
@@ -235,7 +235,7 @@ int				check_command(t_ms *ms)
 	else if (!ft_strcmp(ms->cmds->cmd, "echo"))
 		ret = ft_echo(ms);
 	else if (!ft_strcmp(ms->cmds->cmd, "exit"))
-		ft_exit(ms);
+		ret = ft_exit(ms);
 	else
 		check_command_help(ms);
 	return (ret);
