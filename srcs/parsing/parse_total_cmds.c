@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_total_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/30 17:18:59 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:10:02 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void		get_input(t_ms *ms)
 		ms->err = RDIN_ERR;
 		errex(ms, 0);
 	}
-	if (i == 0)
+	ms->input[i - 1] = '\0';
+	if (i == 0 && !ft_strlen(ms->input))
 	{
 		ft_putendl_fd("exit", 1);
 		exit(0);
 	}
-	ms->input[i - 1] = '\0';
 }
 
 int		sm_finder(char *input, t_parser *p)

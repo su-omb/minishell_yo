@@ -43,14 +43,12 @@ void		parse_exec(t_ms *ms)
 }
 void		handle_sig(int sig)
 {
-	t_ms		ms;
-
 	if (sig == SIGINT)
 		ft_putstr_fd("\n\033[1;31m$minishell$~> \033[0m", 1);
 	else if (sig == SIGQUIT)
 	{
 		ft_putendl_fd("Quit: 3", 2);
-		kill(ms.pid, sig);
+		return ;
 	}
 }
 
