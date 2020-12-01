@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/30 12:45:55 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/01 10:18:07 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			ft_cd(t_ms *ms)
 		else
 			is = cmd_error(ms, OLDPWD_ERR, "cd", NULL);
 	}
-	else if (ms->cmds->args[1] != NULL)
+	else if (ms->cmds->args[1] != NULL && *ms->cmds->args[1] != '\0')
 		if (chdir(ms->cmds->args[1]) != 0)
 			is = cmd_error(ms, F_NOT_FOUND_ERR, "cd", ms->cmds->args[1]);
 	if (is == 0)

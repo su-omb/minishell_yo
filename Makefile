@@ -18,7 +18,14 @@ LIBFT = ./libft/libft.a
 
 MS_MAIN = minishell.c
 
-FILES = $(wildcard ./srcs/*/*.c)
+FILES = ./srcs/command/cd.c ./srcs/command/commands.c \
+		./srcs/command/echo.c ./srcs/command/env.c ./srcs/command/error.c \
+		./srcs/command/exit.c ./srcs/command/export.c ./srcs/command/pwd.c \
+		./srcs/command/redir_fds.c ./srcs/command/unset.c ./srcs/parsing/clean_ex.c \
+		./srcs/parsing/delimeters_parser.c ./srcs/parsing/get_next_line.c ./srcs/parsing/get_next_line_utils.c \
+		./srcs/parsing/helpers.c ./srcs/parsing/init.c ./srcs/parsing/omar.c \
+		./srcs/parsing/parse.c ./srcs/parsing/parse_split.c ./srcs/parsing/parse_total_cmds.c \
+		./srcs/parsing/parse_vars.c ./srcs/parsing/skip_chars_parse.c \
 
 HEADER = ./includes/minishell.h
 
@@ -39,7 +46,7 @@ $(NAME): $(OBJECT) $(HEADER) $(FILES)
 
 clean:
 	@make fclean -C ./libft
-	@rm -rf $(OBJECT) $(LIB) $(LIBFT)
+	@rm -rf $(OBJECT) $(LIB)
 	@echo "\n\033[36mCleaning objects Done!\033[0m\n"
 
 fclean: clean

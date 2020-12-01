@@ -24,28 +24,28 @@
 # include <sys/stat.h>
 # include "../libft/libft.h"
 
-# define SIZE		16384
-# define CONT		1
-# define TRUE		14
-# define APPEND		'a'
-# define TRUNC		'>'
-# define READ		'<'
-# define FLASE		0
-# define SUCCESS	0
-# define PIPE		124
-# define S_COLON	59
-# define VALID_STX	7
-# define RDIN_ERR	2
-# define SPLT_ERR	3
+# define SIZE				16384
+# define CONT				1
+# define TRUE				14
+# define APPEND				'a'
+# define TRUNC				'>'
+# define READ				'<'
+# define FLASE				0
+# define SUCCESS			0
+# define PIPE				124
+# define S_COLON			59
+# define VALID_STX			7
+# define RDIN_ERR			2
+# define SPLT_ERR			3
 # define STX_ERR			1
 # define F_NOT_FOUND_ERR	2
 # define NOT_VALID_ERR		3
 # define CMD_NOT_FOUND_ERR	4
 # define OLDPWD_ERR			5
 # define HOME_NOT_SET_ERR	6
-
-
-# define HELLO "\n\n======> SAFE <======\n\n"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
 typedef		struct	s_cmd
 {
@@ -118,6 +118,10 @@ void				parse_trunc_rdr(t_ms *ms, int b, int *i, char *s);
 void				parse_pipe(t_ms *ms, int b, int i, char *s);
 void				parse_scolon(t_ms *ms, int b, int i, char *s);
 char				*parse_quote_bslash(char *elem, t_ms *ms);
+size_t				len_if(char *s, int nl);
+char				*ft_dup_free(char *src, char **to_free);
+int					build_line(char **line, char **buff, char **buff_s, char step);
+int					get_next_line(int fd, char **line);
 void				free_cmds(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
@@ -154,7 +158,7 @@ void				save_fds(int *fds);
 void				restore_fds(int *fds);
 void				ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd);
 void				handle_sig(int sig);
+int					g_ret;
 /* main function */
 int					minishell(char **env, int step);
-
 #endif

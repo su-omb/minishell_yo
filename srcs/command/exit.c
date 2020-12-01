@@ -71,7 +71,7 @@ int				ft_exit(t_ms *ms)
 	b = 1;
 	if (ms->cmds->args[1])
 		exit_analyse(ms, &b);
-	if (!b)
+	if (!b && (ms->status = 1))
 		return (1);
 	if (ms->env)
 		free_str_table(ms->env, tb_len(ms->env));

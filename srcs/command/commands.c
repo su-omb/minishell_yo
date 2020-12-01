@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/30 18:00:41 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:53:13 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void			exec_command(t_ms *ms)
 		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
 		if (is_builtin_sys(ms->cmds->cmd))
-			ms->status = check_command(ms);
+			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
 }
