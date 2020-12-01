@@ -43,6 +43,7 @@
 # define CMD_NOT_FOUND_ERR	4
 # define OLDPWD_ERR			5
 # define HOME_NOT_SET_ERR	6
+# define CTRL_C_STATUS
 
 
 # define HELLO "\n\n======> SAFE <======\n\n"
@@ -154,7 +155,7 @@ void				save_fds(int *fds);
 void				restore_fds(int *fds);
 void				ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd);
 void				handle_sig(int sig);
+int					g_ret;
 /* main function */
 int					minishell(char **env, int step);
-
 #endif
