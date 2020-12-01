@@ -24,7 +24,7 @@
 # include <sys/stat.h>
 # include "../libft/libft.h"
 
-# define SIZE		1638
+# define SIZE		16384
 # define CONT		1
 # define TRUE		14
 # define APPEND		'a'

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/30 20:24:44 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/01 11:46:38 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		skip_till(char *s, char *set, int quote_ig)
 
 	if (*s == '"' && !quote_ig)
 		return (-2);
-	if (ft_strchr("$\\\" /+", *s))
+	if (ft_strchr("$\\\" /", *s))
 		return (-1);
 	i = -1;
 	while (s[++i])
@@ -68,7 +68,8 @@ void	replace_var(t_ms *ms, t_parser *p)
 	p->l = skip_till(ms->input + ++p->i, " \"'\\$><|;", p->quote_ig);
 	if (p->l == -1)
 		return ;
-	p->l = (p->l == -2) ? 0 : p->l;
+	else if (p->l == -2)
+		p->l = 0;
 	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->env);
 	ms->input = remake_input(ms->input, p->tmp, p->l, &p->i);
 }
