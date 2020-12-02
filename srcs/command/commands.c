@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/02 13:40:20 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/02 14:23:32 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,12 @@ int				wait_child(t_ms *ms)
 	if (!ms->pp_count)
 		waitpid(ms->pid, &st, 0);
 	else
-	{
 		while (++i < ms->pp_count + 1)
 		{
 			waitpid(ms->tpid[i], &st, 0);
 			if (st == 2)
 				return (2);
 		}
-	}
 	return (st);
 }
 
@@ -181,15 +179,14 @@ char			*get_exec_path(t_ms *ms)
 		{
 			path = ft_strjoin(tab[i], "/");
 			path = ft_strjoin(path, ms->cmds->cmd);
-			if ((stat(path, &stats)) == 0)
-				if (stats.st_mode & X_OK)
-					return (path);
+			if ((stat(path, &stats)) == 0 && (stats.st_mode & X_OK))
+				return (path);
 		}
 	}
 	else
 	{
 		cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
-		exit (127);
+		exit(127);
 	}
 	return (NULL);
 }
@@ -199,16 +196,10 @@ void			check_command_help(t_ms *ms)
 	char		*path;
 
 	path = NULL;
-	if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
+	if ((ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
-		{
-			if (ft_strchr(ms->cmds->cmd, '/'))
-				cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
-			else
-				cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
-			exit(127);
-		}
+			exit(cmd_error_help(ms));
 	}
 	else if (!is_builtin_sys(ms->cmds->cmd))
 	{
