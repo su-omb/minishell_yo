@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/01 12:57:22 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/02 11:33:52 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 void		get_input(t_ms *ms)
 {
 	int i;
+	int l;
 
 	if ((i = get_next_line(0, &ms->input)) < 0)
 	{
 		ms->err = RDIN_ERR;
 		errex(ms, 0);
 	}
-	ms->input[ft_strlen(ms->input) - 1] = '\0';
-	if (i == 0 && !ft_strlen(ms->input))
+	if ((l = ft_strlen(ms->input)) != 0)
+		ms->input[l - 1] = '\0';
+	if (i == 0 && !l)
 	{
-		ft_putendl_fd("exit", 1);
-		exit(0);
+		ms->ret_status = 0;
+		ms->ctrl = CTRL_D;
+		ft_exit(ms);
 	}
 }
 

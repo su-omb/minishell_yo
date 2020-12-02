@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:04:11 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/30 20:36:46 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/02 12:05:21 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ int		tb_len(char **table)
 	return (len);
 }
 
-char	**free_str_table(char **tab, int size)
+char	**free_str_table(char **tab)
 {
+	int i;
+	
 	if (!tab)
 		return (NULL);
-	while (size--)
+	i = -1;
+	while (tab[++i])
 	{
-		free(tab[size]);
-		tab[size] = NULL;
+		free(tab[i]);
+		tab[i] = NULL;
 	}
 	free(tab);
 	return (NULL);

@@ -19,7 +19,6 @@ void		parse_exec(t_ms *ms)
 	if (parse_total_cmds(ms))
 	{
 		clean_stx_err(ms);
-		init(ms, 1, NULL);
 		return ;
 	}
 	if (ms->cmd_tab)
@@ -41,6 +40,7 @@ void		parse_exec(t_ms *ms)
 	}
 	init(ms, 2, NULL);
 }
+
 void		handle_sig(int sig)
 {
 	if (sig == SIGINT)
@@ -49,10 +49,7 @@ void		handle_sig(int sig)
 		ft_putstr_fd("\n\033[1;31m$minishell$~> \033[0m", 1);
 	}
 	else if (sig == SIGQUIT)
-	{
 		ft_putendl_fd("Quit: 3", 2);
-		return ;
-	}
 }
 
 int			minishell(char **env, int step)
@@ -72,7 +69,6 @@ int			minishell(char **env, int step)
 	}
 	return (0);
 }
-
 
 int			main(int ac, char **av, char **env)
 {

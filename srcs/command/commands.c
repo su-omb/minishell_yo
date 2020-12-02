@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/01 11:53:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/02 13:40:20 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ void			exec_command(t_ms *ms)
 			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
+	ms->cmds = ms->head;
 }
 
 char			*get_exec_path(t_ms *ms)

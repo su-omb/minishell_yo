@@ -26,14 +26,13 @@
 
 # define SIZE				16384
 # define CONT				1
-# define TRUE				14
 # define APPEND				'a'
 # define TRUNC				'>'
 # define READ				'<'
-# define FLASE				0
 # define SUCCESS			0
 # define PIPE				124
 # define S_COLON			59
+# define CTRL_D				-3
 # define VALID_STX			7
 # define RDIN_ERR			2
 # define SPLT_ERR			3
@@ -84,6 +83,7 @@ typedef		struct	s_ms
 	pid_t			pid;
 	pid_t			*tpid;
 	t_cmd			*cmds;
+	t_cmd			*head;
 	t_cmd			*lst_end;
 	int				redir;
 	int				pp_count;
@@ -93,13 +93,14 @@ typedef		struct	s_ms
 	int 			ret_status;
 	int				skip;
 	int				j;
+	int				ctrl;
 	int 			backup[3];
 }					t_ms;
 
 /* Parsing */
 void				get_input(t_ms *ms);
 int					tb_len(char **table);
-char				**free_str_table(char **tab, int size);
+char				**free_str_table(char **tab);
 void				init(t_ms *ms, char step, char **env);
 int					parse_total_cmds(t_ms *ms);
 void				parse(t_ms *ms);

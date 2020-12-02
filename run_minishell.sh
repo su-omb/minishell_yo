@@ -2,7 +2,6 @@
 
 if [ "$1" == "re" ];
 	then make re
-	exit 0
 else
 	make
 fi
