@@ -43,6 +43,8 @@
 # define CMD_NOT_FOUND_ERR	4
 # define OLDPWD_ERR			5
 # define HOME_NOT_SET_ERR	6
+# define IS_DIRECTORY_ERR	7
+# define PERMISSION_ERR		8
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
@@ -158,6 +160,8 @@ void				save_fds(int *fds);
 void				restore_fds(int *fds);
 void				ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd);
 void				handle_sig(int sig);
+int					check_permission(char *path, int mode);
+int					cmd_error_help(t_ms *ms);
 int					g_ret;
 /* main function */
 int					minishell(char **env, int step);

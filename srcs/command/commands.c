@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/01 11:53:13 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/02 13:04:18 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,12 @@ int				wait_child(t_ms *ms)
 	if (!ms->pp_count)
 		waitpid(ms->pid, &st, 0);
 	else
-	{
 		while (++i < ms->pp_count + 1)
 		{
 			waitpid(ms->tpid[i], &st, 0);
 			if (st == 2)
 				return (2);
 		}
-	}
 	return (st);
 }
 
@@ -198,15 +196,20 @@ void			check_command_help(t_ms *ms)
 	char		*path;
 
 	path = NULL;
-	if (ms->cmds->cmd[0] == '/' || (ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
+	if ((ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 		{
-			if (ft_strchr(ms->cmds->cmd, '/'))
-				cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
-			else
-				cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
-			exit(127);
+			//stat(ms->cmds->cmd, &stats);
+			//if (!ft_access(ms->cmds->cmd, 1))
+			//	puts("file");
+			//else if (stats.st_mode == 16877)
+			//	puts("dir");
+			//else if (ft_strchr(ms->cmds->cmd, '/'))
+			//	cmd_error(ms, F_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
+			//else
+			//	cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
+			exit(cmd_error_help(ms));
 		}
 	}
 	else if (!is_builtin_sys(ms->cmds->cmd))
