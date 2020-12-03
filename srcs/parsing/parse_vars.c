@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/01 12:09:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/03 12:57:06 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ char	*get_vvalue(char *var_name, char **env)
 	int		i;
 	int		l;
 
+	l = ft_strlen(var_name);
 	if ((i = get_env(env, var_name)) < 0)
 		return (ft_strdup(""));
-	l = ft_strlen(var_name);
-	free(var_name);
+	// free(var_name);
 	return (ft_strdup(env[i] + l + 1));
 }
 

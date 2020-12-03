@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/02 14:23:32 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/03 13:56:26 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int				is_builtin_sys(char *cmds)
 {
-	if (ft_strcmp(cmds, "env") && ft_strcmp(cmds, "cd") &&
+	return (!(ft_strcmp(cmds, "env") && ft_strcmp(cmds, "cd") &&
 		ft_strcmp(cmds, "pwd") && ft_strcmp(cmds, "export") &&
 		ft_strcmp(cmds, "unset") && ft_strcmp(cmds, "echo") &&
-		ft_strcmp(cmds, "exit"))
-		return (0);
-	return (1);
+		ft_strcmp(cmds, "exit")));
 }
 
 int				*dup_in_out(t_ms *ms)
@@ -110,7 +108,9 @@ int				wait_child(t_ms *ms)
 	st = 0;
 	i = -1;
 	if (!ms->pp_count)
+	{
 		waitpid(ms->pid, &st, 0);
+	}
 	else
 		while (++i < ms->pp_count + 1)
 		{
@@ -137,7 +137,14 @@ void			manage_cmd(t_ms *ms)
 	if (st == 2 || st == 3)
 		ms->status = st + 128;
 	else
-		ms->status = (st >> 8) & 255;
+	{
+		if ((ms->status = (st >> 8) & 255) == 255)
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(ms->cmds->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+		}
+	}
 }
 
 void			exec_command(t_ms *ms)
@@ -164,24 +171,41 @@ void			exec_command(t_ms *ms)
 	ms->cmds = ms->head;
 }
 
+char			*is_path_exe(char **tab, t_ms *ms)
+{
+	int			i;
+	struct stat	stats;
+	char		*path;
+
+	i = -1;
+	stats.st_mode = 0;
+	while (tab[++i])
+	{
+		path = ft_strjoin(tab[i], "/");
+		path = clean_join(path, ms->cmds->cmd);
+		if ((stat(path, &stats)) == 0 && (stats.st_mode & X_OK))
+			return (path);
+		free(path);
+	}
+	return (NULL);
+}
+
 char			*get_exec_path(t_ms *ms)
 {
 	int			i;
 	char		**tab;
 	char		*path;
-	struct stat	stats;
 
-	if ((i = get_env(ms->env, "PATH")) != -1)
+
+	if ((i = get_env(ms->env, ft_strdup("PATH"))) != -1)
 	{
 		tab = ft_split(ms->env[i] + 5, ':');
-		i = -1;
-		while (tab[++i])
+		if ((path = is_path_exe(tab, ms)))
 		{
-			path = ft_strjoin(tab[i], "/");
-			path = ft_strjoin(path, ms->cmds->cmd);
-			if ((stat(path, &stats)) == 0 && (stats.st_mode & X_OK))
-				return (path);
+			tab = free_str_table(tab);
+			return (path);
 		}
+		tab = free_str_table(tab);
 	}
 	else
 	{
@@ -205,7 +229,7 @@ void			check_command_help(t_ms *ms)
 	{
 		path = get_exec_path(ms);
 		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
-		(path) ? free(path) : 0;
+		path = ft_free(path);
 	}
 }
 

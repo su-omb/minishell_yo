@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 10:05:17 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/02 13:22:01 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:43:50 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				cmd_error_help(t_ms *ms)
 	int			ret;
 
 	ret = 0;
+	stats.st_mode = 0;
 	if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 	{
 		stat(ms->cmds->cmd, &stats);

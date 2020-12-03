@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:23:08 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/02 12:07:54 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/03 12:01:31 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@ void	clean_stx_err(t_ms *ms)
 	ft_putendl_fd("minishell: syntax error", 1);
 	if (ms->cmd_tab)
 		ms->cmd_tab = free_str_table(ms->cmd_tab);
+}
+
+void	*ft_free(void *mem_ptr)
+{
+	free(mem_ptr);
+	return (NULL);
+}
+
+char	*clean_join(char *s1, char *s2)
+{
+	char *tmp;
+
+	tmp = s1;
+	s1 = ft_strjoin(s1, s2);
+	free(tmp);
+	return (s1);
 }
 
 void	clean(t_ms *ms)

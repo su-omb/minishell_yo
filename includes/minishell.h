@@ -45,7 +45,7 @@
 # define IS_DIRECTORY_ERR	7
 # define PERMISSION_ERR		8
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 		1
 # endif
 
 typedef		struct	s_cmd
@@ -126,6 +126,8 @@ char				*ft_dup_free(char *src, char **to_free);
 int					build_line(char **line, char **buff, char **buff_s, char step);
 int					get_next_line(int fd, char **line);
 void				free_cmds(t_ms *ms);
+void				*ft_free(void *mem_ptr);
+char				*clean_join(char *s1, char *s2);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);
@@ -134,14 +136,14 @@ void				print_total_cmds(char **cmds_tab, char *mode);
 /* Cmds */
 char				*ft_strcpy_pro(char *dst, const char *src, char c);
 int					get_env(char **env, char *var);
-char				**get_arr(char *value, char **env);
+char				**get_arr(char *value, char ***env);
 int					check_exist(char **env, char *arg);
 int					cmp_get_pos(char **env, char *var);
 char				**rm_arr(char **env, int pos);
 void				ft_print_env(char **env);
 void				sort_env(char **env);
-char				**add_to_arr(char *value, char **env);
-char    			**set_env(char *var, char *value, char **env);
+char				**add_to_arr(char *value, char ***env);
+char    			**set_env(char *var, char *value, char ***env);
 int					ft_cd(t_ms *ms);
 int					ft_env(t_ms *ms);
 int					ft_export(t_ms *ms);
