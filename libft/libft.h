@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:51:19 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/04 18:51:56 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 12:31:13 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef	struct	s_list
 }				t_list;
 
 int				ft_atoi(const char *str);
+long			ft_atoli(const char *str);
 void			ft_bzero(void *b, size_t n);
 void			*ft_calloc(size_t count, size_t size);
 int				ft_isalnum(int c);

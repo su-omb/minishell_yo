@@ -36,14 +36,19 @@ int				is_set(char *target, char *set)
 
 void			exit_analyse(t_ms *ms, int *b)
 {
-	if (!is_set(ms->cmds->args[1], "0123456789"))
+	char	*tmp;
+
+	tmp = ms->cmds->args[1];
+	if (*tmp == '+' || *tmp == '-')
+		tmp++;
+	if (!is_set(tmp, "0123456789"))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(ms->cmds->args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ms->ret_status = 255;
 	}
-	else if (is_set(ms->cmds->args[1], "0123456789"))
+	else if (is_set(tmp, "0123456789"))
 	{
 		if (ms->tab[2])
 		{
@@ -51,7 +56,7 @@ void			exit_analyse(t_ms *ms, int *b)
 			*b = 0;
 		}
 		else
-			ms->ret_status = ft_atoi(ms->cmds->args[1]);
+			ms->ret_status = ft_atoli(ms->cmds->args[1]);
 	}
 }
 
@@ -63,8 +68,7 @@ void			free_parsing_struct(t_ms *ms)
 	free_cmds(ms);
 	free(ms->pwd);
 	free(ms->old_pwd);
-	if (ms->ctrl == CTRL_D)
-		free(ms->input);
+	ms->input = ft_free(ms->input);
 	free(ms);
 }
 
@@ -81,7 +85,7 @@ int				ft_exit(t_ms *ms)
 		if (!b && (ms->status = 1))
 			return (1);
 	}
-	b = ms->ret_status;
+	b = ms->ctrl == CTRL_D ? 0 : ms->ret_status;
 	free_parsing_struct(ms);
 	exit(b);
 }

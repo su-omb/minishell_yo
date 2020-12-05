@@ -92,7 +92,7 @@ typedef		struct	s_ms
 	int 			*fds;
 
 	int				status;
-	int 			ret_status;
+	long 			ret_status;
 	int				skip;
 	int				j;
 	int				ctrl;
@@ -128,6 +128,7 @@ int					get_next_line(int fd, char **line);
 void				free_cmds(t_ms *ms);
 void				*ft_free(void *mem_ptr);
 char				*clean_join(char *s1, char *s2);
+void				internal_init(t_ms *ms);
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);

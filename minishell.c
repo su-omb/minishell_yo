@@ -35,7 +35,7 @@ void		parse_exec(t_ms *ms)
 				break ;
 			}
 			exec_command(ms);
-			free_cmds(ms);
+			internal_init(ms);
 		}
 	}
 	init(ms, 2, NULL);
