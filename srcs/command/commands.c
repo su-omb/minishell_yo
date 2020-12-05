@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 13:56:26 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:02:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ pid_t			run_child(t_ms *ms, int i)
 			ft_redir(ms, tmp, ms->cmds);
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && (!is_builtin_sys(ms->cmds->cmd)
-			|| ms->cmds->redir) && check_command(ms))
+		if (ms->cmds->args && check_command(ms) && !is_builtin_sys(ms->cmds->cmd))
 		{
 			cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
 			exit(127);
@@ -88,7 +87,7 @@ t_cmd			*exucte_cmd(t_ms *ms)
 		ms = exucte_help(ms);
 		if (ms->pid < 0)
 		{
-			perror("Fork error"); /* ======================= */
+			ft_putstr_fd("minishell: forking error\n", 2);
 			exit(0);
 		}
 		if (ms->cmds->end)
@@ -137,14 +136,7 @@ void			manage_cmd(t_ms *ms)
 	if (st == 2 || st == 3)
 		ms->status = st + 128;
 	else
-	{
-		if ((ms->status = (st >> 8) & 255) == 255)
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(ms->cmds->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-		}
-	}
+		ms->status = (st >> 8) & 255;
 }
 
 void			exec_command(t_ms *ms)
@@ -152,19 +144,23 @@ void			exec_command(t_ms *ms)
 	int			i;
 
 	i = 0;
-	(ms->pp_count) ? ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int)) : 0;
-	(ms->pp_count) ? ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1)) : 0;
-	while (ms->pp_count && i < 2 * ms->pp_count)
+	if (ms->pp_count)
 	{
-		pipe(ms->fds + i * 2);
-		i++;
+		ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int));
+		ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1));
 	}
+	if (ms->pp_count)
+		while (i < 2 * ms->pp_count)
+		{
+			pipe(ms->fds + (i * 2));
+			i += 2;
+		}
 	ms->j = 0;
 	while (ms->cmds)
 	{
 		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
-		if (is_builtin_sys(ms->cmds->cmd))
+		if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count && !ms->cmds->redir)
 			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
@@ -220,7 +216,8 @@ void			check_command_help(t_ms *ms)
 	char		*path;
 
 	path = NULL;
-	if ((ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/') || ft_strchr(ms->cmds->cmd, '/'))
+	if ((ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/')
+		|| ft_strchr(ms->cmds->cmd, '/'))
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 			exit(cmd_error_help(ms));

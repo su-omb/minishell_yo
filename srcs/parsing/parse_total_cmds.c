@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/02 11:33:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:32:32 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,39 @@
 void		get_input(t_ms *ms)
 {
 	int i;
-	int l;
+	int b;
+	int len;
+	char *tmp;
 
-	if ((i = get_next_line(0, &ms->input)) < 0)
-	{
-		ms->err = RDIN_ERR;
-		errex(ms, 0);
-	}
-	if ((l = ft_strlen(ms->input)) != 0)
-		ms->input[l - 1] = '\0';
-	if (i == 0 && !l)
-	{
-		ms->ret_status = 0;
-		ms->ctrl = CTRL_D;
-		ft_exit(ms);
+	b = 1;
+	while (b)
+	{	
+		if ((i = get_next_line(0, &ms->input)) < 0)
+		{
+			ms->err = RDIN_ERR;
+			errex(ms, 0);
+		}
+		if (b == 2)
+		{
+			tmp = clean_join(tmp, ms->input);
+			free(ms->input);
+			ms->input = tmp;
+		}
+		if ((len = ft_strlen(ms->input)) && ms->input[len - 1] != '\n')
+		{
+			ft_putstr_fd("  \b\b", 1);
+			tmp = ft_strdup(ms->input);
+			ms->input = ft_free(ms->input);
+			b = 2;
+		}
+		else
+		{
+			b = 0;
+			if (len != 0)
+				ms->input[len - 1] = '\0';
+			if (i == 0 && !len && (ms->ctrl = CTRL_D))
+				ft_exit(ms);
+		}
 	}
 }
 

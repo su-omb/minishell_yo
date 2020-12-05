@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 17:48:16 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/01 12:54:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:43:44 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		get_next_line(int fd, char **line)
 		else if (buff_s && build_line(line, &buff, &(buff_s), 0))
 			return (1);
 	}
-	(buff_s != NULL) ? free(buff_s) : 0;
-	(buff != NULL) ? free(buff) : 0;
+	free(buff_s);
+	free(buff);
 	return (0);
 }

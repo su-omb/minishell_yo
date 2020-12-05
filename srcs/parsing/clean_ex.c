@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:23:08 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/03 12:01:31 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:30:29 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,24 @@ void	*ft_free(void *mem_ptr)
 {
 	free(mem_ptr);
 	return (NULL);
+}
+
+void	free_cmds(t_ms *ms)
+{
+	t_cmd *c;
+	t_cmd *tmp;
+
+	c = ms->cmds;
+	while (c)
+	{
+		free(c->cmd);
+		c->cmd = NULL;
+		c->args = free_str_table(c->args);
+		tmp = c;
+		c = c->next;
+		tmp = ft_free(tmp);
+	}
+	ms->cmds = NULL;
 }
 
 char	*clean_join(char *s1, char *s2)

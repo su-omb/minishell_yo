@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/03 14:18:49 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:30:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ void	init_parser(t_parser *p)
 	p->quote_ig = 0;
 	p->slash_ig = 0;
 	p->l = 0;
-}
-
-void	free_cmds(t_ms *ms)
-{
-	t_cmd *c;
-	t_cmd *tmp;
-
-	c = ms->cmds;
-	while (c)
-	{
-		free(c->cmd);
-		c->cmd = NULL;
-		c->args = free_str_table(c->args);
-		tmp = c;
-		c = c->next;
-		free(tmp);
-	}
-	ms->cmds = NULL;
-	free(ms->input);
-	ms->input = NULL;
 }
 
 void	init_zero(t_ms *ms, char **env)
@@ -65,6 +45,18 @@ void	init_zero(t_ms *ms, char **env)
 	
 }
 
+void	internal_init(t_ms *ms)
+{
+	ms->err = 0;
+	ms->cmd_err = 0;
+	ms->redir = 0;
+	ms->pp_count = 0;
+	ms->input = ft_free(ms->input);
+	ms->fds = ft_free(ms->fds);
+	ms->tpid = ft_free(ms->tpid);
+	free_cmds(ms);
+}
+
 void	init(t_ms *ms, char step, char **env)
 {
 	ms->err = 0;
@@ -72,6 +64,8 @@ void	init(t_ms *ms, char step, char **env)
 	ms->redir = 0;
 	ms->ctrl = 0;
 	ms->pp_count = 0;
+	ms->fds = NULL;
+	ms->tpid = NULL;
 	if (!step)
 		init_zero(ms, env);
 	if (step == 2)
