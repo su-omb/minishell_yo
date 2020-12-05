@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 13:56:26 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 11:42:35 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ pid_t			run_child(t_ms *ms, int i)
 			ft_redir(ms, tmp, ms->cmds);
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && (!is_builtin_sys(ms->cmds->cmd)
-			|| ms->cmds->redir) && check_command(ms))
+		if (ms->cmds->args && check_command(ms) && (!is_builtin_sys(ms->cmds->cmd)))
 		{
 			cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
 			exit(127);
@@ -164,7 +163,7 @@ void			exec_command(t_ms *ms)
 	{
 		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
-		if (is_builtin_sys(ms->cmds->cmd))
+		if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count && !ms->cmds->redir)
 			check_command(ms);
 		ms->cmds = ms->cmds->next;
 	}
