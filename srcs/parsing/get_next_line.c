@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 17:48:16 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/05 18:07:14 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:45:56 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int		get_next_line(int fd, char **line)
 		if (!buff_s && (b = read(fd, buff, BUFFER_SIZE)) == -1)
 			return (-1);
 		buff[b] = '\0';
-		// if (b && buff[b - 1] != '\n')
 		if (!buff_s && build_line(line, &buff, &(buff_s), 1))
 			return (1);
 		else if (buff_s && build_line(line, &buff, &(buff_s), 0))

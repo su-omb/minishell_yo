@@ -25,7 +25,7 @@ FILES = ./srcs/command/cd.c ./srcs/command/commands.c \
 		./srcs/parsing/delimeters_parser.c ./srcs/parsing/get_next_line.c ./srcs/parsing/get_next_line_utils.c \
 		./srcs/parsing/helpers.c ./srcs/parsing/init.c ./srcs/parsing/omar.c \
 		./srcs/parsing/parse.c ./srcs/parsing/parse_split.c ./srcs/parsing/parse_total_cmds.c \
-		./srcs/parsing/parse_vars.c ./srcs/parsing/skip_chars_parse.c \
+		./srcs/parsing/parse_vars.c ./srcs/parsing/skip_chars_parse.c ./srcs/parsing/get_input.c
 
 HEADER = ./includes/minishell.h
 

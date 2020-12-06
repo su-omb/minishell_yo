@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:04:11 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 20:43:53 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:47:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int		tb_len(char **table)
 
 char	**free_str_table(char **tab)
 {
-	int i;
-	
+	int	i;
+
 	if (!tab)
 		return (NULL);
 	i = -1;
@@ -49,7 +49,7 @@ char	**free_str_table(char **tab)
 	return (NULL);
 }
 
-char		*get_p_value(char *val)
+char	*get_p_value(char *val)
 {
 	char	*p_var;
 	char	*p_val;
@@ -84,6 +84,6 @@ char	**dup_str_tab(char **arr, char p)
 		return (NULL);
 	tab[l] = NULL;
 	while (--l >= 0)
-		tab[l] = p? get_p_value(arr[l]) : ft_strdup(arr[l]);
+		tab[l] = p ? get_p_value(arr[l]) : ft_strdup(arr[l]);
 	return (tab);
 }
