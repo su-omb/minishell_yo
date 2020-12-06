@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/05 13:02:02 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 18:08:32 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void			exec_command(t_ms *ms)
 		while (i < 2 * ms->pp_count)
 		{
 			pipe(ms->fds + (i * 2));
-			i += 2;
+			i += 1;
 		}
 	ms->j = 0;
 	while (ms->cmds)

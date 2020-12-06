@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 20:53:49 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/02 13:33:58 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 20:44:12 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 		return ;
 	c->next = NULL;
 	c->cmd = ft_strdup(tab[0]);
-	c->args = dup_str_tab(tab);
+	c->args = dup_str_tab(tab, '\0');
 	c->redir = ms->redir;
 	if (ms->cmds != NULL)
 		c->start = (ms->cmds->end == 1) ? 1 : 0;

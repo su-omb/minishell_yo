@@ -29,6 +29,7 @@ void		parse_exec(t_ms *ms)
 			signal(SIGQUIT, handle_sig);
 			ms->input = ft_strdup(ms->cmd_tab[i]);
 			parse(ms);
+			// puts(ms->input);
 			if (ms->cmd_err || (ms->lst_end && !ms->lst_end->end))
 			{
 				clean_stx_err(ms);

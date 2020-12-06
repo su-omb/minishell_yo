@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/03 11:42:27 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 18:57:13 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			get_env(char **env, char *var)
 	return (-1);
 }
 
-char		**get_arr(char *value, char ***env)
+char		**get_arr(char *value, char ***env, char p)
 {
 	char	**arr;
 	int		i;
@@ -46,34 +46,40 @@ char		**get_arr(char *value, char ***env)
 	i = -1;
 	while (env[0][++i])
 		arr[i] = ft_strdup(env[0][i]);
-	arr[i] = ft_strdup(value);
+	arr[i] = p ? get_p_value(value) :ft_strdup(value);
 	arr[i + 1] = NULL;
 	*env = free_str_table(*env);
 	return (arr);
 }
 
-char		**add_to_arr(char *value, char ***env)
+char		**add_to_arr(char *value, char ***env, char p)
 {
 	char	**new_arr;
 
 	if (*env == NULL)
 	{
-		new_arr = (char **)malloc(sizeof(char *) * 2);
-		new_arr[0] = ft_strdup(value);
+		new_arr = (char **)malloc(sizeof(char *) * 2);	
+		new_arr[0] = p ? get_p_value(value) : ft_strdup(value);
 		new_arr[1] = NULL;
 		return (new_arr);
 	}
 	else
-		return (get_arr(value, env));
+		return (get_arr(value, env, p));
 }
 
-char		**set_env(char *var, char *value, char ***env)
+char		**set_env(char *var, char *value, char ***env, char p)
 {
 	int		i;
 	size_t	len;
 	char	*line;
 
 	i = 0;
+	if (p)
+	{
+		line = value;
+		value = get_p_value(value);
+		free(line);
+	}
 	len = ft_strlen(var) + ft_strlen(value) + 2;
 	if (!(line = (char *)malloc(sizeof(char) * len)))
 		return (NULL);
@@ -86,7 +92,7 @@ char		**set_env(char *var, char *value, char ***env)
 		env[0][i] = line;
 	}
 	else
-		return (add_to_arr(line, env));
+		return (add_to_arr(line, env, p));
 	return (*env);
 }
 
@@ -95,9 +101,9 @@ int			ft_env(t_ms *ms)
 	int		i;
 
 	i = -1;
-	if (!ms->cmds->args[1])
+	if (!ms->cmds->args[1] && ms->env)
 	{
-		while (ms->env && ms->env[++i])
+		while (ms->env[++i])
 			if (ft_strchr(ms->env[i], '='))
 				ft_putendl_fd(ms->env[i], 1);
 	}

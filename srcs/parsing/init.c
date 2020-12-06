@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/05 13:30:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 20:39:16 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	init_zero(t_ms *ms, char **env)
 
 	ms->status = 0;
 	ms->input = NULL;
-	ms->env = dup_str_tab(env);
+	ms->env = dup_str_tab(env, '\0');
 	if ((i = check_exist(ms->env, "OLDPWD")) != -1)
 	{
 		free(ms->env[i]);
 		ms->env[i] = ft_strdup("OLDPWD");
 	}
 	else
-		ms->env = add_to_arr("OLDPWD", &ms->env);
+		ms->env = add_to_arr("OLDPWD", &ms->env, '\0');
+	ms->p_env = dup_str_tab(ms->env, 'p');
 	ms->pwd = getcwd(NULL, 0);
 	ms->old_pwd = NULL;
 	ms->cmd_tab = NULL;

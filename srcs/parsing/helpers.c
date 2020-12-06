@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:04:11 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/02 12:05:21 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:43:53 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,32 @@ char	**free_str_table(char **tab)
 	return (NULL);
 }
 
-char	**dup_str_tab(char **arr)
+char		*get_p_value(char *val)
+{
+	char	*p_var;
+	char	*p_val;
+	char	*pos;
+	int		l;
+
+	if (!(pos = ft_strchr(val, '=')))
+		return (ft_strdup(val));
+	l = pos - val + 1 + (2 * ft_strlen(pos + 1));
+	p_var = (char *)malloc(sizeof(char) * (l + 1));
+	p_val = (char *)malloc(sizeof(char) * ((ft_strlen(pos) * 2) - 1));
+	ft_strlcpy(p_var, val, pos - val + 2);
+	l = -1;
+	while (*++pos)
+	{
+		p_val[++l] = '\\';
+		p_val[++l] = *pos;
+	}
+	p_val[++l] = '\0';
+	ft_strcat(p_var, p_val);
+	free(p_val);
+	return (p_var);
+}
+
+char	**dup_str_tab(char **arr, char p)
 {
 	int		l;
 	char	**tab;
@@ -59,6 +84,6 @@ char	**dup_str_tab(char **arr)
 		return (NULL);
 	tab[l] = NULL;
 	while (--l >= 0)
-		tab[l] = ft_strdup(arr[l]);
+		tab[l] = p? get_p_value(arr[l]) : ft_strdup(arr[l]);
 	return (tab);
 }
