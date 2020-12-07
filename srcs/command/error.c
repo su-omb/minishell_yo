@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 10:05:17 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 12:43:50 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 12:33:12 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		check_permission(char *path, int mode)
+int				check_permission(char *path, int mode)
 {
 	struct stat	file_stat;
 
@@ -79,7 +79,7 @@ int				cmd_error(t_ms *ms, int err, char *cmd, char *arg)
 	return ((ms->status = 1) && 1);
 }
 
-int			ft_error(t_ms *ms, int err)
+int				ft_error(t_ms *ms, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (err == STX_ERR && (ms->status = 258))

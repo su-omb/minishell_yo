@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 18:25:14 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 18:57:13 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 12:33:40 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char		**get_arr(char *value, char ***env, char p)
 	i = -1;
 	while (env[0][++i])
 		arr[i] = ft_strdup(env[0][i]);
-	arr[i] = p ? get_p_value(value) :ft_strdup(value);
+	arr[i] = p ? get_p_value(value) : ft_strdup(value);
 	arr[i + 1] = NULL;
 	*env = free_str_table(*env);
 	return (arr);
@@ -58,7 +58,7 @@ char		**add_to_arr(char *value, char ***env, char p)
 
 	if (*env == NULL)
 	{
-		new_arr = (char **)malloc(sizeof(char *) * 2);	
+		new_arr = (char **)malloc(sizeof(char *) * 2);
 		new_arr[0] = p ? get_p_value(value) : ft_strdup(value);
 		new_arr[1] = NULL;
 		return (new_arr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/06 20:43:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 12:33:55 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		sort_env(char **env)
 	i = -1;
 	arr = dup_str_tab(env, '\0');
 	if (arr)
-	{	
+	{
 		ft_sort_arr(arr);
 		while (arr[++i])
 		{

@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:19:25 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/07 12:42:55 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ pid_t			run_child(t_ms *ms, int i)
 			ft_redir(ms, tmp, ms->cmds);
 		while (ms->pp_count && i < 2 * ms->pp_count)
 			close(ms->fds[i++]);
-		if (ms->cmds->args && check_command(ms) && !is_builtin_sys(ms->cmds->cmd))
+		if (ms->cmds->args && check_command(ms)
+		&& !is_builtin_sys(ms->cmds->cmd))
 		{
 			cmd_error(ms, CMD_NOT_FOUND_ERR, NULL, ms->cmds->cmd);
 			exit(127);
@@ -144,6 +145,8 @@ void			exec_command(t_ms *ms)
 	int			i;
 
 	i = 0;
+	if (!g_ret)
+		g_ret = 2;
 	if (ms->pp_count)
 	{
 		ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int));
@@ -199,7 +202,7 @@ char			*get_exec_path(t_ms *ms)
 		{
 			tab = free_str_table(tab);
 			i = 1;
-			while (ms->cmds->redir &&  ms->cmds->next->args[i] && ms->cmds->next->args[i][0] == '-')
+			while (ms->cmds->redir && ms->cmds->next->args[i] && ms->cmds->next->args[i][0] == '-')
 				ms->cmds->args = get_arr(ms->cmds->next->args[i++], &ms->cmds->args, '\0');
 			return (path);
 		}
