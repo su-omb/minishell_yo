@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 14:52:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 20:50:23 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:08:48 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*parse_quote_bslash(char *elem, t_ms *ms)
 	int		i;
 	int		l;
 
+	elem = ft_strtrim(elem, "\v\t\n\f\r");
 	i = -1;
 	while (elem[++i])
 	{

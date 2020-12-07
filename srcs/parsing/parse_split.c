@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:58:28 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/07 13:59:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:07:17 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*fill_elem(char **elem, char *s, char c, t_ms *ms)
 			(*elem)[i++] = s[j++];
 	}
 	(*elem)[i] = '\0';
-	
 	*elem = parse_quote_bslash(*elem, ms);
 	return (s + j);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 17:13:49 by obouykou          #+#    #+#             */
-/*   Updated: 2019/11/08 21:08:42 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:07:08 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ char		*ft_strtrim(char const *s1, char const *set)
 	while (i <= j)
 		res[k++] = s1[i++];
 	res[k] = '\0';
+	free((char *)s1);
 	return (res);
 }
