@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:33:55 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/07 13:48:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ int			ft_export(t_ms *ms)
 	else
 		while (ms->cmds->args[i])
 		{
+			if ((!ft_strcmp(ms->cmds->args[i], "_") || 
+				!ft_strncmp(ms->cmds->args[i], "_=", 2)) && i++)
+				continue ;
 			if (!valid_arg(ms->cmds->args[i]))
 			{
 				cmd_error(ms, NOT_VALID_ERR, "export", ms->cmds->args[i++]);

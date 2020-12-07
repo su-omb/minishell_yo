@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 13:05:50 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/01 14:37:16 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 13:33:41 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		main(void)
 	int l;
 
 	fd = open("./source_files", O_RDONLY);
-	fd1 = open("./Makefile_test", O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+	fd1 = open("./Makefile_test", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	n_lines = 1;
 	files = ft_strdup("");
 	ft_putstr_fd("FILES = ", fd1);
@@ -52,7 +52,10 @@ int		main(void)
 		}
 		l = ft_strlen(line);
 		if (l)
+		{
 			line[l - 1] = ' ';
+			ft_strcpy(line, line + 1);
+		}
 		if (n_lines == N_OF_FILES_IN_LINE)
 			n_lines = 1;
 		else
