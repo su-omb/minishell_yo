@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 10:49:49 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/07 12:56:10 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int			ft_cd(t_ms *ms)
 	else if (ms->cmds->args[1] != NULL && *ms->cmds->args[1] != '\0')
 		if (chdir(ms->cmds->args[1]) != 0)
 			is = cmd_error(ms, F_NOT_FOUND_ERR, "cd", ms->cmds->args[1]);
-	if (is == 0)
-		set_oldpwd(ms);
+	(is == 0) ? set_oldpwd(ms) : 0;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:55:45 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/05 20:43:43 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 13:08:24 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ void			ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd)
 
 	while (tmp && tmp->redir)
 	{
+		i = 1;
+		if (tb_len(tmp->next->args) > 1 && !tmp->next->start)
+			while (tmp->next->args[i])
+				cmd->args = get_arr(tmp->next->args[i++], &cmd->args, '\0');
 		if (tmp->redir == TRUNC || tmp->redir == APPEND)
-		{
-			i = 1;
-			if (tb_len(tmp->next->args) > 1 && !tmp->next->start)
-				while (tmp->next->args[i])
-					cmd->args = get_arr(tmp->next->args[i++], &cmd->args, '\0');
 			fd_in = open_file(tmp);
-		}
 		else if (tmp->redir == READ)
 			read_file(ms, tmp);
 		tmp = tmp->next;

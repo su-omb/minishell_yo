@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/29 12:46:10 by yslati            #+#    #+#             */
-/*   Updated: 2020/11/29 12:46:10 by yslati           ###   ########.fr       */
+/*   Created: 2020/12/07 12:54:41 by yslati            #+#    #+#             */
+/*   Updated: 2020/12/07 12:54:41 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				is_set(char *target, char *set)
 	return (1);
 }
 
-int		nbrlen(long n)
+int				nbrlen(long n)
 {
 	int l;
 
@@ -95,7 +95,7 @@ int				ft_exit(t_ms *ms)
 
 	ft_putendl_fd("exit", 1);
 	if (!ms->ctrl)
-	{	
+	{
 		b = 1;
 		if (ms->cmds->args[1])
 			exit_analyse(ms, &b);

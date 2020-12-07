@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:42:55 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/07 12:53:14 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ void			exec_command(t_ms *ms)
 	ms->j = 0;
 	while (ms->cmds)
 	{
-		if ((ms->cmds->next && !ms->cmds->end) || !is_builtin_sys(ms->cmds->cmd))
+		if ((ms->cmds->next && !ms->cmds->end) ||
+		!is_builtin_sys(ms->cmds->cmd))
 			manage_cmd(ms);
 		if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count && !ms->cmds->redir)
 			check_command(ms);
@@ -202,7 +203,8 @@ char			*get_exec_path(t_ms *ms)
 		{
 			tab = free_str_table(tab);
 			i = 1;
-			while (ms->cmds->redir && ms->cmds->next->args[i] && ms->cmds->next->args[i][0] == '-')
+			while (ms->cmds->redir && ms->cmds->next->args[i]
+			&& ms->cmds->next->args[i][0] == '-')
 				ms->cmds->args = get_arr(ms->cmds->next->args[i++], &ms->cmds->args, '\0');
 			return (path);
 		}
