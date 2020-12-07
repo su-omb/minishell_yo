@@ -6,7 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:56:10 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/07 13:25:41 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int			ft_cd(t_ms *ms)
 	is = 0;
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
-		if ((i = get_env(ms->env, ft_strdup("HOME"))) < 0 && (is = 1))
-			cmd_error(ms, HOME_NOT_SET_ERR, NULL, "cd");
+		if ((i = get_env(ms->env, ft_strdup("HOME"))) < 0)
+			is = cmd_error(ms, HOME_NOT_SET_ERR, NULL, "cd");
 		else
 			chdir(ms->env[i] + 5);
 	}
