@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:48 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 13:01:53 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 20:27:53 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void		set_oldpwd(t_ms *ms)
 {
-	ms->env = set_env(ft_strdup("OLDPWD"), ms->pwd, &ms->env);
+	ms->env = set_env(ft_strdup("OLDPWD"), ms->pwd, &ms->env, '\0');
+	ms->p_env = set_env(ft_strdup("OLDPWD"), ms->pwd, &ms->p_env, 'p');
 	ms->pwd = ft_free(ms->pwd);
 	ms->pwd = getcwd(NULL, 0);
-	ms->env = set_env(ft_strdup("PWD"), ms->pwd, &ms->env);
+	ms->env = set_env(ft_strdup("PWD"), ms->pwd, &ms->env, '\0');
+	ms->p_env = set_env(ft_strdup("PWD"), ms->pwd, &ms->p_env, 'p');
 }
 
 int			ft_cd(t_ms *ms)
@@ -29,12 +31,13 @@ int			ft_cd(t_ms *ms)
 	is = 0;
 	if (!ms->cmds->args[1] || !ft_strcmp(ms->cmds->args[1], "~"))
 	{
-		if ((i = get_env(ms->env, ft_strdup("HOME"))) < 0)
+		if ((i = get_env(ms->env, ft_strdup("HOME"))) < 0 && (is = 1))
 			cmd_error(ms, HOME_NOT_SET_ERR, NULL, "cd");
 		else
 			chdir(ms->env[i] + 5);
 	}
-	else if (!ft_strcmp(ms->cmds->args[1], "-"))
+	else if (!ft_strcmp(ms->cmds->args[1], "-")
+			|| !ft_strcmp(ms->cmds->args[1], "~-"))
 	{
 		if ((i = get_env(ms->env, ft_strdup("OLDPWD"))) != -1)
 			chdir(ms->env[i] + 7);

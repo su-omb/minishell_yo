@@ -6,7 +6,11 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/05 18:02:52 by yslati           ###   ########.fr       */
+=======
+/*   Updated: 2020/12/05 18:08:32 by obouykou         ###   ########.fr       */
+>>>>>>> 7b4fe5e9db06f8412c01952afd7f53cba1c0ad92
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +157,7 @@ void			exec_command(t_ms *ms)
 		while (i < 2 * ms->pp_count)
 		{
 			pipe(ms->fds + (i * 2));
-			i += 2;
+			i += 1;
 		}
 	ms->j = 0;
 	while (ms->cmds)

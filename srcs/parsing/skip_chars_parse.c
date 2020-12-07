@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 14:52:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/11/30 16:52:12 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:50:23 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*catch_bslash(char *elem, t_ms *ms, int j, int *e)
 {
 	while (elem[++j] && j < *e)
 		if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
-		{	
+		{
 			elem = remove_bslash(elem, j, &ms->cmd_err);
 			--*e;
 			if (elem[j] == '$')
@@ -96,11 +96,10 @@ char	*parse_quote_bslash(char *elem, t_ms *ms)
 				break ;
 			}
 			elem = remove_quotes(elem, &i, i + l, ms);
-			if (i < 0)
-				continue ;
+			continue ;
 		}
 		if (elem[i] == '\\')
 			elem = remove_bslash(elem, i, &ms->cmd_err);
 	}
-	return elem;
+	return (elem);
 }

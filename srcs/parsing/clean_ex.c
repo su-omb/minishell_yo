@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:23:08 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/05 13:30:29 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:51:31 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ char	*clean_join(char *s1, char *s2)
 	return (s1);
 }
 
-void	clean(t_ms *ms)
-{
-	free(ms->input); // Attention : free the whole struct
-}
-
 void	errex(t_ms *ms, int step)
 {
 	if (ms->err == RDIN_ERR)
@@ -65,6 +60,6 @@ void	errex(t_ms *ms, int step)
 	else if (ms->err == SPLT_ERR)
 		ft_putendl_fd("minishell: splitting input error", 1);
 	if (!step)
-		clean(ms); // needs more free functions
+		free(ms); // needs more free functions
 	exit(ms->err);
 }

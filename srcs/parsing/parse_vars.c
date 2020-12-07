@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/03 12:57:06 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 18:28:09 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*get_vvalue(char *var_name, char **env)
 	l = ft_strlen(var_name);
 	if ((i = get_env(env, var_name)) < 0)
 		return (ft_strdup(""));
-	// free(var_name);
 	return (ft_strdup(env[i] + l + 1));
 }
 
@@ -61,10 +60,8 @@ void	replace_var(t_ms *ms, t_parser *p)
 	if (ms->input[p->i + 1] == '?')
 	{
 		++p->i;
-		if (!g_ret)
-			p->tmp = ft_itoa(ms->status);
-		else
-			p->tmp = ft_strdup("1");
+		ms->status = g_ret ? 1 : ms->status;
+		p->tmp = ft_itoa(ms->status);
 		ms->input = remake_input(ms->input, p->tmp, 1, &p->i);
 		return ;
 	}
@@ -73,7 +70,7 @@ void	replace_var(t_ms *ms, t_parser *p)
 		return ;
 	else if (p->l == -2)
 		p->l = 0;
-	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->env);
+	p->tmp = get_vvalue(ft_strldup(ms->input + p->i, p->l), ms->p_env);
 	ms->input = remake_input(ms->input, p->tmp, p->l, &p->i);
 }
 

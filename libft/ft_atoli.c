@@ -6,11 +6,11 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 14:00:02 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/05 12:31:25 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 20:49:50 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long		ft_help(long a, int sign)
+long		get_ret(long a, int sign)
 {
 	if (a < 0 && sign > 0)
 		return (-1);
@@ -45,5 +45,5 @@ long		ft_atoli(const char *str)
 		i++;
 	}
 	a = a * sign;
-	return (ft_help(a, sign));
+	return (get_ret(a, sign));
 }

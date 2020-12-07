@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 14:04:34 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 12:47:16 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/05 20:36:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ int			ft_unset(t_ms *ms)
 			return (1);
 		}
 		else if ((len = cmp_get_pos(ms->env, ms->cmds->args[i])) != -1)
+		{
 			ms->env = rm_arr(ms->env, len);
+			ms->p_env = rm_arr(ms->p_env, len);
+		}
 		i++;
 	}
 	return (0);

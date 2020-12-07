@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 14:23:28 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/03 11:43:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/06 20:43:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		sort_env(char **env)
 	char	**arr;
 
 	i = -1;
-	arr = dup_str_tab(env);
+	arr = dup_str_tab(env, '\0');
 	if (arr)
 	{	
 		ft_sort_arr(arr);
@@ -86,10 +86,15 @@ int			export_help(t_ms *ms, int i)
 		(len = cmp_get_pos(ms->env, ms->cmds->args[i])) != -1)
 	{
 		free(ms->env[len]);
+		free(ms->p_env[len]);
 		ms->env[len] = ft_strdup(ms->cmds->args[i]);
+		ms->p_env[len] = get_p_value(ms->cmds->args[i]);
 	}
 	else
-		ms->env = add_to_arr(ms->cmds->args[i], &ms->env);
+	{
+		ms->env = add_to_arr(ms->cmds->args[i], &ms->env, '\0');
+		ms->p_env = add_to_arr(ms->cmds->args[i], &ms->p_env, 'p');
+	}
 	return (i);
 }
 
@@ -111,7 +116,10 @@ int			ft_export(t_ms *ms)
 			if (ft_strchr(ms->cmds->args[i], '='))
 				i = export_help(ms, i);
 			else if ((cmp_get_pos(ms->env, ms->cmds->args[i])) == -1)
-				ms->env = add_to_arr(ms->cmds->args[i], &ms->env);
+			{
+				ms->env = add_to_arr(ms->cmds->args[i], &ms->env, '\0');
+				ms->p_env = add_to_arr(ms->cmds->args[i], &ms->p_env, '\0');
+			}
 			i++;
 		}
 	return (0);

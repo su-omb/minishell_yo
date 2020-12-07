@@ -34,14 +34,30 @@ int				is_set(char *target, char *set)
 	return (1);
 }
 
+int		nbrlen(long n)
+{
+	int l;
+
+	l = 1;
+	while (n / 10)
+	{
+		n /= 10;
+		l++;
+	}
+	return (l);
+}
+
 void			exit_analyse(t_ms *ms, int *b)
 {
 	char	*tmp;
+	char	sign;
 
 	tmp = ms->cmds->args[1];
-	if (*tmp == '+' || *tmp == '-')
+	sign = 0;
+	if ((*tmp == '+' || *tmp == '-') && (sign = 1))
 		tmp++;
-	if (!is_set(tmp, "0123456789"))
+	if (!is_set(tmp, "0123456789") || (int)ft_strlen(ms->cmds->args[1]) !=
+									sign + nbrlen(ft_atoli(ms->cmds->args[1])))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(ms->cmds->args[1], 2);
@@ -63,6 +79,7 @@ void			exit_analyse(t_ms *ms, int *b)
 void			free_parsing_struct(t_ms *ms)
 {
 	ms->env = free_str_table(ms->env);
+	ms->p_env = free_str_table(ms->p_env);
 	ms->tab = free_str_table(ms->tab);
 	ms->cmd_tab = free_str_table(ms->cmd_tab);
 	free_cmds(ms);

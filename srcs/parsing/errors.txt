@@ -1,6 +1,6 @@
 parsing:
 
-
+CTRL_C ==> don't display "^C" ==> use g_ret 
 ============================
-cmds: 
-exit 68465456415641653465415641532999999999
+cmds:
+ls > 1 ; cat < 1 -e>2
