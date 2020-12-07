@@ -168,6 +168,13 @@ void				ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd);
 void				handle_sig(int sig);
 int					check_permission(char *path, int mode);
 int					cmd_error_help(t_ms *ms);
+pid_t				run_child(t_ms *ms, int i);
+int					*dup_in_out(t_ms *ms);
+int					wait_child(t_ms *ms);
+char				*is_path_exe(char **tab, t_ms *ms);
+void				manage_cmd(t_ms *ms);
+t_cmd				*exucte_cmd(t_ms *ms);
+t_ms				*exucte_help(t_ms *ms);
 int					g_ret;
 /* main function */
 int					minishell(char **env, int step);
