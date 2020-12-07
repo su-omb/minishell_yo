@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/05 18:08:32 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 12:00:22 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ void			exec_command(t_ms *ms)
 	int			i;
 
 	i = 0;
+	if (!g_ret)
+		g_ret = 2;
 	if (ms->pp_count)
 	{
 		ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int));

@@ -3,4 +3,4 @@ parsing:
 CTRL_C ==> don't display "^C" ==> use g_ret 
 ============================
 cmds:
-ls > 1 ; cat < 1 -e>2
+ls > 1 ; cat < 1 -tegd > 2
