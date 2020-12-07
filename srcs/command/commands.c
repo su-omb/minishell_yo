@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:00:22 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/07 12:27:31 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,10 @@ char			*get_exec_path(t_ms *ms)
 		if ((path = is_path_exe(tab, ms)))
 		{
 			tab = free_str_table(tab);
+			i = 1;
+			while (ms->cmds->redir && ms->cmds->next->args[i]
+			&& ms->cmds->next->args[i][0] == '-')
+				ms->cmds->args = get_arr(ms->cmds->next->args[i++], &ms->cmds->args, '\0');
 			return (path);
 		}
 		tab = free_str_table(tab);
