@@ -6,11 +6,7 @@
 /*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/05 18:02:52 by yslati           ###   ########.fr       */
-=======
-/*   Updated: 2020/12/05 18:08:32 by obouykou         ###   ########.fr       */
->>>>>>> 7b4fe5e9db06f8412c01952afd7f53cba1c0ad92
+/*   Updated: 2020/12/07 12:19:25 by yslati           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,13 +192,15 @@ char			*get_exec_path(t_ms *ms)
 	char		**tab;
 	char		*path;
 
-
 	if ((i = get_env(ms->env, ft_strdup("PATH"))) != -1)
 	{
 		tab = ft_split(ms->env[i] + 5, ':');
 		if ((path = is_path_exe(tab, ms)))
 		{
 			tab = free_str_table(tab);
+			i = 1;
+			while (ms->cmds->redir &&  ms->cmds->next->args[i] && ms->cmds->next->args[i][0] == '-')
+				ms->cmds->args = get_arr(ms->cmds->next->args[i++], &ms->cmds->args, '\0');
 			return (path);
 		}
 		tab = free_str_table(tab);
