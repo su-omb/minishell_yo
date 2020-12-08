@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 13:34:09 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 13:36:19 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/08 19:41:52 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void			pipe_fds(t_ms *ms)
+{
+	int			i;
+
+	ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int));
+	ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1));
+	i = -1;
+	while (++i < ms->pp_count)
+		if ((pipe(ms->fds + (i * 2)) < 0))
+			ft_putstr_fd("minishell: piping error\n", 2);
+}
 
 char			*is_path_exe(char **tab, t_ms *ms)
 {
@@ -65,8 +77,7 @@ void			check_command_help(t_ms *ms)
 	char		*path;
 
 	path = NULL;
-	if ((ms->cmds->cmd[0] == '.' && ms->cmds->cmd[1] == '/')
-		|| ft_strchr(ms->cmds->cmd, '/'))
+	if (!ft_strncmp(ms->cmds->cmd, "./", 2) || ft_strchr(ms->cmds->cmd, '/'))
 	{
 		if (execve(ms->cmds->cmd, ms->cmds->args, ms->env) < 0)
 			exit(cmd_error_help(ms));
@@ -75,7 +86,6 @@ void			check_command_help(t_ms *ms)
 	{
 		path = get_exec_path(ms);
 		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
-		path = ft_free(path);
 	}
 }
 

@@ -1,0 +1,27 @@
+total 312
+drwxr-xr-x   26 obouykou  candidate    884 Dec  8 20:21 .
+drwxr-xr-x   29 obouykou  candidate    986 Dec  8 17:57 ..
+drwxr-xr-x   15 obouykou  candidate    510 Dec  8 20:21 .git
+-rw-r--r--    1 obouykou  candidate     55 Nov 28 12:57 .gitignore
+-rw-r--r--    1 obouykou  candidate   5523 Nov 19 10:11 CMDs_Docs
+-rwxr-xr-x    1 obouykou  candidate    133 Dec  2 10:43 Clion_debug.sh
+drwxr-xr-x    6 obouykou  candidate    204 Dec  7 13:36 Make_Makefile
+-rw-r--r--    1 obouykou  candidate   2271 Dec  8 18:49 Makefile
+drwxr-xr-x   10 obouykou  candidate    340 Dec  8 13:42 Minishell-arabara3
+drwxr-xr-x   10 obouykou  candidate    340 Dec  8 13:52 Minishell42
+-rw-r--r--    1 obouykou  candidate    904 Dec  8 20:22 debug
+-rw-r--r--    1 obouykou  candidate   1977 Dec  7 13:33 header.c
+drwxr-xr-x    3 obouykou  candidate    102 Dec  7 14:15 includes
+drwxr-xr-x  103 obouykou  candidate   3502 Dec  8 20:10 libft
+-rw-r--r--    1 obouykou  candidate  65920 Dec  8 20:21 libminishell.a
+-rwxr-xr-x    1 obouykou  candidate  48408 Dec  8 20:21 minishell
+-rw-r--r--    1 obouykou  candidate   2008 Dec  7 14:32 minishell.c
+drwxr-xr-x    3 obouykou  candidate    102 Dec  2 11:12 minishell.dSYM
+drwxr-xr-x   13 obouykou  candidate    442 Nov 30 18:55 minishell_test
+-rw-r--r--    1 obouykou  candidate      0 Dec  8 19:31 ou
+-rw-r--r--    1 obouykou  candidate      0 Dec  8 20:15 out
+-rw-r--r--    1 obouykou  candidate      0 Dec  8 20:22 out1
+-rw-r--r--    1 obouykou  candidate     25 Dec  8 19:36 pp
+-rwxr-xr-x    1 obouykou  candidate    254 Dec  2 12:32 run_minishell.sh
+drwxr-xr-x    4 obouykou  candidate    136 Nov 23 10:22 srcs
+drwxr-xr-x    9 obouykou  candidate    306 Nov 30 16:51 testing_y

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 13:37:55 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/08 20:49:39 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,17 @@ t_cmd			*exucte_cmd(t_ms *ms)
 	return (ms->cmds);
 }
 
-void			manage_cmd(t_ms *ms)
+void			manage_cmd(t_ms *ms, int is_built_in)
 {
 	int			st;
 	int			i;
 
-	st = 0;
-	i = 0;
-	save_fds(ms->backup);
-	ms->cmds = exucte_cmd(ms);
 	restore_fds(ms->backup);
+	i = 0;
 	while (ms->pp_count && i < 2 * ms->pp_count)
 		close(ms->fds[i++]);
+	if (is_built_in)
+		return ;
 	st = wait_child(ms);
 	if (st == 2 || st == 3)
 		ms->status = st + 128;
@@ -78,29 +77,21 @@ void			exec_command(t_ms *ms)
 {
 	int			i;
 
+	g_ret = !g_ret ? 2 : g_ret;
+	if (ms->pp_count)
+		pipe_fds(ms);
 	i = 0;
-	if (!g_ret)
-		g_ret = 2;
-	if (ms->pp_count)
-	{
-		ms->fds = (int *)malloc((2 * ms->pp_count) * sizeof(int));
-		ms->tpid = (pid_t *)malloc(sizeof(pid_t) * (ms->pp_count + 1));
-	}
-	if (ms->pp_count)
-		while (i < 2 * ms->pp_count)
-		{
-			pipe(ms->fds + (i * 2));
-			i += 1;
-		}
 	ms->j = 0;
-	while (ms->cmds)
+	save_fds(ms->backup);
+	if ((ms->cmds->next && !ms->cmds->end) ||
+	!is_builtin_sys(ms->cmds->cmd))
+		ms->cmds = exucte_cmd(ms);
+	if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count)
 	{
-		if ((ms->cmds->next && !ms->cmds->end) ||
-		!is_builtin_sys(ms->cmds->cmd))
-			manage_cmd(ms);
-		if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count && !ms->cmds->redir)
+		i = 1;
+		if (!ms->cmds->redir)
 			check_command(ms);
-		ms->cmds = ms->cmds->next;
 	}
+	manage_cmd(ms, i);
 	ms->cmds = ms->head;
 }

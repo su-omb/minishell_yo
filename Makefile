@@ -26,7 +26,7 @@ FILES = ./srcs/command/cd.c ./srcs/command/commands.c \
 		./srcs/parsing/helpers.c ./srcs/parsing/init.c ./srcs/parsing/omar.c \
 		./srcs/parsing/parse.c ./srcs/parsing/parse_split.c ./srcs/parsing/parse_total_cmds.c \
 		./srcs/parsing/parse_vars.c ./srcs/parsing/skip_chars_parse.c ./srcs/parsing/get_input.c \
-		./srcs/command/exec_cmd.c ./srcs/command/child_pros.c
+		./srcs/command/exec_cmd.c ./srcs/command/child_process.c
 
 HEADER = ./includes/minishell.h
 

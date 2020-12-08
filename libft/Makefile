@@ -6,7 +6,7 @@
 #    By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 12:40:11 by obouykou          #+#    #+#              #
-#    Updated: 2020/12/01 11:24:22 by obouykou         ###   ########.fr        #
+#    Updated: 2020/12/08 14:01:08 by obouykou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJECT_B = $(FBONUS:.c=.o)
 FLAGS = -Wextra -Werror -Wall
 
 all: $(NAME)
-
+	@echo > /dev/null
 $(NAME): $(OBJECT) $(HEADER)
 	@ar -rcs $(NAME) $(OBJECT)
 

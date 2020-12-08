@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 11:11:49 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/01 11:47:49 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/08 14:13:38 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int			check_n(char **args, int *i)
 	int		nflag;
 
 	nflag = 0;
-	while (!ft_strncmp(args[*i], "-n", 2))
+	while (!ft_strncmp(args[*i], "-n", 2) && is_set(args[*i] + 1, "n"))
 	{
-		*i = *i + 1;
+		++*i;
 		nflag = 1;
 	}
 	return (nflag);

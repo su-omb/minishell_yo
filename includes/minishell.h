@@ -131,6 +131,8 @@ void				*ft_free(void *mem_ptr);
 char				*clean_join(char *s1, char *s2);
 void				internal_init(t_ms *ms);
 char				*get_p_value(char *val);
+int					is_set(char *target, char *set);
+
 // Debugging
 void				print_tab(char **tab, char *tab_name, FILE *fd);
 void				print_cmds(t_cmd *cmds);
@@ -172,9 +174,10 @@ pid_t				run_child(t_ms *ms, int i);
 int					*dup_in_out(t_ms *ms);
 int					wait_child(t_ms *ms);
 char				*is_path_exe(char **tab, t_ms *ms);
-void				manage_cmd(t_ms *ms);
+void				manage_cmd(t_ms *ms, int is_built_in);
 t_cmd				*exucte_cmd(t_ms *ms);
 t_ms				*exucte_help(t_ms *ms);
+void				pipe_fds(t_ms *ms);
 int					g_ret;
 /* main function */
 int					minishell(char **env, int step);

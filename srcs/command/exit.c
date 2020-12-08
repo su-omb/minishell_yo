@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/07 12:54:41 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 12:54:41 by yslati           ###   ########.fr       */
+/*   Created: 2020/12/07 14:36:36 by obouykou          #+#    #+#             */
+/*   Updated: 2020/12/08 19:02:26 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void			free_parsing_struct(t_ms *ms)
 	free(ms->pwd);
 	free(ms->old_pwd);
 	ms->input = ft_free(ms->input);
+	ms->fds = ft_free(ms->fds);
+	ms->tpid = ft_free(ms->tpid);
 	free(ms);
 }
 
@@ -93,7 +95,8 @@ int				ft_exit(t_ms *ms)
 {
 	int			b;
 
-	ft_putendl_fd("exit", 1);
+	if ((ms->cmds && ms->cmds->start) || !ms->cmds)
+		ft_putendl_fd("exit", 1);
 	if (!ms->ctrl)
 	{
 		b = 1;
@@ -102,7 +105,8 @@ int				ft_exit(t_ms *ms)
 		if (!b && (ms->status = 1))
 			return (1);
 	}
-	b = ms->ctrl == CTRL_D ? 0 : ms->ret_status;
-	free_parsing_struct(ms);
+	b = ms->ctrl == CTRL_D ? 0 : (int)ms->ret_status;
+	if ((ms->cmds && ms->cmds->start) || !ms->cmds)
+		free_parsing_struct(ms);
 	exit(b);
 }

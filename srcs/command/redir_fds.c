@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yslati <yslati@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 11:55:45 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/07 13:08:24 by yslati           ###   ########.fr       */
+/*   Updated: 2020/12/08 19:53:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void			read_file(t_ms *ms, t_cmd *tmp)
 {
 	int		fd;
 
+	fd = 0;
 	if ((fd = open(tmp->next->cmd, O_RDONLY)) < 0)
 	{
 		cmd_error(ms, F_NOT_FOUND_ERR, NULL, tmp->next->cmd);
@@ -72,6 +73,9 @@ void			ft_redir(t_ms *ms, t_cmd *tmp, t_cmd *cmd)
 			read_file(ms, tmp);
 		tmp = tmp->next;
 	}
-	dup2(fd_in, 1);
-	close(fd_in);
+	if (cmd->redir == TRUNC || cmd->redir == APPEND)
+	{
+		dup2(fd_in, 1);
+		close(fd_in);
+	}
 }

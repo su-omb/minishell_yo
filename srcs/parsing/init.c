@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:03:01 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 20:48:27 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/08 19:35:20 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	init_zero(t_ms *ms, char **env)
 	ms->cmd_tab = NULL;
 	ms->tab = NULL;
 	ms->cmds = NULL;
+	ms->fds = NULL;
+	ms->tpid = NULL;
 	ms->ret_status = 0;
 }
 
