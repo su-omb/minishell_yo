@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 20:53:01 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 14:47:37 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ void	get_cmds_tab(char *input, char **cmd_tab, t_parser *p)
 		p->slash_ig = ((p->i && input[p->i - 1] != '\\') || !p->i);
 		if (input[p->i] == ';' && p->slash_ig)
 		{
-			cmd_tab[p->m++] = ft_substr(input, p->j, p->i - p->j + 1);
+			cmd_tab[p->m++] = ft_substr(input, p->j, p->i - p->j);
 			p->j = p->i + 1 + skip_while(input + p->i + 1, ' ');
 		}
 	}
 	if (input[p->j])
-		cmd_tab[p->m] = ft_substr(input, p->j, p->i - p->j + 1);
+		cmd_tab[p->m] = ft_substr(input, p->j, p->i - p->j /* + 1 */);
 }
 
 int		parse_total_cmds(t_ms *ms)
@@ -102,8 +102,7 @@ int		parse_total_cmds(t_ms *ms)
 	ms->cmd_tab = (char **)malloc(sizeof(char *) * (p.l + 1));
 	ms->cmd_tab[p.l] = NULL;
 	get_cmds_tab(ms->input, ms->cmd_tab, &p);
-	free(ms->input);
-	ms->input = NULL;
+	ms->input = ft_free(ms->input);			
 	/* Debug */
 	print_total_cmds(ms->cmd_tab, "w+");
 	return (0);

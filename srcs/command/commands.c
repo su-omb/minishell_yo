@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:56:00 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/08 20:49:39 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 11:38:48 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ms			*exucte_help(t_ms *ms)
 	return (ms);
 }
 
-t_cmd			*exucte_cmd(t_ms *ms)
+void			exucte_cmd(t_ms *ms)
 {
 	while (ms->cmds)
 	{
@@ -52,7 +52,6 @@ t_cmd			*exucte_cmd(t_ms *ms)
 			ms->cmds = ms->cmds->next;
 		ms->j += 2;
 	}
-	return (ms->cmds);
 }
 
 void			manage_cmd(t_ms *ms, int is_built_in)
@@ -85,7 +84,7 @@ void			exec_command(t_ms *ms)
 	save_fds(ms->backup);
 	if ((ms->cmds->next && !ms->cmds->end) ||
 	!is_builtin_sys(ms->cmds->cmd))
-		ms->cmds = exucte_cmd(ms);
+		exucte_cmd(ms);
 	if (is_builtin_sys(ms->cmds->cmd) && !ms->pp_count)
 	{
 		i = 1;

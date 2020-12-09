@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 13:34:09 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/08 19:41:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 11:43:48 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void			check_command_help(t_ms *ms)
 	{
 		path = get_exec_path(ms);
 		(path) ? execve(path, ms->cmds->args, ms->env) : 0;
+		free(path);
 	}
 }
 

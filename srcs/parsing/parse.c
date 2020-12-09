@@ -6,14 +6,38 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 13:21:10 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 20:48:56 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 14:34:38 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* char		**remove_empty_args(char **args)
+{
+	int i;
+	int j;
+	
+	if (!args)
+		return (NULL);
+	i = 0;
+	while (args[++i])
+	{
+		if (!args[i][0])
+		{
+			j = i;
+			args[j] = ft_free(args[j]);
+			while (args[++j])
+					args[j - 1] = args[j];
+			args[j - 1] = ft_free(args[j - 1]);
+			--i;
+		}
+	}
+	return (args);
+} */
+
 int			make_cmd(t_ms *ms, int b, int *i, char *s)
 {
+	ms->is_pipe = 0;
 	if (s[*i] == S_COLON)
 		parse_scolon(ms, b, *i, ms->input);
 	else if (s[*i] == PIPE)
@@ -81,6 +105,7 @@ void		parse(t_ms *ms)
 {
 	t_parser p;
 
+	ms->input = ft_strtrim(ms->input, "\t\n \v\f\r");
 	parse_d(ms);
 	make_cmds_lst(ms, &p);
 	if (ms->input[p.j])

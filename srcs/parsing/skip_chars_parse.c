@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 14:52:38 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/07 14:08:48 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 13:45:19 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,29 @@
 int		quote_handler(char const *s, int neg)
 {
 	char	quote;
+	char	slash_ig;
 	int		i;
 
 	i = 1;
 	quote = s[0];
+	slash_ig = 0;
 	if (quote == '\'')
 		while (s[i] && s[i] != quote)
 			i++;
 	else
-		while (s[i] && (s[i] != quote || s[i - 1] == '\\'))
+		while (s[i])
+		{
+			if (slash_ig == 1)
+				i++;
+			slash_ig = 0;
+			if (s[i] == '\\' && (++i) && (slash_ig = 1))
+				continue ;
+			if (s[i] == quote)
+				break ;
 			i++;
+		}
 	if (!s[i])
-	{
-		if (!neg)
-			return (i - 1);
-		else
-			return (-1);
-	}
+			return (!neg ? i - 1 : -1);
 	return (i);
 }
 
@@ -54,7 +60,7 @@ char	*remove_bslash(char *elem, int i, char *err)
 char	*catch_bslash(char *elem, t_ms *ms, int j, int *e)
 {
 	while (elem[++j] && j < *e)
-		if (elem[j] == '\\' && ft_strchr("$\"\\", elem[j + 1]))
+		if (elem[j] == '\\' && elem[j + 1] && ft_strchr("$\"\\", elem[j + 1]))
 		{
 			elem = remove_bslash(elem, j, &ms->cmd_err);
 			--*e;

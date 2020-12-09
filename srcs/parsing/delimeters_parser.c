@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 20:53:49 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/05 20:44:12 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 14:35:08 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		parse_pipe(t_ms *ms, int b, int i, char *s)
 		errex(ms, SPLT_ERR);
 	free(tmp);
 	ms->pp_count++;
+	ms->is_pipe = 1;
 }
 
 void		parse_trunc_rdr(t_ms *ms, int b, int *i, char *s)
@@ -74,6 +75,7 @@ void		new_cmd(t_ms *ms, char del, char **tab)
 		c->start = 1;
 	c->end = (del == S_COLON) ? 1 : 0;
 	c->is_err = ms->cmd_err != 0;
+	c->is_pipe = ms->is_pipe;
 	if (ms->cmds)
 		ms->cmds->next = c;
 	c->prev = ms->cmds;

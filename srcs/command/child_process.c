@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 13:36:41 by yslati            #+#    #+#             */
-/*   Updated: 2020/12/08 20:51:58 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 14:41:29 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,25 @@
 
 int				*dup_in_out(t_ms *ms)
 {
-	// printf("j = %d | %s %s \n", ms->j, ms->cmds->cmd, ms->cmds->next->cmd);
 	if (ms->j != 0)
 	{
 		if (dup2(ms->fds[ms->j - 2], 0) < 0)
 		{
-			perror("dup2");
+			ft_putstr_fd("dup2 ", 2);
+			ft_putendl_fd(strerror(EBADF), 2);
 			exit(1);
 		}
 	}
-	if (ms->cmds->next && (ms->pp_count || !ms->cmds->next->end))
+	if (ms->cmds->next && !ms->cmds->end && 
+		(ms->cmds->is_pipe || (!ms->cmds->next->end && !ms->cmds->redir)))
+	{
 		if (dup2(ms->fds[ms->j + 1], 1) < 0)
 		{
-			perror("dup2");
+			ft_putstr_fd("dup2 ", 2);
+			ft_putendl_fd(strerror(EBADF), 2);
 			exit(1);
 		}
+	}
 	return (ms->fds);
 }
 

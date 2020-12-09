@@ -56,6 +56,7 @@ typedef		struct	s_cmd
 	char			end;
 	char			redir;
 	char			is_err;
+	char			is_pipe;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -90,6 +91,7 @@ typedef		struct	s_ms
 	t_cmd			*lst_end;
 	int				redir;
 	int				pp_count;
+	char			is_pipe;
 	int 			*fds;
 
 	int				status;
@@ -162,7 +164,6 @@ char				*get_exec_path(t_ms *ms);
 void				exec_command(t_ms *ms);
 int					is_builtin_sys(char *cmds);
 int 				valid_arg(char *arg);
-int					ft_error(t_ms *ms, int err);
 int					cmd_error(t_ms *ms, int err, char *cmd, char *arg);
 void				save_fds(int *fds);
 void				restore_fds(int *fds);
@@ -175,7 +176,7 @@ int					*dup_in_out(t_ms *ms);
 int					wait_child(t_ms *ms);
 char				*is_path_exe(char **tab, t_ms *ms);
 void				manage_cmd(t_ms *ms, int is_built_in);
-t_cmd				*exucte_cmd(t_ms *ms);
+void				exucte_cmd(t_ms *ms);
 t_ms				*exucte_help(t_ms *ms);
 void				pipe_fds(t_ms *ms);
 int					g_ret;

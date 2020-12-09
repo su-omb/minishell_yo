@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 09:48:45 by obouykou          #+#    #+#             */
-/*   Updated: 2020/12/06 18:28:09 by obouykou         ###   ########.fr       */
+/*   Updated: 2020/12/09 12:15:30 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	replace_var(t_ms *ms, t_parser *p)
 	if (ms->input[p->i + 1] == '?')
 	{
 		++p->i;
-		ms->status = g_ret ? 1 : ms->status;
+		if (g_ret == 1)
+			ms->status = 1;
 		p->tmp = ft_itoa(ms->status);
 		ms->input = remake_input(ms->input, p->tmp, 1, &p->i);
 		return ;
